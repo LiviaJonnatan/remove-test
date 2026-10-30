@@ -1,0 +1,122 @@
+networks:
+  default:
+    name: undersigned-network
+
+services:
+
+  data-collector:
+    image: data-collector
+    build: ./data-collector
+    container_name: data-collector
+    env_file: .env
+    volumes:
+      - ../secrets:/secrets
+      - ./data-collector/src:/app/src
+      - ./data-collector/samples:/app/samples:ro
+      - ./data:/app/data
+
+  data-processor:
+    image: data-processor
+    build: ./data-processor
+    container_name: data-processor
+    env_file: .env
+    volumes:
+      - ../secrets:/secrets
+      - ./data-processor/src:/app/src
+      - ./data-collector/samples:/app/samples:ro
+      - ./data:/app/data
+    depends_on:
+      data-collector:
+        condition: service_completed_successfully
+
+  campaign-builder:
+    image: campaign-builder
+    build: ./campaign-builder
+    container_name: campaign-builder
+    env_file: .env
+    volumes:
+      - ../secrets:/secrets
+      - ./campaign-builder/src:/app/src
+      - ./data:/app/data
+    depends_on:
+      data-processor:
+        condition: service_completed_successfully
+
+  passage-stage:
+    image: passage-stage
+    build:
+      context: ./passage-stage
+      # Reads the rule's section references with rule-passages' own chunking, one copy of that code.
+      additional_contexts:
+        rule_passages: ./rule-passages/src/rule_passages
+    container_name: passage-stage
+    env_file: .env
+    volumes:
+      - ./passage-stage/src:/app/src
+      - ./data:/app/data
+    depends_on:
+      campaign-builder:
+        condition: service_completed_successfully
+      rule-passages:
+        condition: service_completed_successfully
+
+  rule-passages:
+    image: rule-passages
+    build: ./rule-passages
+    container_name: rule-passages
+    env_file: .env
+    volumes:
+      - ../secrets:/secrets
+      - ./rule-passages/src:/app/src
+      - ./data:/app/data
+    environment:
+      CHROMA_HOST: chromadb
+      CHROMA_PORT: 8000
+    depends_on:
+      chromadb:
+        condition: service_started
+
+  api-service:
+    image: api-service
+    build:
+      context: ./api-service
+      # The API imports the retrieval code from rule-passages instead of keeping a copy.
+      additional_contexts:
+        rule_passages: ./rule-passages/src/rule_passages
+    container_name: api-service
+    env_file: .env
+    volumes:
+      - ../secrets:/secrets
+      - ./api-service/src:/app/src
+      # passage-stage's links, for the section counts. Read-only, and only that folder.
+      - ./data/derived/passages:/app/data/derived/passages:ro
+    ports:
+      - 8000:8000
+    environment:
+      CHROMA_HOST: chromadb
+      CHROMA_PORT: 8000
+    depends_on:
+      chromadb:
+        condition: service_started
+      passage-stage:
+        condition: service_completed_successfully
+      rule-passages:
+        condition: service_completed_successfully
+
+  frontend:
+    image: frontend
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - 3000:80
+    depends_on:
+      api-service:
+        condition: service_started
+
+  chromadb:
+    image: chromadb/chroma:1.5.9
+    container_name: undersigned-chromadb
+    ports:
+      - 9000:8000
+    volumes:
+      - ./docker-volumes/chromadb:/data

@@ -1,0 +1,86 @@
+\documentclass[10pt]{article}
+\usepackage[letterpaper,margin=0.8in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[default,semibold,scaled=.96]{sourceserifpro}
+\usepackage[scaled=.95]{sourcesanspro}
+\usepackage{enumitem,xcolor,titlesec,amssymb}
+\definecolor{ink}{HTML}{1F4E79}
+\titleformat{\section}{\sffamily\bfseries\color{ink}\large}{}{0pt}{}
+\titlespacing*{\section}{0pt}{10pt}{3pt}
+\setlist[itemize]{label=$\square$,leftmargin=1.4em,itemsep=1pt,topsep=2pt}
+\setlength{\parindent}{0pt}
+\pagestyle{empty}
+\newcommand{\owner}{\textbf{Owner:} \rule{4cm}{0.4pt}\quad \textbf{Reviewer:} \rule{4cm}{0.4pt}}
+
+\begin{document}
+
+{\sffamily\bfseries\color{ink}\LARGE Undersigned: MS2 Sign-up}\\[2pt]
+Due Tue 20 Oct, 9:00 PM ET (commit hash on the \texttt{milestone2} branch). Code freeze 18 Oct, rehearsal 19 Oct.
+Put your name next to an area. Each area also needs a reviewer.
+
+\section{1. Infrastructure and one-command pipeline}
+\owner 
+\begin{itemize}
+  \item GCP VM running, with a screenshot for the deliverable
+  \item Setup documentation (prerequisites, API keys, how to run)
+  \item \texttt{docker-compose.yml} and \texttt{make run} that runs the whole pipeline end to end
+  \item Shared \texttt{uv} \texttt{pyproject.toml} template for every container
+  \item GCS bucket versioned with DVC, and a note of which data version each container uses
+  \item End-to-end evidence run: logs plus a sample input and output
+\end{itemize}
+
+\section{2. Data collection (data-collector)}
+\owner
+\begin{itemize}
+  \item Regulations.gov ingestion with five API keys, checkpoints and resume
+  \item Attachment download (PDF, spreadsheets)
+  \item Full development docket (\texttt{EPA-HQ-OW-2018-0149}) pulled to GCS
+  \item Dockerfile, \texttt{pyproject.toml}, README section, run logs
+\end{itemize}
+
+\section{3. Processing and FCC download (data-processor)}
+\owner
+\begin{itemize}
+  \item PDF text extraction, with OCR for the four scanned PDFs
+  \item One canonical record per letter (shared schema)
+  \item Signer names hashed with a secret key
+  \item FCC 17-108 download started, paged by date
+  \item Dockerfile, \texttt{pyproject.toml}, README section, run logs
+\end{itemize}
+
+\section{4. Grouping baselines and evaluation (campaign-builder, evaluation)}
+\owner
+\begin{itemize}
+  \item Exact-match and MinHash (0.5 and 0.8) grouping
+  \item Untuned \texttt{bge-small-en-v1.5} embeddings clustered with HDBSCAN
+  \item B-cubed F1 scoring script against EPA's grouping
+  \item First baseline results table, including the personalized letters
+  \item Dockerfile, \texttt{pyproject.toml}, README section
+\end{itemize}
+
+\section{5. RAG and app skeleton (rule passages, api-service, frontend)}
+\owner
+\begin{itemize}
+  \item Federal Register rule text chunked and loaded into ChromaDB
+  \item BM25 retrieval baseline
+  \item One documented retrieval example: query to retrieved sections, with real input and output
+  \item FastAPI stub with one endpoint
+  \item Minimal React page that calls it, refined from the MS1 mock
+\end{itemize}
+
+\section{6. Hand labels (everyone)}
+Due 10 Oct, so the baselines can be scored. Split five ways.
+\begin{itemize}
+  \item 200 letter pairs: same campaign or not \hfill 40 each
+  \item 100 personalization checks \hfill 20 each
+  \item 50 campaigns mapped to rule sections \hfill 10 each
+\end{itemize}
+
+\section{7. Presentation (15 min to TF)}
+\owner
+\begin{itemize}
+  \item Slides covering every area above, each presented by its owner
+  \item Everyone can answer questions on every part of the repo
+\end{itemize}
+
+\end{document}
