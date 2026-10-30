@@ -1,0 +1,25 @@
+{
+  "docket_id": "EPA-HQ-OW-2022-0801",
+  "letters_read": 40,
+  "letters_skipped_as_copies": 1,
+  "words_repaired": 1336,
+  "letters_repaired": 1,
+  "passages": 833,
+  "passages_with_citation": 158,
+  "links": 209,
+  "links_resolved": 208,
+  "links_unresolved": 1,
+  "sections_cited": 15,
+  "rule_sections_known": 18,
+  "rule_documents": [
+    "2023-26148"
+  ],
+  "passage_words": {
+    "target": 120,
+    "max": 250,
+    "min": 20
+  },
+  "letters_file": "derived/letters/EPA-HQ-OW-2022-0801/letters.parquet",
+  "letters_sha256": "377fbb812caf577af8e161541a8129a13adc00f9c9972d6bf5f4b2991c1e2294",
+  "built_at": "2026-10-16T17:09:47Z"
+}

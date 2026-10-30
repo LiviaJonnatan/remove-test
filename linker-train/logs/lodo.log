@@ -1,0 +1,61 @@
+wandb: [wandb.login()] Loaded credentials for https://api.forge.coreweave.com from WANDB_API_KEY.
+wandb: Currently logged in as: aidaneichman (aidaneichman-harvard-university) to https://api.forge.coreweave.com. Use `wandb login --relogin` to force relogin
+wandb: setting up run 1e8wol81
+wandb: Tracking run with wandb version 0.31.0
+wandb: Run data is saved locally in /Users/aidane/Downloads/ac215_Undersigned/linker-train/wandb/run-20261028_223816-1e8wol81
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run lodo-ED-2021-OCR-0166
+wandb: ⭐️ View project at https://forge.coreweave.com/wandb/aidaneichman-harvard-university/undersigned-linker
+wandb: 🚀 View run at https://forge.coreweave.com/wandb/aidaneichman-harvard-university/undersigned-linker/runs/1e8wol81
+W1028 22:38:20.993000 69719 torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 7603.91it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+epoch 0  val acc@1 0.535  acc@5 0.785
+The `tokenize` method is deprecated, please use `preprocess` instead.
+epoch 1  loss 2.0400  val acc@1 0.681  acc@5 0.892  340.8s
+epoch 2  loss 1.2443  val acc@1 0.704  acc@5 0.904  298.5s
+epoch 3  loss 0.8873  val acc@1 0.739  acc@5 0.896  283.8s
+ED-2021-OCR-0166 [0.5, 0.3956, 0.5941]
+wandb: updating run metadata; uploading artifact run-1e8wol81-testpredictions-fVpBVg
+wandb: uploading artifact run-1e8wol81-testpredictions-fVpBVg
+wandb: 
+wandb: Run history:
+wandb:            epoch ▁▃▆█
+wandb:             step ▁▁▂▂▂▃▃▃▃▄▄▄▅▅▅▆▆▆▇▇▇███
+wandb: train/epoch_loss █▃▁
+wandb:       train/loss █▆▅▅▅▄▄▃▂▂▃▂▂▃▁▂▁▁▁▁▁
+wandb:         train/lr ▅██▇▇▇▆▆▅▅▅▄▄▄▃▃▂▂▂▁▁
+wandb:        val/acc@1 ▁▆▇█
+wandb:        val/acc@5 ▁▇██
+wandb:          val/mrr ▁▆▇█
+wandb: 
+wandb: Run summary:
+wandb:                                 epoch 3
+wandb:                                  step 213
+wandb:                            test/acc@1 0.5
+wandb:                         test/acc@1_hi 0.5941
+wandb:                         test/acc@1_lo 0.3956
+wandb:                            test/acc@5 0.86
+wandb:                              test/mrr 0.6749
+wandb:                                test/n 100
+wandb: test_by_docket/ED-2021-OCR-0166/acc@1 0.5
+wandb:                      train/epoch_loss 0.8873
+wandb:                                    +6 ...
+wandb: 
+wandb: 🚀 View run lodo-ED-2021-OCR-0166 at: https://forge.coreweave.com/wandb/aidaneichman-harvard-university/undersigned-linker/runs/1e8wol81
+wandb: ⭐️ View project at: https://forge.coreweave.com/wandb/aidaneichman-harvard-university/undersigned-linker
+wandb: Synced 5 W&B file(s), 1 media file(s), 2 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20261028_223816-1e8wol81/logs
+wandb: setting up run 0hcijxud
+wandb: Tracking run with wandb version 0.31.0
+wandb: Run data is saved locally in /Users/aidane/Downloads/ac215_Undersigned/linker-train/wandb/run-20261028_225433-0hcijxud
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run lodo-EPA-HQ-OAR-2017-0355
+wandb: ⭐️ View project at https://forge.coreweave.com/wandb/aidaneichman-harvard-university/undersigned-linker
+wandb: 🚀 View run at https://forge.coreweave.com/wandb/aidaneichman-harvard-university/undersigned-linker/runs/0hcijxud
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 7742.88it/s]
+epoch 0  val acc@1 0.485  acc@5 0.836
+epoch 1  loss 1.8617  val acc@1 0.658  acc@5 0.927  529.5s
+epoch 2  loss 1.1124  val acc@1 0.658  acc@5 0.938  564.8s
+/Users/aidane/.local/share/uv/python/cpython-3.12.13-macos-aarch64-none/lib/python3.12/multiprocessing/resource_tracker.py:279: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '

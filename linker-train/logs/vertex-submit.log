@@ -1,0 +1,415 @@
+Create request issued for: [undersigned]
+Waiting for operation [projects/ac215-undersigned/locations/us-central1/operations/e5295fdd-b7a1-443b-8ad9-b62a9492d468] to complete...
+..................................................................done.
+Created repository [undersigned].
+Creating temporary archive of 18 file(s) totalling 194.2 KiB before compression.
+Uploading tarball of [.] to [gs://ac215-undersigned_cloudbuild/source/1793243274.724581-c238de3feb34431d99781ad6e4df1fb1.tgz]
+Created [https://cloudbuild.googleapis.com/v1/projects/ac215-undersigned/locations/us-central1/builds/933042c8-3b7c-42ad-b614-cbc1bf92afda].
+Logs are available at [ https://console.cloud.google.com/cloud-build/builds;region=us-central1/933042c8-3b7c-42ad-b614-cbc1bf92afda?project=658318685216 ].
+Waiting for build to complete. Polling interval: 1 second(s).
+----------------------------- REMOTE BUILD OUTPUT ------------------------------
+starting build "933042c8-3b7c-42ad-b614-cbc1bf92afda" using release legacy
+
+FETCHSOURCE
+Fetching storage object: gs://ac215-undersigned_cloudbuild/source/1793243274.724581-c238de3feb34431d99781ad6e4df1fb1.tgz#1793243276260977
+Copying gs://ac215-undersigned_cloudbuild/source/1793243274.724581-c238de3feb34431d99781ad6e4df1fb1.tgz#1793243276260977...
+/ [0 files][    0.0 B/ 62.2 KiB]                                                / [1 files][ 62.2 KiB/ 62.2 KiB]                                                
+Operation completed over 1 objects/62.2 KiB.
+BUILD
+Already have image (with digest): gcr.io/cloud-builders/gcb-internal
+DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+            Install the buildx component to build images with BuildKit:
+            https://docs.docker.com/go/buildx/
+
+Sending build context to Docker daemon  217.1kB
+Step 1/12 : FROM python:3.12-slim-bookworm
+3.12-slim-bookworm: Pulling from library/python
+3c5439d0ae62: Pulling fs layer
+a4516a4e2637: Pulling fs layer
+5b676d7ddb72: Pulling fs layer
+560ad164c1fd: Pulling fs layer
+560ad164c1fd: Download complete
+a4516a4e2637: Verifying Checksum
+a4516a4e2637: Download complete
+5b676d7ddb72: Verifying Checksum
+5b676d7ddb72: Download complete
+3c5439d0ae62: Verifying Checksum
+3c5439d0ae62: Download complete
+3c5439d0ae62: Pull complete
+a4516a4e2637: Pull complete
+5b676d7ddb72: Pull complete
+560ad164c1fd: Pull complete
+Digest: sha256:e697c81897302a4c4333bade000d98038fbb21eb064f8ee1fd42d02ebcd9d337
+Status: Downloaded newer image for python:3.12-slim-bookworm
+ ---> 37ccb536022b
+Step 2/12 : ENV UV_PROJECT_ENVIRONMENT=/opt/venv     PATH="/opt/venv/bin:$PATH"     PYTHONUNBUFFERED=1     HF_HOME=/opt/models
+ ---> Running in 82a10efc5fed
+Removing intermediate container 82a10efc5fed
+ ---> d9ecbe54e59b
+Step 3/12 : RUN apt-get update && apt-get install -y --no-install-recommends git && rm -rf /var/lib/apt/lists/*
+ ---> Running in cdc0fbe64700
+Get:1 http://deb.debian.org/debian bookworm InRelease [151 kB]
+Get:2 http://deb.debian.org/debian bookworm-updates InRelease [55.4 kB]
+Get:3 http://deb.debian.org/debian-security bookworm-security InRelease [34.8 kB]
+Get:4 http://deb.debian.org/debian bookworm/main amd64 Packages [8790 kB]
+Get:5 http://deb.debian.org/debian bookworm-updates/main amd64 Packages [6924 B]
+Get:6 http://deb.debian.org/debian-security bookworm-security/main amd64 Packages [358 kB]
+Fetched 9397 kB in 1s (7819 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  git-man libbrotli1 libcurl3-gnutls liberror-perl libexpat1 libgdbm-compat4
+  libldap-2.5-0 libnghttp2-14 libperl5.36 libpsl5 librtmp1 libsasl2-2
+  libsasl2-modules-db libssh2-1 perl perl-modules-5.36
+Suggested packages:
+  gettext-base git-daemon-run | git-daemon-sysvinit git-doc git-email git-gui
+  gitk gitweb git-cvs git-mediawiki git-svn sensible-utils perl-doc
+  libterm-readline-gnu-perl | libterm-readline-perl-perl make
+  libtap-harness-archive-perl
+Recommended packages:
+  patch less ssh-client libldap-common publicsuffix libsasl2-modules
+The following NEW packages will be installed:
+  git git-man libbrotli1 libcurl3-gnutls liberror-perl libexpat1
+  libgdbm-compat4 libldap-2.5-0 libnghttp2-14 libperl5.36 libpsl5 librtmp1
+  libsasl2-2 libsasl2-modules-db libssh2-1 perl perl-modules-5.36
+0 upgraded, 17 newly installed, 0 to remove and 0 not upgraded.
+Need to get 18.1 MB of archives.
+After this operation, 100 MB of additional disk space will be used.
+Get:1 http://deb.debian.org/debian-security bookworm-security/main amd64 perl-modules-5.36 all 5.36.0-7+deb12u4 [2817 kB]
+Get:2 http://deb.debian.org/debian bookworm/main amd64 libgdbm-compat4 amd64 1.23-3 [48.2 kB]
+Get:3 http://deb.debian.org/debian-security bookworm-security/main amd64 libperl5.36 amd64 5.36.0-7+deb12u4 [4208 kB]
+Get:4 http://deb.debian.org/debian-security bookworm-security/main amd64 perl amd64 5.36.0-7+deb12u4 [239 kB]
+Get:5 http://deb.debian.org/debian-security bookworm-security/main amd64 libbrotli1 amd64 1.0.9-2+deb12u1 [275 kB]
+Get:6 http://deb.debian.org/debian bookworm/main amd64 libsasl2-modules-db amd64 2.1.28+dfsg-10 [20.3 kB]
+Get:7 http://deb.debian.org/debian bookworm/main amd64 libsasl2-2 amd64 2.1.28+dfsg-10 [59.7 kB]
+Get:8 http://deb.debian.org/debian bookworm/main amd64 libldap-2.5-0 amd64 2.5.13+dfsg-5 [183 kB]
+Get:9 http://deb.debian.org/debian bookworm/main amd64 libnghttp2-14 amd64 1.52.0-1+deb12u3 [72.4 kB]
+Get:10 http://deb.debian.org/debian bookworm/main amd64 libpsl5 amd64 0.21.2-1 [58.7 kB]
+Get:11 http://deb.debian.org/debian bookworm/main amd64 librtmp1 amd64 2.4+20151223.gitfa8646d.1-2+b2 [60.8 kB]
+Get:12 http://deb.debian.org/debian-security bookworm-security/main amd64 libssh2-1 amd64 1.10.0-3+deb12u1 [176 kB]
+Get:13 http://deb.debian.org/debian bookworm/main amd64 libcurl3-gnutls amd64 7.88.1-10+deb12u15 [386 kB]
+Get:14 http://deb.debian.org/debian-security bookworm-security/main amd64 libexpat1 amd64 2.5.0-1+deb12u5 [108 kB]
+Get:15 http://deb.debian.org/debian bookworm/main amd64 liberror-perl all 0.17029-2 [29.0 kB]
+Get:16 http://deb.debian.org/debian bookworm/main amd64 git-man all 1:2.39.5-0+deb12u3 [2053 kB]
+Get:17 http://deb.debian.org/debian bookworm/main amd64 git amd64 1:2.39.5-0+deb12u3 [7264 kB]
+[91mdebconf: delaying package configuration, since apt-utils is not installed
+[0mFetched 18.1 MB in 0s (52.7 MB/s)
+Selecting previously unselected package perl-modules-5.36.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 6701 files and directories currently installed.)
+Preparing to unpack .../00-perl-modules-5.36_5.36.0-7+deb12u4_all.deb ...
+Unpacking perl-modules-5.36 (5.36.0-7+deb12u4) ...
+Selecting previously unselected package libgdbm-compat4:amd64.
+Preparing to unpack .../01-libgdbm-compat4_1.23-3_amd64.deb ...
+Unpacking libgdbm-compat4:amd64 (1.23-3) ...
+Selecting previously unselected package libperl5.36:amd64.
+Preparing to unpack .../02-libperl5.36_5.36.0-7+deb12u4_amd64.deb ...
+Unpacking libperl5.36:amd64 (5.36.0-7+deb12u4) ...
+Selecting previously unselected package perl.
+Preparing to unpack .../03-perl_5.36.0-7+deb12u4_amd64.deb ...
+Unpacking perl (5.36.0-7+deb12u4) ...
+Selecting previously unselected package libbrotli1:amd64.
+Preparing to unpack .../04-libbrotli1_1.0.9-2+deb12u1_amd64.deb ...
+Unpacking libbrotli1:amd64 (1.0.9-2+deb12u1) ...
+Selecting previously unselected package libsasl2-modules-db:amd64.
+Preparing to unpack .../05-libsasl2-modules-db_2.1.28+dfsg-10_amd64.deb ...
+Unpacking libsasl2-modules-db:amd64 (2.1.28+dfsg-10) ...
+Selecting previously unselected package libsasl2-2:amd64.
+Preparing to unpack .../06-libsasl2-2_2.1.28+dfsg-10_amd64.deb ...
+Unpacking libsasl2-2:amd64 (2.1.28+dfsg-10) ...
+Selecting previously unselected package libldap-2.5-0:amd64.
+Preparing to unpack .../07-libldap-2.5-0_2.5.13+dfsg-5_amd64.deb ...
+Unpacking libldap-2.5-0:amd64 (2.5.13+dfsg-5) ...
+Selecting previously unselected package libnghttp2-14:amd64.
+Preparing to unpack .../08-libnghttp2-14_1.52.0-1+deb12u3_amd64.deb ...
+Unpacking libnghttp2-14:amd64 (1.52.0-1+deb12u3) ...
+Selecting previously unselected package libpsl5:amd64.
+Preparing to unpack .../09-libpsl5_0.21.2-1_amd64.deb ...
+Unpacking libpsl5:amd64 (0.21.2-1) ...
+Selecting previously unselected package librtmp1:amd64.
+Preparing to unpack .../10-librtmp1_2.4+20151223.gitfa8646d.1-2+b2_amd64.deb ...
+Unpacking librtmp1:amd64 (2.4+20151223.gitfa8646d.1-2+b2) ...
+Selecting previously unselected package libssh2-1:amd64.
+Preparing to unpack .../11-libssh2-1_1.10.0-3+deb12u1_amd64.deb ...
+Unpacking libssh2-1:amd64 (1.10.0-3+deb12u1) ...
+Selecting previously unselected package libcurl3-gnutls:amd64.
+Preparing to unpack .../12-libcurl3-gnutls_7.88.1-10+deb12u15_amd64.deb ...
+Unpacking libcurl3-gnutls:amd64 (7.88.1-10+deb12u15) ...
+Selecting previously unselected package libexpat1:amd64.
+Preparing to unpack .../13-libexpat1_2.5.0-1+deb12u5_amd64.deb ...
+Unpacking libexpat1:amd64 (2.5.0-1+deb12u5) ...
+Selecting previously unselected package liberror-perl.
+Preparing to unpack .../14-liberror-perl_0.17029-2_all.deb ...
+Unpacking liberror-perl (0.17029-2) ...
+Selecting previously unselected package git-man.
+Preparing to unpack .../15-git-man_1%3a2.39.5-0+deb12u3_all.deb ...
+Unpacking git-man (1:2.39.5-0+deb12u3) ...
+Selecting previously unselected package git.
+Preparing to unpack .../16-git_1%3a2.39.5-0+deb12u3_amd64.deb ...
+Unpacking git (1:2.39.5-0+deb12u3) ...
+Setting up libexpat1:amd64 (2.5.0-1+deb12u5) ...
+Setting up libpsl5:amd64 (0.21.2-1) ...
+Setting up libbrotli1:amd64 (1.0.9-2+deb12u1) ...
+Setting up libnghttp2-14:amd64 (1.52.0-1+deb12u3) ...
+Setting up libsasl2-modules-db:amd64 (2.1.28+dfsg-10) ...
+Setting up perl-modules-5.36 (5.36.0-7+deb12u4) ...
+Setting up librtmp1:amd64 (2.4+20151223.gitfa8646d.1-2+b2) ...
+Setting up libgdbm-compat4:amd64 (1.23-3) ...
+Setting up libsasl2-2:amd64 (2.1.28+dfsg-10) ...
+Setting up git-man (1:2.39.5-0+deb12u3) ...
+Setting up libssh2-1:amd64 (1.10.0-3+deb12u1) ...
+Setting up libperl5.36:amd64 (5.36.0-7+deb12u4) ...
+Setting up libldap-2.5-0:amd64 (2.5.13+dfsg-5) ...
+Setting up perl (5.36.0-7+deb12u4) ...
+Setting up libcurl3-gnutls:amd64 (7.88.1-10+deb12u15) ...
+Setting up liberror-perl (0.17029-2) ...
+Setting up git (1:2.39.5-0+deb12u3) ...
+Processing triggers for libc-bin (2.36-9+deb12u14) ...
+Removing intermediate container cdc0fbe64700
+ ---> cc5f341ee1e8
+Step 4/12 : RUN pip install --no-cache-dir uv
+ ---> Running in 5dbdcc5dbc82
+Collecting uv
+  Downloading uv-0.13.6-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (11 kB)
+Downloading uv-0.13.6-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (17.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 17.3/17.3 MB 171.0 MB/s eta 0:00:00
+Installing collected packages: uv
+Successfully installed uv-0.13.6
+[91mWARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+[0m[91m
+[notice] A new release of pip is available: 25.0.1 -> 26.2.2
+[notice] To update, run: pip install --upgrade pip
+[0mRemoving intermediate container 5dbdcc5dbc82
+ ---> 3a22366d41b2
+Step 5/12 : WORKDIR /app
+ ---> Running in ca86f918d975
+Removing intermediate container ca86f918d975
+ ---> 86fd6ef2f60b
+Step 6/12 : COPY pyproject.toml uv.lock ./
+ ---> 7c6cda6cf36c
+Step 7/12 : RUN uv sync --frozen --no-dev --no-install-project
+ ---> Running in e59ef68490d9
+[91mUsing CPython 3.12.16 interpreter at: /usr/local/bin/python3
+Creating virtual environment at: /opt/venv
+[0m[91mDownloading cuda-bindings (6.8MiB)
+[0m[91mDownloading nvidia-cudnn-cu13 (495.1MiB)
+[0m[91mDownloading nvidia-cuda-nvrtc (44.8MiB)
+[0m[91mDownloading nvidia-nvshmem-cu13 (129.1MiB)
+[0m[91mDownloading pygments (1.2MiB)
+[0m[91mDownloading nvidia-cuda-cccl (3.7MiB)
+[0m[91mDownloading pydantic-core (2.1MiB)
+[0m[91mDownloading torch (514.2MiB)
+[0m[91mDownloading hf-xet (4.0MiB)
+[0m[91mDownloading sympy (6.0MiB)
+[0m[91mDownloading nvidia-cuda-cupti (11.4MiB)
+[0m[91mDownloading scikit-learn (8.7MiB)
+[0m[91mDownloading nvidia-cufile (1.3MiB)
+[0m[91mDownloading pandas (11.5MiB)
+[0m[91mDownloading networkx (2.0MiB)
+[0m[91mDownloading transformers (12.4MiB)
+[0m[91mDownloading nvidia-nvjitlink (40.5MiB)
+[0m[91mDownloading nvidia-cuda-runtime (2.2MiB)
+[0m[91mDownloading numpy (16.0MiB)
+[0m[91mDownloading nvidia-cusparse (144.0MiB)
+[0m[91mDownloading scipy (33.7MiB)
+[0m[91mDownloading tokenizers (3.2MiB)
+[0m[91mDownloading pyarrow (51.4MiB)
+[0m[91mDownloading nvidia-cusparselt-cu13 (162.3MiB)
+[0m[91mDownloading nvidia-nccl-cu13 (206.0MiB)
+[0m[91mDownloading nvidia-cufft (208.1MiB)
+[0m[91mDownloading nvidia-cusolver (217.4MiB)
+[0m[91mDownloading triton (272.4MiB)
+[0m[91mDownloading nvidia-cublas (386.1MiB)
+[0m[91mDownloading wandb (19.4MiB)
+[0m[91m Downloaded pygments
+[0m[91m Downloaded nvidia-cufile
+[0m[91m Downloaded networkx
+[0m[91m Downloaded pydantic-core
+[0m[91m Downloaded nvidia-cuda-runtime
+[0m[91m Downloaded tokenizers
+[0m[91m Downloaded nvidia-cuda-cccl
+[0m[91m Downloaded hf-xet
+[0m[91m Downloaded sympy
+[0m[91m Downloaded cuda-bindings
+[0m[91m Downloaded scikit-learn
+[0m[91m Downloaded nvidia-cuda-cupti
+[0m[91m Downloaded pandas
+[0m[91m Downloaded transformers
+[0m[91m Downloaded numpy
+[0m[91m Downloaded wandb
+[0m[91m Downloaded scipy
+[0m[91m Downloaded nvidia-nvjitlink
+[0m[91m Downloaded nvidia-cuda-nvrtc
+[0m[91m Downloaded pyarrow
+[0m[91m Downloaded nvidia-nvshmem-cu13
+[0m[91m Downloaded nvidia-cusparse
+[0m[91m Downloaded nvidia-cusparselt-cu13
+[0m[91m Downloaded nvidia-nccl-cu13
+[0m[91m Downloaded nvidia-cufft
+[0m[91m Downloaded nvidia-cusolver
+[0m[91m Downloaded triton
+[0m[91m Downloaded nvidia-cublas
+[0m[91m Downloaded nvidia-cudnn-cu13
+[0m[91m Downloaded torch
+[0m[91mPrepared 92 packages in 2m 37s
+[0m[91mInstalled 92 packages in 549ms
+ + annotated-doc==0.0.5
+ + annotated-types==0.8.0
+ + anyio==4.15.1
+ + certifi==2026.10.23
+ + charset-normalizer==3.5.2
+ + click==8.5.0
+ + cloudpickle==3.1.2
+ + cuda-bindings==13.4.4
+ + cuda-pathfinder==[0m[91m1.8.4
+ + cuda-toolkit==13.2.2
+ + cwevals==0.0.1b1
+ + distro==1.9.0
+ + filelock==4.2.4
+ [0m[91m+ fsspec==2026.9.0[0m[91m
+ +[0m[91m googleapis-common-protos==1.76.0
+ + h11==0.16.[0m[91m0
+ + hf-xet==1.7.1
+ + httpcore==1.0.9
+ + httpcore2==2.16.0
+ + httpx==0.28.1
+ + httpx2==2.16.0
+ + huggingface-hub==2.3.0
+ + idna==3.20
+ + jinja2==3.1.6
+ +[0m[91m joblib==1.6.0
+ + markdown-it-py==4.2.0
+ + markupsafe==3.0.[0m[91m4
+ + mdurl==0.1.2
+ + mpmath==1.3.0
+ + [0m[91mnarwhals==2.28.0
+ + networkx==3.7
+[0m[91m + [0m[91mnumpy==[0m[91m2.5.[0m[91m4[0m[91m
+[0m[91m + [0m[91mnvidia-cublas[0m[91m==13.[0m[91m4.1.[0m[91m3
+ [0m[91m+ nvidia-cuda-cccl==13.3.4.3.1
+ + nvidia-cuda-cupti==13.2.86
+ +[0m[91m nvidia-cuda-nvrtc==13.2.86
+ + nvidia-cuda-runtime==13.2.86[0m[91m
+ + nvidia-cudnn-cu13==9.26.0.51
+[0m[91m + nvidia-cufft[0m[91m==12.2[0m[91m.0.57[0m[91m
+ + nvidia-cufile==1.17.1.22
+ + nvidia-cusolver==12.2[0m[91m.0.11
+ + nvidia-cusparse==12.7.10.[0m[91m12
+ + nvidia-cusparselt-cu13==0.8.1
+ + nvidia-nccl-cu13==2.30.7
+[0m[91m + nvidia-nvjitlink==13.4.92
+ [0m[91m+ nvidia-nvshmem-cu13==3.7.[0m[91m2
+ + nvidia-nvtx==13[0m[91m.2.86
+ + opentelemetry-api==1.45.1
+ [0m[91m+ opentelemetry-exporter-http-transport==[0m[91m0.66b[0m[91m1
+ + [0m[91mopentelemetry-exporter-otlp-common==0.66b1
+ + opentelemetry-exporter-otlp-proto-common==1.45[0m[91m.1
+ + opentelemetry-exporter-otlp-proto-http==1.45.1
+[0m[91m + opentelemetry-proto==1.45.1
+[0m[91m + [0m[91mopentelemetry-sdk==1.[0m[91m45.1
+ [0m[91m+ [0m[91mopentelemetry-semantic-conventions==0[0m[91m.66b1[0m[91m
+ +[0m[91m packaging==26.3
+ [0m[91m+ pandas==3.1.0
+ + platformdirs==4.14.0
+ + [0m[91mprotobuf==7[0m[91m.36.2
+ + pyarrow[0m[91m==26.0.[0m[91m0
+ + [0m[91mpydantic==2.[0m[91m14.1
+ +[0m[91m pydantic-core==2.50.[0m[91m1
+ [0m[91m+ pygments[0m[91m==2.[0m[91m21.0[0m[91m
+ + [0m[91mpython-dateutil==3.0.0[0m[91m
+ + python-dotenv==1[0m[91m.[0m[91m2.[0m[91m4
+ + pyyaml==6.0.3
+ + regex==2026.9.29
+ + requests==[0m[91m2.34.[0m[91m2
+ + rich[0m[91m==15.0.0
+ +[0m[91m safetensors==[0m[91m0.8.0
+ + scikit-learn==1.9[0m[91m.1
+ + [0m[91mscipy==1.18.1[0m[91m
+ + sentence-transformers==6.2[0m[91m.0
+ +[0m[91m setuptools[0m[91m==84.2.[0m[91m1[0m[91m
+ + [0m[91mshellingham==[0m[91m1.5.4
+[0m[91m + six[0m[91m==1.17[0m[91m.0[0m[91m
+ + sniffio==1.3.1
+ + [0m[91msympy==1.14[0m[91m.0
+ + [0m[91mthreadpoolctl==[0m[91m3.[0m[91m7.0
+ + tokenizers==0.23.[0m[91m3
+ + [0m[91mtorch==2.15.0
+ + tqdm==4.70.1
+ + transformers==5.21.0
+ + triton==3.9.0
+ + truststore==0.10.5
+ + typer==0.27.3
+ + typing-extensions==4.16.0[0m[91m
+ + typing-inspection==0.4.4
+ + tzdata==2026.6
+ + urllib3==2.8.0
+ +[0m[91m wandb==0.31.0
+ + xxhash==4.0.2
+[0mRemoving intermediate container e59ef68490d9
+ ---> 6cd438e322c9
+Step 8/12 : RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('BAAI/bge-small-en-v1.5')"
+ ---> Running in 5305371508f4
+[91mWarning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[0m[91mLoading weights:   0%|          | 0/199 [00:00<?, ?it/s][0m[91mLoading weights:  78%|███████▊  | 155/199 [00:00<00:00, 1466.09it/s][0m[91mLoading weights: 100%|██████████| 199/199 [00:00<00:00, 1522.64it/s]
+[0mRemoving intermediate container 5305371508f4
+ ---> b9c618c1b7a0
+Step 9/12 : COPY configs/ ./configs/
+ ---> 19b3183ac370
+Step 10/12 : COPY src/ ./src/
+ ---> 6eb44ec87096
+Step 11/12 : ENTRYPOINT ["python", "src/main.py"]
+ ---> Running in 35e494e6221f
+Removing intermediate container 35e494e6221f
+ ---> 17fd1d040882
+Step 12/12 : CMD ["train", "--mode", "in"]
+ ---> Running in 2d882f31b369
+Removing intermediate container 2d882f31b369
+ ---> 2a6c9f3cd846
+Successfully built 2a6c9f3cd846
+Successfully tagged us-central1-docker.pkg.dev/ac215-undersigned/undersigned/linker-train:6097c50
+PUSH
+Pushing us-central1-docker.pkg.dev/ac215-undersigned/undersigned/linker-train:6097c50
+The push refers to repository [us-central1-docker.pkg.dev/ac215-undersigned/undersigned/linker-train]
+0b7ca3b92921: Preparing
+3959d334816d: Preparing
+38a8868cf2ee: Preparing
+ed7f1e3d332a: Preparing
+2076d7b7628e: Preparing
+6c80e0e93524: Preparing
+eab7b954987b: Preparing
+3d8440207cb8: Preparing
+f8ff5ead77b7: Preparing
+8ed4cbb16557: Preparing
+576179aecba1: Preparing
+44a87794b739: Preparing
+44a87794b739: Waiting
+576179aecba1: Waiting
+0b7ca3b92921: Pushed
+6c80e0e93524: Pushed
+3959d334816d: Pushed
+2076d7b7628e: Pushed
+f8ff5ead77b7: Pushed
+576179aecba1: Pushed
+8ed4cbb16557: Pushed
+eab7b954987b: Pushed
+3d8440207cb8: Pushed
+44a87794b739: Pushed
+38a8868cf2ee: Pushed
+ed7f1e3d332a: Pushed
+6097c50: digest: sha256:b147be9aea63b9df1df63b8916451733a59ab00c833dae899a081b007eaa3fa5 size: 2842
+DONE
+--------------------------------------------------------------------------------
+ID                                    CREATE_TIME                DURATION  SOURCE                                                                                           IMAGES                                                                         STATUS
+933042c8-3b7c-42ad-b614-cbc1bf92afda  2026-10-29T03:07:56+00:00  13M8S     gs://ac215-undersigned_cloudbuild/source/1793243274.724581-c238de3feb34431d99781ad6e4df1fb1.tgz  us-central1-docker.pkg.dev/ac215-undersigned/undersigned/linker-train:6097c50  SUCCESS
+Using endpoint [https://us-central1-aiplatform.googleapis.com/]
+ERROR: (gcloud.ai.custom-jobs.create) HttpError accessing <https://us-central1-aiplatform.googleapis.com/v1/projects/ac215-undersigned/locations/us-central1/customJobs?alt=json>: response: <{'vary': 'Origin, X-Origin, Referer', 'content-type': 'application/json; charset=UTF-8', 'content-encoding': 'gzip', 'date': 'Thu, 29 Oct 2026 03:22:33 GMT', 'server': 'ESF', 'x-xss-protection': '0', 'x-frame-options': 'SAMEORIGIN', 'x-content-type-options': 'nosniff', 'alt-svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000', 'transfer-encoding': 'chunked', 'status': 429}>, content <{
+  "error": {
+    "code": 429,
+    "message": "The following quota metrics exceed quota limits: aiplatform.googleapis.com/custom_model_training_nvidia_t4_gpus",
+    "status": "RESOURCE_EXHAUSTED"
+  }
+}
+>
+This may be due to network connectivity issues. Please check your network settings, and the status of the service you are trying to reach.
+submit exit 1

@@ -1,0 +1,20 @@
+{
+ "run": "in-pre",
+ "commit": "ec9e6dc",
+ "base_model": "BAAI/bge-small-en-v1.5",
+ "test_acc@1": [
+  0.6551,
+  0.6075,
+  0.7022
+ ],
+ "query_prefix": "Represent this sentence for searching relevant passages: ",
+ "query_max_words": 300,
+ "reader_share": 0.2,
+ "margin_cutoff": 0.0265,
+ "max_length": 384,
+ "pooling": "CLS",
+ "normalize": true,
+ "dim": 384,
+ "parity_texts": 64,
+ "parity_max_cosine_gap": 5.960464477539063e-08
+}

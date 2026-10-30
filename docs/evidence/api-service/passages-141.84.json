@@ -1,0 +1,33 @@
+{
+  "docket_id": "EPA-HQ-OW-2022-0801",
+  "section_ref": "PART 141/§ 141.84",
+  "total": 39,
+  "passages": [
+    {
+      "passage_id": "EPA-HQ-OW-2022-0801-0775:p010",
+      "letter_id": "EPA-HQ-OW-2022-0801-0775",
+      "index": 10,
+      "text": "However, Wisconsin supports requiring pipe loop studies for medium and large systems under certain conditions [§ 141.81(d) and § 141.81(e)]. Lead Service Line Inventories and Replacement (§ 141.84) The WDNR emphasizes its support for the ASDWA comments described below.  Clarify § 141.84(d)(5)(iv) to explain what factors for a state should consider when deciding whether it is feasible for a system to replace LSLs at a faster rate.  Remove the requirement in § 141.84(a)(2)(ii)(B) for water systems to identify where lead connectors have been replaced in the past, and instead make the “replaced lead” connector category optional. It is more efficient to allow water systems to focus their time and resources on higher priority inventory and replacement activities such as lead service line removal and replacement, and identification and removal of galvanized service lines currently and formerly downstream of lead service lines.",
+      "n_words": 143,
+      "citations": [
+        {
+          "section_ref": "PART 141/§ 141.84",
+          "citation_raw": "§ 141.84"
+        }
+      ]
+    },
+    {
+      "passage_id": "EPA-HQ-OW-2022-0801-0775:p011",
+      "letter_id": "EPA-HQ-OW-2022-0801-0775",
+      "index": 11,
+      "text": "However, if connectors are required to be included in inventories, it would be helpful if the rule specified which connectors (i.e., only the connection to main) must be included in the inventory.  Require all water systems update their inventory when service lines previously categorized as non-lead are subsequently determined to be lead or GRR, instead of leaving it to the states to determine what “additional actions” are appropriate to address the inaccuracy [§ 141.84 (b)(3)]. Page 4  Give states the flexibility and authority in § 141.84(b)(5)(i) & (ii) to allow a single point of inspection where an entire service line is under the same ownership. For example, at most NTNCWS and many non-municipal community water systems, all portions of all service lines are entirely owned by the water system.",
+      "n_words": 131,
+      "citations": [
+        {
+          "section_ref": "PART 141/§ 141.84",
+          "citation_raw": "§ 141.84 (b)(3)"
+        }
+      ]
+    }
+  ]
+}

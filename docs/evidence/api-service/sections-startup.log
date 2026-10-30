@@ -1,0 +1,11 @@
+INFO:     Started server process [1]
+INFO:     Waiting for application startup.
+INFO:     Loaded 538 rule passages from 'rule_passages' for EPA-HQ-OW-2018-0149
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     192.168.65.1:60382 - "GET /health HTTP/1.1" 200 OK
+INFO:     192.168.65.1:37214 - "GET /rules/EPA-HQ-OW-2018-0149/sections HTTP/1.1" 200 OK
+INFO:     192.168.65.1:16676 - "GET /rules/EPA-HQ-OW-2018-0149/sections HTTP/1.1" 200 OK
+INFO:     192.168.65.1:29897 - "GET /health HTTP/1.1" 200 OK
+INFO:     192.168.65.1:48617 - "GET /rules/EPA-HQ-OW-2018-0149/sections HTTP/1.1" 200 OK
+INFO:     192.168.65.1:63878 - "GET /rules/NO-SUCH-DOCKET/sections HTTP/1.1" 404 Not Found

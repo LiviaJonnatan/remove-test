@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Undersigned MS2 wireframe</title>
+<!-- Wireframe for MS2: the rule page the app skeleton serves now. Rendered to docs/wireframe.png with
+     headless Chrome at 1600x920. Colors and fonts match the MS2 slides.
+     Numbers are from the running app on EPA-HQ-OW-2022-0801 (88 FR 84878), 18 Oct 2026, and the quotes from its
+     passages.parquet (letters -1131, -0849 and -0972 are among the 40 passages citing § 141.84).
+     Screen 3 is the plain regulations.gov comment page: the app only links out and does not highlight. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1c2b39; --ink: #26323e; --muted: #5f6b77; --faint: #8d96a0; --line: #e4dfd5; --rule: #d6cfc2;
+    --cream: #f6f3ec; --paper: #fffdf8; --blue: #2e6a97; --blue-soft: #e7eff6; --rust: #b04a15;
+    --green: #2e7d4f; --green-soft: #e3f1e8; --ghost: #ece7dd; --gov: #112e51;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { width: 1600px; height: 920px; background: var(--cream); color: var(--ink);
+         font-family: "Public Sans", Arial, sans-serif; font-size: 15px; line-height: 1.4;
+         padding: 30px 36px 24px; display: flex; flex-direction: column; gap: 20px; position: relative; overflow: hidden; }
+
+  header { display: flex; align-items: flex-end; justify-content: space-between; gap: 30px; }
+  header .lead { font-size: 15px; color: var(--ink); margin-top: 6px; }
+  .pipe { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); white-space: nowrap; }
+  .pipe span { background: var(--paper); border: 1px solid #e2dccf; border-radius: 8px; padding: 5px 10px; color: var(--navy); font-weight: 600; }
+  .pipe i { font-style: normal; color: var(--blue); font-weight: 700; }
+  header h1 { font-family: "Libre Baskerville", Georgia, serif; font-size: 26px; font-weight: 700; color: var(--navy); }
+  header h1 span { color: var(--rust); }
+
+  .row3 { flex: 1; display: flex; gap: 46px; min-height: 0; }
+  .screen { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+  .step { display: flex; align-items: center; gap: 10px; }
+  .step .n { width: 28px; height: 28px; border-radius: 50%; background: var(--navy); color: var(--cream);
+             font-weight: 700; font-size: 14px; display: grid; place-items: center; flex: none; }
+  .step .t { font-size: 17px; font-weight: 700; color: var(--navy); white-space: nowrap; }
+  .step .api { margin-left: auto; font-family: "JetBrains Mono", Menlo, monospace; font-size: 12.5px;
+               color: var(--green); background: var(--green-soft); border-radius: 12px; padding: 3px 10px; white-space: nowrap; }
+
+  .step .ext { margin-left: auto; font-size: 12.5px; color: var(--muted); border: 1px solid var(--rule); border-radius: 12px; padding: 2px 10px; white-space: nowrap; }
+  .win { flex: 1; background: var(--paper); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column;
+         box-shadow: 0 1px 2px rgba(28,43,57,.08), 0 10px 30px rgba(28,43,57,.10); border: 1px solid #e2dccf; }
+  .chrome { height: 34px; flex: none; display: flex; align-items: center; gap: 12px; padding: 0 14px;
+            background: #efebe2; border-bottom: 1px solid var(--line); }
+  .dots { display: flex; gap: 6px; }
+  .dots i { width: 10px; height: 10px; border-radius: 50%; background: #d3ccbf; }
+  .url { flex: 1; background: var(--paper); border-radius: 6px; height: 22px; font-size: 12px; color: var(--muted);
+         display: flex; align-items: center; padding: 0 10px; white-space: nowrap; overflow: hidden; }
+  .appbar { flex: none; display: flex; align-items: center; gap: 12px; padding: 10px 18px; border-bottom: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+  .brand { font-weight: 700; letter-spacing: .08em; color: var(--navy); font-size: 13px; }
+  .body { flex: 1; padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; min-height: 0; }
+
+  h2 { font-family: "Libre Baskerville", Georgia, serif; font-size: 18px; font-weight: 700; color: var(--navy); line-height: 1.3; }
+  .sub { font-size: 13px; color: var(--muted); }
+  .kicker { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: right; font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase;
+       letter-spacing: .04em; padding: 0 6px 7px; border-bottom: 1.5px solid var(--rule); vertical-align: bottom; line-height: 1.25; }
+  th:first-child { text-align: left; }
+  td { padding: 7px 6px; border-bottom: 1px solid var(--line); text-align: right; font-variant-numeric: tabular-nums; }
+  td:first-child { text-align: left; }
+  tr.part td { font-weight: 700; color: var(--navy); }
+  tr.sec td:first-child { padding-left: 20px; }
+  tr.sel td { background: var(--blue-soft); color: var(--navy); font-weight: 700; }
+  tr.sel td:first-child { box-shadow: inset 4px 0 0 var(--blue); }
+  .foot { margin-top: auto; font-size: 13px; color: var(--muted); }
+
+  /* Same layout as the app's details panel: a stacked heading path, then a two-column list of facts. */
+  .path { margin: 0; padding: 0; list-style: none; font-size: 13px; color: var(--muted); }
+  .path li + li { margin-top: 2px; }
+  .path .here { font-family: "Libre Baskerville", Georgia, serif; font-size: 17px; font-weight: 700; color: var(--navy); line-height: 1.3; }
+  .facts { display: grid; grid-template-columns: auto 1fr; gap: 5px 14px; font-size: 13.5px; }
+  .facts dt { color: var(--muted); }
+  .facts dd { margin: 0; font-variant-numeric: tabular-nums; }
+  .facts a { color: var(--blue); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+
+  .cite { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 7px; background: #fff; }
+  .cite .who { font-size: 12.5px; color: var(--muted); }
+  .cite .who a { color: var(--blue); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+  .cite q { font-size: 13.5px; font-style: italic; color: var(--ink); quotes: "\201C" "\201D" "\2018" "\2019"; }
+  .cite.sel { border: 2px solid var(--blue); background: var(--blue-soft); box-shadow: 0 4px 14px rgba(46,106,151,.18); }
+  .cite.sel .who a { color: var(--navy); }
+
+  .govbar { flex: none; display: flex; align-items: center; gap: 12px; padding: 10px 18px;
+            background: var(--gov); color: #c9d4de; font-size: 13px; }
+  .govbar .brand { color: #fff; letter-spacing: .04em; }
+  .letter { flex: 1; overflow: hidden; border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 9px; background: #fff; }
+  .ghost { background: var(--ghost); border-radius: 4px; height: 9px; flex: none; }
+
+  .cursor { position: absolute; width: 22px; height: 22px; z-index: 3; filter: drop-shadow(0 1px 1px rgba(0,0,0,.25)); }
+  svg.links { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; overflow: visible; }
+
+  .legend { flex: none; display: flex; flex-direction: column; gap: 6px; font-size: 14px; color: var(--muted); }
+  .legend > div { display: flex; gap: 24px; white-space: nowrap; }
+  .legend .end { margin-left: auto; }
+  .legend .since { color: var(--navy); }
+  .legend .since b { color: var(--rust); }
+  .legend b { color: var(--navy); font-weight: 600; }
+  .legend .api { font-family: "JetBrains Mono", Menlo, monospace; font-size: 12px; color: var(--green); background: var(--green-soft); border-radius: 10px; padding: 2px 8px; }
+  .legend .sw { display: inline-block; width: 22px; height: 14px; border-radius: 3px; background: var(--blue-soft); border: 1.5px solid var(--blue); border-left-width: 4px; vertical-align: -2px; margin-right: 6px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Undersigned <span>&middot;</span> MS2 wireframe</h1>
+    <p class="lead">A government agency posts a rule, and the public sends letters about it. Pick a part of the rule and see who argued about it.</p>
+  </div>
+</header>
+
+<div class="row3">
+
+<!-- 1. Rule page: every section of the rule, with how many comment passages cite it -->
+<section class="screen" style="flex:1.2">
+  <div class="step"><span class="n">1</span><span class="t">Pick a section</span></div>
+  <div class="win">
+    <div class="chrome"><div class="dots"><i></i><i></i><i></i></div><div class="url">Undersigned &middot; lead and copper rule</div></div>
+    <div class="appbar"><span class="brand">UNDERSIGNED</span><span>Rules / EPA-HQ-OW-2022-0801</span></div>
+    <div class="body">
+      <div>
+        <h2>Sections of the rule</h2>
+        <div class="sub">Sections from 88 FR 84878. Select one to see its details.</div>
+      </div>
+      <table>
+        <tr><th>Section</th><th>FR<br>page</th><th>Rule<br>passages</th><th>Citing<br>passages</th><th>Citing<br>letters</th></tr>
+        <tr class="part"><td>Part 141, National Primary Drinking Water Regulations</td><td>85053</td><td>268</td><td>156</td><td>5</td></tr>
+        <tr class="sec"><td>&sect; 141.2 Definitions</td><td>85053</td><td>7</td><td>13</td><td>4</td></tr>
+        <tr class="sec"><td>&sect; 141.80 General requirements and action level</td><td>85054</td><td>10</td><td>9</td><td>4</td></tr>
+        <tr class="sec"><td>&sect; 141.81 Applicability of corrosion control treatment</td><td>85056</td><td>25</td><td>19</td><td>4</td></tr>
+        <tr class="sec sel" id="row"><td>&sect; 141.84 Service line inventory and replacement</td><td>85062</td><td>45</td><td>40</td><td>5</td></tr>
+        <tr class="sec"><td>&sect; 141.85 Public education and supplemental monitoring</td><td>85068</td><td>41</td><td>30</td><td>5</td></tr>
+        <tr class="sec"><td>&sect; 141.86 Monitoring for lead and copper in tap water</td><td>85073</td><td>38</td><td>29</td><td>4</td></tr>
+        <tr class="sec"><td>&sect; 141.90 Reporting requirements</td><td>85079</td><td>31</td><td>20</td><td>3</td></tr>
+        <tr class="sec"><td>&sect; 141.92 Monitoring for lead in schools and child care facilities</td><td>85083</td><td>13</td><td>20</td><td>5</td></tr>
+      </table>
+      <div class="foot">The full list starts with the rule&rsquo;s preamble. Part 141 shown here.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. Section panel: the passages from comment letters that cite the selected section -->
+<section class="screen" style="flex:1">
+  <div class="step"><span class="n">2</span><span class="t">See who cites it</span></div>
+  <div class="win" id="panel">
+    <div class="chrome"><div class="dots"><i></i><i></i><i></i></div><div class="url">Undersigned &middot; lead and copper rule</div></div>
+    <div class="appbar"><span class="brand">UNDERSIGNED</span><span>Rules / EPA-HQ-OW-2022-0801</span></div>
+    <div class="body">
+      <ol class="path">
+        <li>PART 141--NATIONAL PRIMARY DRINKING WATER REGULATIONS</li>
+        <li class="here" id="ptitle">&sect; 141.84 Service line inventory and replacement requirements</li>
+      </ol>
+      <dl class="facts">
+        <dt>Rule</dt>
+        <dd><a>88 FR 84878</a>, page 85062</dd>
+        <dt>Rule passages</dt>
+        <dd>45</dd>
+        <dt>Citing passages</dt>
+        <dd>40</dd>
+        <dt>Citing letters</dt>
+        <dd>5</dd>
+      </dl>
+      <div class="kicker">Comment passages that cite this section</div>
+      <div class="cite sel" id="quote">
+        <div class="who"><a id="qlink">EPA-HQ-OW-2022-0801-1131</a> cites &sect;141.84(d)(4)</div>
+        <q>The 10-year replacement timeline for all LSLs and GRRs as per the proposed &sect;141.84(d)(4) is not feasible due to financial concerns&hellip;</q>
+      </div>
+      <div class="cite">
+        <div class="who"><a>EPA-HQ-OW-2022-0801-0849</a> cites &sect; 141.84(d)(3)(i)</div>
+        <q>EPA should broaden &sect; 141.84(d)(3)(i)-(ii) by revising references to &lsquo;property owner consent&rsquo; to &lsquo;property owner or tenant consent, as applicable.&rsquo;</q>
+      </div>
+      <div class="cite">
+        <div class="who"><a>EPA-HQ-OW-2022-0801-0972</a> cites &sect;141.84</div>
+        <q>The regulatory language refers to paragraphs (b)(2)(i) through (iii) of &sect;141.84 as not being applicable to the validation pool, but additional clarification is needed.</q>
+      </div>
+      <div class="foot">Showing 3 of 40. The app lists 20 at a time.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. The letter itself, on regulations.gov. We only open this URL; nothing is highlighted. -->
+<section class="screen" style="flex:.8">
+  <div class="step"><span class="n">3</span><span class="t">Read the letter</span><span class="ext">external link</span></div>
+  <div class="win" id="letterwin">
+    <div class="chrome"><div class="dots"><i></i><i></i><i></i></div><div class="url">regulations.gov/comment/…-0801-1131</div></div>
+    <div class="govbar"><span class="brand">REGULATIONS.GOV</span><span>Comment</span></div>
+    <div class="body">
+      <div>
+        <div class="kicker">Public comment &middot; opens in a new tab</div>
+        <h2>EPA-HQ-OW-2022-0801-1131</h2>
+        <div class="sub" style="margin-top:4px">Docket EPA-HQ-OW-2022-0801</div>
+      </div>
+      <div class="letter" id="govpage">
+        <div class="ghost" style="width:94%"></div>
+        <div class="ghost" style="width:86%"></div>
+        <div class="ghost" style="width:97%"></div>
+        <div class="ghost" style="width:62%"></div>
+        <div class="ghost" style="width:90%"></div>
+        <div class="ghost" style="width:82%"></div>
+        <div class="ghost" style="width:95%"></div>
+        <div class="ghost" style="width:71%"></div>
+        <div class="ghost" style="width:88%"></div>
+        <div class="ghost" style="width:54%"></div>
+        <div class="ghost" style="width:92%"></div>
+        <div class="ghost" style="width:85%"></div>
+        <div class="ghost" style="width:96%"></div>
+        <div class="ghost" style="width:78%"></div>
+        <div class="ghost" style="width:90%"></div>
+        <div class="ghost" style="width:66%"></div>
+        <div class="ghost" style="width:93%"></div>
+        <div class="ghost" style="width:81%"></div>
+        <div class="ghost" style="width:58%"></div>
+      </div>
+      <div class="foot">The app only opens this page. It does not highlight or copy the letter.</div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<div class="legend">
+  <div>
+    <span><span class="sw"></span>what the user clicked</span>
+    <span><b>&sect;</b> section</span>
+    <span><b>FR</b> Federal Register, where rules are printed</span>
+    <span><b>Rule passages</b> chunks of the rule</span>
+    <span><b>Citing passages</b> letter chunks that name the section</span>
+  </div>
+  <div>
+    <span class="since"><b>Since MS1:</b> the page starts from the rule&rsquo;s sections, not from form-letter campaigns, because one letter argues about many sections.</span>
+    <span class="end">EPA lead and copper rule. Numbers from the running app, 18 Oct 2026</span>
+  </div>
+</div>
+
+<svg class="links" id="links"><defs>
+  <marker id="head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+    <path d="M0,0 L10,5 L0,10 z" fill="#2e6a97"/></marker></defs></svg>
+
+<script>
+  // Arrows from what was clicked to what it opens.
+  const box = (id) => document.getElementById(id).getBoundingClientRect();
+  const svg = document.getElementById('links');
+  function path(d) {
+    const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    p.setAttribute('d', d); p.setAttribute('fill', 'none'); p.setAttribute('stroke', '#2e6a97');
+    p.setAttribute('stroke-width', '2.5'); p.setAttribute('stroke-linecap', 'round'); p.setAttribute('stroke-linejoin', 'round');
+    p.setAttribute('marker-end', 'url(#head)'); svg.appendChild(p);
+  }
+  // Right, up (or down) with rounded corners, then right again.
+  function elbow(x1, y1, x2, y2) {
+    const xm = (x1 + x2) / 2, rad = 8, dir = Math.sign(y2 - y1);
+    path(`M${x1},${y1} L${xm - rad},${y1} Q${xm},${y1} ${xm},${y1 + dir * rad} L${xm},${y2 - dir * rad} Q${xm},${y2} ${xm + rad},${y2} L${x2},${y2}`);
+  }
+  function arrow(x1, y1, x2, y2) {
+    const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    p.setAttribute('d', `M${x1},${y1} L${x2},${y2}`);
+    p.setAttribute('fill', 'none'); p.setAttribute('stroke', '#2e6a97'); p.setAttribute('stroke-width', '2.5'); p.setAttribute('stroke-linecap', 'round');
+    p.setAttribute('marker-end', 'url(#head)');
+    svg.appendChild(p);
+  }
+  function cursor(x, y) {
+    const c = document.createElement('div'); c.className = 'cursor';
+    c.style.left = x + 'px'; c.style.top = y + 'px';
+    c.innerHTML = '<svg viewBox="0 0 24 24" width="22" height="22"><path d="M5 2 L5 20 L9.5 15.5 L12.5 22 L15.5 20.6 L12.6 14.2 L19 14.2 Z" fill="#1c2b39" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>';
+    document.body.appendChild(c);
+  }
+  document.fonts.ready.then(() => {
+    const r = box('row'), pn = box('panel'), q = box('quote'), gov = box('letterwin');
+    const t = box('ptitle');
+    elbow(r.right + 6, r.top + r.height / 2, pn.left - 8, t.top + t.height / 2);
+    // The only click that leaves our app: the letter id, to the plain regulations.gov page.
+    const y = q.top + q.height / 2;
+    arrow(q.right + 6, y, gov.left - 8, y);
+    document.body.dataset.ready = '1';
+  });
+</script>
+</body>
+</html>

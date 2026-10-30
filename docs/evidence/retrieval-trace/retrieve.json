@@ -1,0 +1,140 @@
+{
+ "request": {
+  "text": "the Preamble which states that \u201cSystems with P90 lead level > 0.010 mg/L: No CCT: Must complete CCT installation regardless of their subsequent P90 levels if the system has started to install CCT. \" This is also an important clarification for when a small or medium system without corrosion control treatment that does not exceed the action levels for two consecutive six-month monitoring periods may stop completing the CCT steps, as it is determined by when the system \u201cstarts\u201d to install OCCT. [\u00a7 [citation removed]] \uf0b7 Clarify how CCT and optimal water quality parameter (OWQP) requirements apply to systems that have installed CCT but have not previously been \u201cdeemed optimized\u201d because they have not had an ALE. Are all systems with CCT that are not currently deemed optimized expected to be deemed optimized and ",
+  "k": 5
+ },
+ "response": {
+  "hits": [
+   {
+    "retriever": "bm25",
+    "rank": 1,
+    "score": 71.7214,
+    "id": "2023-26148:0347",
+    "docket_id": "EPA-HQ-OW-2022-0801",
+    "document_number": "2023-26148",
+    "citation": "88 FR 84878",
+    "page": 84937,
+    "section_ref": "V/E",
+    "heading": "V. Proposed Revisions to 40 CFR Subpart I Control of Lead and Copper > E. Corrosion Control Treatment",
+    "text": "Large systems without CCT that exceed the lead practical quantification level are required to complete steps to install CCT.\nUnder the LCRR, in the case of a trigger level exceedance for systems with or without CCT, small and medium systems must recommend CCT (except for small systems that select other compliance alternatives). However, if after two six-month monitoring periods, there is no subsequent action level exceedance, any small and medium water systems without CCT are not required to conduct a subsequent corrosion control study. In LCRR, EPA also clarified that the continued operation and maintenance of OCCT and re-optimized OCCT requirements apply to consecutive systems, including those distributing water that has been treated for corrosion control by another system. 1. LCRI Proposed CCT Changes"
+   },
+   {
+    "retriever": "bm25",
+    "rank": 2,
+    "score": 68.7849,
+    "id": "2023-26148:0853",
+    "docket_id": "EPA-HQ-OW-2022-0801",
+    "document_number": "2023-26148",
+    "citation": "88 FR 84878",
+    "page": 85056,
+    "section_ref": "PART 141/\u00a7 141.81",
+    "heading": "PART 141--NATIONAL PRIMARY DRINKING WATER REGULATIONS > Sec. 141.81 Applicability of corrosion control treatment steps to small, medium, and large water systems.",
+    "text": "Systems must submit documentation of meeting the applicable requirements in accordance with Sec. 141.90(c)(1) by the applicable deadline for submitting tap sample results under Sec. 141.90(a)(2).\n(1) A medium water system without corrosion control treatment or a small water system is deemed to have OCCT if the water system does not exceed the lead action level and copper action level during two consecutive six-month tap monitoring periods and then remains at or below the lead action level and copper action level in all tap sampling periods conducted in accordance with Sec. 141.86.\n(i) A small water system with corrosion control treatment is not eligible to be deemed to have OCCT pursuant to this paragraph (b)(1) where the State has set optimal water quality parameters (OWQPs) under paragraph (d) or (e) of this section.\n(ii) If a medium water system without corrosion control treatment or a small water system deemed to have OCCT under this paragraph (b)(1) exceeds the lead action level or copper action level, the system must follow the requirements in paragraph (a) of this section.\n(2) [Reserved]"
+   },
+   {
+    "retriever": "bm25",
+    "rank": 3,
+    "score": 68.0477,
+    "id": "2023-26148:0871",
+    "docket_id": "EPA-HQ-OW-2022-0801",
+    "document_number": "2023-26148",
+    "citation": "88 FR 84878",
+    "page": 85058,
+    "section_ref": "PART 141/\u00a7 141.81",
+    "heading": "PART 141--NATIONAL PRIMARY DRINKING WATER REGULATIONS > Sec. 141.81 Applicability of corrosion control treatment steps to small, medium, and large water systems.",
+    "text": "(g) Completing corrosion control steps for small and medium water systems without corrosion control treatment. (1) Any small or medium system without corrosion control treatment required to complete the steps in paragraph (e) of this section that does not exceed the lead and copper action levels during two consecutive six-month tap monitoring periods pursuant to Sec. 141.86 prior to the start of Step 3 in paragraph (e)(3) of this section or Step 5 in paragraph (e)(5) of this section may stop completing the steps and is not required to complete Step 3 or Step 5, respectively, except that medium systems with lead service lines must complete a corrosion control treatment study under paragraph (e)(3)(i) of this section. A calculated 90th percentile level at or below the lead or copper action level based on fewer than the minimum number of required samples under Sec. 141.86 cannot be used to meet the requirements of this provision.\n(2) Any system that starts Step 5 in accordance with paragraph (e)(5) of this section must complete all remaining steps (i.e., Steps 6 through 8) in paragraphs (e)(6) through (8) of this section and is not permitted to stop the steps."
+   },
+   {
+    "retriever": "bm25",
+    "rank": 4,
+    "score": 63.985,
+    "id": "2023-26148:0854",
+    "docket_id": "EPA-HQ-OW-2022-0801",
+    "document_number": "2023-26148",
+    "citation": "88 FR 84878",
+    "page": 85056,
+    "section_ref": "PART 141/\u00a7 141.81",
+    "heading": "PART 141--NATIONAL PRIMARY DRINKING WATER REGULATIONS > Sec. 141.81 Applicability of corrosion control treatment steps to small, medium, and large water systems.",
+    "text": "(2) [Reserved]\n(3) A water system is deemed to have optimized or re-optimized corrosion control treatment if it submits tap water sampling results in accordance with Sec. 141.86 demonstrating that the 90th percentile tap water lead level is less than or equal to the lead practical quantitation limit of 0.005 mg/L and does not exceed the copper action level for two consecutive six-month tap monitoring periods, and does not have OWQPs set by the State under paragraph (d) or (e) of this section.\n(i) A system with 90th percentile tap sampling results that later exceed the lead practical quantitation limit of 0.005 mg/L or copper action level during any tap sampling period is not eligible to be deemed to have optimized OCCT in accordance with this paragraph (b)(3) until the system has completed the treatment steps specified in paragraph (d) or (e) of this section.\n(ii) A system deemed to have OCCT in accordance with this paragraph (b)(3) must continue monitoring for lead and copper at the tap no less frequently than once every three calendar years using the reduced number of sites specified in Sec. 141.86(d) and collecting samples at times and locations specified in Sec. 141.86(d)(2)(iii)."
+   },
+   {
+    "retriever": "bm25",
+    "rank": 5,
+    "score": 62.9987,
+    "id": "2023-26148:0395",
+    "docket_id": "EPA-HQ-OW-2022-0801",
+    "document_number": "2023-26148",
+    "citation": "88 FR 84878",
+    "page": 84943,
+    "section_ref": "V/F/1",
+    "heading": "V. Proposed Revisions to 40 CFR Subpart I Control of Lead and Copper > F. Water Quality Parameter Monitoring > 1. Systems Required To Monitor for Water Quality Parameters",
+    "text": "Water quality parameters can include pH, alkalinity, orthophosphate, and silicate. Optimal water quality parameters refer to the values of the water quality parameters that are associated with optimized or re-optimized OCCT.\nThe LCRR requires all large systems to conduct water quality parameter monitoring and requires all small and medium water systems that exceed the lead or copper action level to monitor for water quality parameters until they no longer exceed the lead or copper action level. The LCRR also requires small and medium water systems with CCT that exceed the lead trigger level to monitor for water quality parameters. Under the LCRR, small and medium water systems can stop water quality parameter monitoring if they meet the action level for two consecutive six-month monitoring periods and the State has not required the system to meet optimal water quality parameters. The LCRR also eliminated the triennial reduced monitoring for water quality parameters because EPA determined that a three-year monitoring frequency is too infrequent to provide sufficient information to evaluate continued performance of OCCT (86 FR 4230, USEPA, 2021a)."
+   },
+   {
+    "retriever": "dense",
+    "rank": 1,
+    "score": 0.869,
+    "id": "2023-26148:0347",
+    "docket_id": "EPA-HQ-OW-2022-0801",
+    "document_number": "2023-26148",
+    "citation": "88 FR 84878",
+    "page": 84937,
+    "section_ref": "V/E",
+    "heading": "V. Proposed Revisions to 40 CFR Subpart I Control of Lead and Copper > E. Corrosion Control Treatment",
+    "text": "Large systems without CCT that exceed the lead practical quantification level are required to complete steps to install CCT.\nUnder the LCRR, in the case of a trigger level exceedance for systems with or without CCT, small and medium systems must recommend CCT (except for small systems that select other compliance alternatives). However, if after two six-month monitoring periods, there is no subsequent action level exceedance, any small and medium water systems without CCT are not required to conduct a subsequent corrosion control study. In LCRR, EPA also clarified that the continued operation and maintenance of OCCT and re-optimized OCCT requirements apply to consecutive systems, including those distributing water that has been treated for corrosion control by another system. 1. LCRI Proposed CCT Changes"
+   },
+   {
+    "retriever": "dense",
+    "rank": 2,
+    "score": 0.8392,
+    "id": "2023-26148:0360",
+    "docket_id": "EPA-HQ-OW-2022-0801",
+    "document_number": "2023-26148",
+    "citation": "88 FR 84878",
+    "page": 84938,
+    "section_ref": "V/E",
+    "heading": "V. Proposed Revisions to 40 CFR Subpart I Control of Lead and Copper > E. Corrosion Control Treatment",
+    "text": "In addition, EPA is proposing to require that States designate optimal water quality parameters for medium systems that must install or re-optimize OCCT after exceeding the lead action level. EPA is also proposing that States designate optimal water quality parameters for medium systems with CCT that have not exceeded the action level. While LCRR requires the continued operation and monitoring of OCCT and re- optimized OCCT that can include maintaining optimal water quality parameters, EPA is proposing that States must establish optimal water quality parameters for medium systems with CCT and that these systems must meet their optimal water quality parameters. This proposed requirement would allow States to better assess whether these types of medium systems are maintaining their OCCT or re-optimized OCCT, as well as provide better process control since source water quality can vary both daily and seasonally. EPA is also proposing additional changes to Sec. Sec. 141.81 and 141.82 to clarify requirements that EPA is not intending to change. EPA anticipates that these clarifications would help States and water systems more easily interpret and implement the corrosion control treatment requirements."
+   },
+   {
+    "retriever": "dense",
+    "rank": 3,
+    "score": 0.8378,
+    "id": "2023-26148:0355",
+    "docket_id": "EPA-HQ-OW-2022-0801",
+    "document_number": "2023-26148",
+    "citation": "88 FR 84878",
+    "page": 84938,
+    "section_ref": "V/E",
+    "heading": "V. Proposed Revisions to 40 CFR Subpart I Control of Lead and Copper > E. Corrosion Control Treatment",
+    "text": "The pipe loop requirements would apply to any small system required by the State to conduct a pipe rig/loop study.\nSmall systems unable to replace 20 percent of their LSL or GRR service lines annually and replace 100 percent within five years would be required recommend OCCT, re-optimized OCCT, or for all NTNCWSs and the subset of CWSs serving 3,300 or fewer people to recommend a small system compliance option and implement the State-approved approach. As proposed, water systems that replace 100 percent of their LSLs and GRR service lines in this five-year period but subsequently exceed the action level (or the practical quantification level for large systems without CCT) would be required to proceed with meeting the proposed CCT requirements for systems with only non-lead service lines.\nIn addition, EPA is proposing changes to expedite when States can approve CCT re-optimization treatment changes for systems. Under the LCRR, States can approve existing CCT re-optimization modifications without requiring a new CCT study for systems that have 90th percentile lead levels between the trigger level of 0.010 mg/L and the lead action level of 0.015 mg/L."
+   },
+   {
+    "retriever": "dense",
+    "rank": 4,
+    "score": 0.837,
+    "id": "2023-26148:0346",
+    "docket_id": "EPA-HQ-OW-2022-0801",
+    "document_number": "2023-26148",
+    "citation": "88 FR 84878",
+    "page": 84937,
+    "section_ref": "V/E",
+    "heading": "V. Proposed Revisions to 40 CFR Subpart I Control of Lead and Copper > E. Corrosion Control Treatment",
+    "text": "Nevertheless, in section IX. of this document, EPA is requesting comment on CCT, and is especially interested in any data, analyses, and comments on proposed changes to the CCT requirements in the LCRI. LCRR CCT Requirements\nUnder the LCRR, medium and large systems are required to install or re-optimize OCCT in response to a lead or copper action level exceedance. Medium and large system with LSLs that exceed the lead action level are required to harvest lead pipes from the distribution system and conduct flow-through pipe rigs to evaluate options for OCCT or re-optimized OCCT. Large systems with CCT that exceed the lead practical quantification level of 0.005 mg/L may be required to re- optimize their OCCT. Large systems without CCT that exceed the lead practical quantification level are required to complete steps to install CCT."
+   },
+   {
+    "retriever": "dense",
+    "rank": 5,
+    "score": 0.8356,
+    "id": "2023-26148:0859",
+    "docket_id": "EPA-HQ-OW-2022-0801",
+    "document_number": "2023-26148",
+    "citation": "88 FR 84878",
+    "page": 85057,
+    "section_ref": "PART 141/\u00a7 141.81",
+    "heading": "PART 141--NATIONAL PRIMARY DRINKING WATER REGULATIONS > Sec. 141.81 Applicability of corrosion control treatment steps to small, medium, and large water systems.",
+    "text": "The system must complete modifications to corrosion control treatment to have re-optimized OCCT installed within six months of the State specifying re-optimized OCCT. These systems must proceed to Step 6 in paragraph (d)(6) and conduct follow-up monitoring.\n(2) Step 2. State requires CCT study or State designates re- optimized OCCT. Within one year after the end of the tap sampling period during which a medium water system without lead service lines or a small system exceeds the lead action level or copper action level, the State may require the water system to perform corrosion control studies for re-optimization (Sec. 141.82(c)(2)). If the State does not require the system to perform such studies, the State must specify re- optimized corrosion control treatment (Sec. 141.82(d)) within the timeframes specified in paragraphs (d)(2)(i) and (ii) of this section. The State must provide its determination to the system in writing:\n(i) For medium water systems, within one year after the end of the tap sampling period during which such water system exceeds the lead action level or copper action level."
+   }
+  ]
+ }
+}

@@ -1,0 +1,9 @@
+# Cloud Build for the Cloud Run image: the model and the index come straight from the bucket inside
+# the build, so only the source leaves the machine that deploys.
+steps:
+  - name: gcr.io/cloud-builders/gsutil
+    args: ["-m", "cp", "-r", "gs://${_BUCKET}/serving/linker", "gs://${_BUCKET}/serving/index", "."]
+  - name: gcr.io/cloud-builders/docker
+    args: ["build", "-t", "${_IMAGE}", "."]
+images: ["${_IMAGE}"]
+timeout: 1800s

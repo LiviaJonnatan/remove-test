@@ -1,0 +1,6 @@
+outs:
+- md5: af6838f284f5a72ce99a31628ba80339.dir
+  size: 2691845
+  nfiles: 9
+  hash: md5
+  path: linking-extra

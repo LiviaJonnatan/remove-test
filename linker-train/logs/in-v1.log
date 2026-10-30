@@ -1,0 +1,51 @@
+wandb: [wandb.login()] Loaded credentials for https://api.forge.coreweave.com from WANDB_API_KEY.
+wandb: Currently logged in as: aidaneichman (aidaneichman-harvard-university) to https://api.forge.coreweave.com. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.31.0
+wandb: Run data is saved locally in /Users/aidane/Downloads/ac215_Undersigned/linker-train/wandb/run-20261028_211324-9a8grqf4
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run in-bge-small
+wandb: ⭐️ View project at https://forge.coreweave.com/wandb/aidaneichman-harvard-university/undersigned-linker
+wandb: 🚀 View run at https://forge.coreweave.com/wandb/aidaneichman-harvard-university/undersigned-linker/runs/9a8grqf4
+W1028 21:13:28.216000 51129 torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 7850.96it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+epoch 0  val acc@1 0.488  acc@5 0.846
+The `tokenize` method is deprecated, please use `preprocess` instead.
+epoch 1  loss 1.1116  val acc@1 0.512  acc@5 0.833  593.8s
+epoch 2  loss 0.9462  val acc@1 0.739  acc@5 0.930  561.9s
+epoch 3  loss 0.8264  val acc@1 0.739  acc@5 0.930  569.5s
+epoch 4  loss 0.8543  val acc@1 0.739  acc@5 0.930  561.7s
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  5.03it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  4.99it/s]
+{"n": 490, "comments": 145, "acc@1": [0.6429, 0.5951, 0.6928], "acc@3": [0.8082, 0.7683, 0.846], "acc@5": [0.8735, 0.8362, 0.9068], "acc@10": [0.9347, 0.9111, 0.9577], "mrr": 0.7434}
+wandb: updating run metadata; uploading artifact run-9a8grqf4-testpredictions-Cs-Xmw
+wandb: uploading artifact run-9a8grqf4-testpredictions-Cs-Xmw
+wandb: uploading history steps 159-159, summary, console lines 9-10
+wandb: 
+wandb: Run history:
+wandb:            epoch ▁▃▅▆█
+wandb:             step ▁▁▁▂▂▂▃▃▃▃▃▃▃▃▄▄▄▄▅▅▅▅▅▅▅▆▆▆▆▇▇▇▇▇▇▇▇███
+wandb: train/epoch_loss █▄▁▂
+wandb:       train/loss █▇▆▄▃▃▃▃▁▄▂▁▅▄▄▃▂▃▂▃▁▄▄▃▃▃▂▂▁▄▄▄▄▃▃▂▃▁▂▂
+wandb:         train/lr ▄█▇▇▆▅▅▅▄▄▃▃▂▂▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:        val/acc@1 ▁▂███
+wandb:        val/acc@5 ▂▁███
+wandb:          val/mrr ▁▂███
+wandb: 
+wandb: Run summary:
+wandb:                                     epoch 4
+wandb:                                      step 1548
+wandb:                                test/acc@1 0.6429
+wandb:                             test/acc@1_hi 0.6928
+wandb:                             test/acc@1_lo 0.5951
+wandb:                                test/acc@5 0.8735
+wandb:                                  test/mrr 0.7434
+wandb:                                    test/n 490
+wandb:     test_by_docket/ED-2021-OCR-0166/acc@1 0.76
+wandb: test_by_docket/EPA-HQ-OAR-2017-0355/acc@1 0.4
+wandb:                                       +11 ...
+wandb: 
+wandb: 🚀 View run in-bge-small at: https://forge.coreweave.com/wandb/aidaneichman-harvard-university/undersigned-linker/runs/9a8grqf4
+wandb: ⭐️ View project at: https://forge.coreweave.com/wandb/aidaneichman-harvard-university/undersigned-linker
+wandb: Synced 5 W&B file(s), 1 media file(s), 2 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20261028_211324-9a8grqf4/logs
+in exit 0

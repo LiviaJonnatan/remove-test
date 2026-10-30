@@ -1,0 +1,60 @@
+2019-00791:SUMMARY                  p.4154    1 chunks  procedural Summary
+2019-00791:DATES                    p.4154    1 chunks  procedural Dates
+2019-00791:ADDRESSES                p.4154    1 chunks  procedural Addresses
+2019-00791:FOR FURTHER INFORMATION CONTACT p.4154    1 chunks  procedural For Further Information Contact
+2019-00791:I/A                      p.4154    2 chunks  procedural A. How can I get copies of this document and related information?
+2019-00791:I/B                      p.4155    1 chunks  procedural B. Under what legal authority is this proposed rule issued?
+2019-00791:I/C                      p.4155    2 chunks  procedural C. How should I submit comments?
+2019-00791:II/A                     p.4155    6 chunks             A. Executive Summary
+2019-00791:II/B/1                   p.4156   14 chunks             B. The Clean Water Act and Regulatory Definition of “Waters of the United States
+2019-00791:II/B/2                   p.4157   37 chunks             B. The Clean Water Act and Regulatory Definition of “Waters of the United States
+2019-00791:II/C                     p.4162    5 chunks             C. Executive Order 13778, the “Step One” Notice of Proposed Rulemaking, and the 
+2019-00791:II/D                     p.4162    5 chunks             D. Summary of Stakeholder Outreach
+2019-00791:II/E                     p.4163   53 chunks             E. Overview of Legal Construct for the Proposed Rule
+2019-00791:III                      p.4169    4 chunks             III. Proposed Definition of “Waters of the United States”
+2019-00791:III/A                    p.4170    5 chunks             A. Traditional Navigable Waters and Territorial Seas
+2019-00791:III/B/1                  p.4171   14 chunks             B. Interstate Waters > 1. What are the agencies proposing?
+2019-00791:III/C                    p.4172    3 chunks             C. Impoundments
+2019-00791:III/D/1                  p.4173   46 chunks             D. Tributaries > 1. What are the agencies proposing?
+2019-00791:III/E/1                  p.4179   26 chunks             E. Ditches > 1. What are the agencies proposing?
+2019-00791:III/F/1                  p.4182   21 chunks             F. Lakes and Ponds > 1. What are the agencies proposing?
+2019-00791:III/G/1                  p.4184   41 chunks             G. Wetlands > 1. What are the agencies proposing?
+2019-00791:III/H/1                  p.4190   46 chunks             H. Waters and Features That Are Not Waters of the United States > 1. What are th
+2019-00791:III/I                    p.4195   18 chunks             I. Summary of Proposed Rule as Compared to the 1986 and 2015 Regulations
+2019-00791:III/J                    p.4198    1 chunks             J. Placement of the Definition of Waters of the United States in the Code of Fed
+2019-00791:IV                       p.4198   13 chunks             IV. State, Tribal and Federal Agency Datasets of “Waters of the United States”
+2019-00791:V                        p.4200   11 chunks             V. Overview of Supporting Analyses
+2019-00791:VI                       p.4201    1 chunks             VI. Statutory and Executive Order Reviews
+2019-00791:VI/A                     p.4201    1 chunks             A. Executive Order 13771: Reducing Regulation and Controlling Regulatory Costs
+2019-00791:VI/B                     p.4201    1 chunks             B. Executive Order 12866: Regulatory Planning and Review; Executive Order 13563:
+2019-00791:VI/C                     p.4201    1 chunks             C. Paperwork Reduction Act
+2019-00791:VI/D                     p.4201    5 chunks             D. Regulatory Flexibility Act
+2019-00791:VI/E                     p.4202    1 chunks             E. Unfunded Mandates Reform Act
+2019-00791:VI/F                     p.4202    4 chunks             F. Executive Order 13132: Federalism
+2019-00791:VI/G                     p.4202    2 chunks             G. Executive Order 13175: Consultation and Coordination With Indian Tribal Gover
+2019-00791:VI/H                     p.4203    1 chunks             H. Executive Order 13045: Protection of Children From Environmental Health and S
+2019-00791:VI/I                     p.4203    1 chunks             I. Executive Order 13211: Actions Concerning Regulations That Significantly Affe
+2019-00791:VI/J                     p.4203    1 chunks             J. National Technology Transfer and Advancement Act
+2019-00791:VI/K                     p.4203    2 chunks             K. Executive Order 12898: Federal Actions To Address Environmental Justice in Mi
+2019-00791:PART 328                 p.4203    1 chunks             PART 328--DEFINITION OF WATERS OF THE UNITED STATES
+2019-00791:PART 328/§ 328.3         p.4203   10 chunks             Sec. 328.3 Definitions.
+2019-00791:PART 110                 p.4205    1 chunks             PART 110--DISCHARGE OF OIL
+2019-00791:PART 110/§ 110.1         p.4205   11 chunks             Sec. 110.1 Definitions.
+2019-00791:PART 112                 p.4206    1 chunks             PART 112--OIL POLLUTION PREVENTION
+2019-00791:PART 112/§ 112.2         p.4206   11 chunks             Sec. 112.2 Definitions.
+2019-00791:PART 116                 p.4207    1 chunks             PART 116--DESIGNATION OF HAZARDOUS SUBSTANCES
+2019-00791:PART 116/§ 116.3         p.4207   11 chunks             Sec. 116.3 Definitions.
+2019-00791:PART 117                 p.4209    1 chunks             PART 117--DETERMINATION OF REPORTABLE QUANTITIES FOR HAZARDOUS SUBSTANCES
+2019-00791:PART 117/§ 117.1         p.4209   11 chunks             Sec. 117.1 Definitions.
+2019-00791:PART 122                 p.4210    1 chunks             PART 122--EPA ADMINISTERED PERMIT PROGRAMS: THE NATIONAL POLLUTANT DISCHARGE ELI
+2019-00791:PART 122/§ 122.2         p.4210   11 chunks             Sec. 122.2 Definitions.
+2019-00791:PART 230                 p.4212    1 chunks             PART 230--SECTION 404(b)(1) GUIDELINES FOR SPECIFICATION OF DISPOSAL SITES FOR D
+2019-00791:PART 230/§ 230.3         p.4212   10 chunks             Sec. 230.3 Definitions.
+2019-00791:PART 232                 p.4213    1 chunks             PART 232--404 PROGRAMS DEFINITIONS; EXEMPT ACTIVITIES NOT REQUIRING 404 PERMITS
+2019-00791:PART 232/§ 232.2         p.4213   10 chunks             Sec. 232.2 Definitions.
+2019-00791:PART 300                 p.4214    1 chunks             PART 300--NATIONAL OIL AND HAZARDOUS SUBSTANCES POLLUTION CONTINGENCY PLAN
+2019-00791:PART 300/§ 300.5         p.4214   21 chunks             Sec. 300.5 Definitions.
+2019-00791:PART 302                 p.4217    1 chunks             PART 302--DESIGNATION, REPORTABLE QUANTITIES, AND NOTIFICATION
+2019-00791:PART 302/§ 302.3         p.4217   11 chunks             Sec. 302.3 Definitions.
+2019-00791:PART 401                 p.4218    1 chunks             PART 401--GENERAL PROVISIONS
+2019-00791:PART 401/§ 401.11        p.4218   11 chunks             Sec. 401.11 General definitions.

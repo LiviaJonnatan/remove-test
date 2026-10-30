@@ -1,0 +1,29 @@
+$ curl -s localhost:8000/health
+{"status":"ok","passages":538,"dockets":["EPA-HQ-OW-2018-0149"]}
+
+$ curl -s localhost:8000/rules/EPA-HQ-OW-2018-0149/sections \
+    | python3 -c "import json,sys; s=json.load(sys.stdin)['sections']; print(len(s), 'sections'); [print('  '*(x['depth']-1) + x['section_ref'], '| parent', x['parent_ref'], '| p.', x['page'], '|', x['rule_passages'], 'rule passages | citing', x['citing_passages'], x['citing_letters'], '|', x['title'][:50]) for x in s if x['section_ref'].split('/')[0] in ('III', 'PART 328')]"
+61 sections
+III | parent None | p. 4169 | 225 rule passages | citing None None | III. Proposed Definition of “Waters of the United 
+  III/A | parent III | p. 4170 | 5 rule passages | citing None None | A. Traditional Navigable Waters and Territorial Se
+  III/B | parent III | p. 4171 | 14 rule passages | citing None None | B. Interstate Waters
+    III/B/1 | parent III/B | p. 4171 | 14 rule passages | citing None None | 1. What are the agencies proposing?
+  III/C | parent III | p. 4172 | 3 rule passages | citing None None | C. Impoundments
+  III/D | parent III | p. 4173 | 46 rule passages | citing None None | D. Tributaries
+    III/D/1 | parent III/D | p. 4173 | 46 rule passages | citing None None | 1. What are the agencies proposing?
+  III/E | parent III | p. 4179 | 26 rule passages | citing None None | E. Ditches
+    III/E/1 | parent III/E | p. 4179 | 26 rule passages | citing None None | 1. What are the agencies proposing?
+  III/F | parent III | p. 4182 | 21 rule passages | citing None None | F. Lakes and Ponds
+    III/F/1 | parent III/F | p. 4182 | 21 rule passages | citing None None | 1. What are the agencies proposing?
+  III/G | parent III | p. 4184 | 41 rule passages | citing None None | G. Wetlands
+    III/G/1 | parent III/G | p. 4184 | 41 rule passages | citing None None | 1. What are the agencies proposing?
+  III/H | parent III | p. 4190 | 46 rule passages | citing None None | H. Waters and Features That Are Not Waters of the 
+    III/H/1 | parent III/H | p. 4190 | 46 rule passages | citing None None | 1. What are the agencies proposing?
+  III/I | parent III | p. 4195 | 18 rule passages | citing None None | I. Summary of Proposed Rule as Compared to the 198
+  III/J | parent III | p. 4198 | 1 rule passages | citing None None | J. Placement of the Definition of Waters of the Un
+PART 328 | parent None | p. 4203 | 11 rule passages | citing None None | PART 328--DEFINITION OF WATERS OF THE UNITED STATE
+  PART 328/§ 328.3 | parent PART 328 | p. 4203 | 10 rule passages | citing None None | Sec. 328.3 Definitions.
+
+$ curl -s -w '\nHTTP %{http_code}\n' localhost:8000/rules/NO-SUCH-DOCKET/sections
+{"detail":"No rule text indexed for docket 'NO-SUCH-DOCKET'. Indexed: EPA-HQ-OW-2018-0149."}
+HTTP 404

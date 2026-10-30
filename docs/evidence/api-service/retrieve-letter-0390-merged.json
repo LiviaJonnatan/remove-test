@@ -1,0 +1,43 @@
+{
+    "hits": [
+        {
+            "retriever": "merged",
+            "rank": 1,
+            "score": 0.0268,
+            "id": "2019-00791:0160",
+            "docket_id": "EPA-HQ-OW-2018-0149",
+            "document_number": "2019-00791",
+            "citation": "84 FR 4154",
+            "page": 4173,
+            "section_ref": "III/D/1",
+            "heading": "III. Proposed Definition of \u201cWaters of the United States\u201d > D. Tributaries > 1. What are the agencies proposing?",
+            "text": "The agencies intend to distinguish flow resulting from snow fall from sustained flow resulting from melting snowpack in these definitions.\nUnder the proposed rule a tributary must contribute perennial or intermittent flow to a traditional navigable water or territorial sea in typical year. Perennial or intermittent flow would require some form of discrete and confined flow (as opposed to diffuse overland flow) forming geographic features such as rivers, streams, or similar naturally occurring surface water channels. A tributary may contribute perennial or intermittent flow to downstream traditional navigable waters through, for example, lakes, impoundments, adjacent wetlands, or other tributaries. Under the proposed rule, when a tributary flows through a wetland and into another tributary (sometimes called a \u201crun- of-stream\u201d wetland), the tributary would remain jurisdictional even though it may be difficult to identify channelized flow through the wetland. Similarly, such a wetland would be considered \u201cadjacent\u201d and thus jurisdictional under this proposal given the wetland abuts (i.e., touches at a point in this case) the tributary."
+        },
+        {
+            "retriever": "merged",
+            "rank": 2,
+            "score": 0.0266,
+            "id": "2019-00791:0010",
+            "docket_id": "EPA-HQ-OW-2018-0149",
+            "document_number": "2019-00791",
+            "citation": "84 FR 4154",
+            "page": 4155,
+            "section_ref": "II/A",
+            "heading": "II. Background > A. Executive Summary",
+            "text": "Under this proposed rule, a tributary is defined as a river, stream, or similar naturally occurring surface water channel that contributes perennial or intermittent flow to a traditional navigable water or territorial sea in a typical year either directly or indirectly through other tributaries, jurisdictional ditches, jurisdictional lakes and ponds, jurisdictional impoundments, and adjacent wetlands or through water features identified in paragraph (b) of this proposal so long as those water features convey perennial or intermittent flow downstream. A tributary does not lose its status if it flows through a culvert, dam, or other similar artificial break or through a debris pile, boulder field, or similar natural break so long as the artificial or natural break conveys perennial or intermittent flow to a tributary or other jurisdictional water at the downstream end of the break. Ditches are generally proposed not to be \u201cwaters of the United States\u201d unless they meet certain criteria, such as functioning as traditional navigable waters, if they are constructed in a tributary and also satisfy the conditions of the proposed \u201ctributary\u201d definition, or if they are constructed in an adjacent wetland and also satisfy the conditions of the proposed \u201ctributary\u201d definition."
+        },
+        {
+            "retriever": "merged",
+            "rank": 3,
+            "score": 0.0261,
+            "id": "2019-00791:0157",
+            "docket_id": "EPA-HQ-OW-2018-0149",
+            "document_number": "2019-00791",
+            "citation": "84 FR 4154",
+            "page": 4173,
+            "section_ref": "III/D/1",
+            "heading": "III. Proposed Definition of \u201cWaters of the United States\u201d > D. Tributaries > 1. What are the agencies proposing?",
+            "text": "The alteration or relocation of a tributary would not modify its status as a jurisdictional tributary as long as it continues to satisfy the elements of the tributary definition.\nRegardless of the name they are given locally (e.g., creek, bayou, branch, brook, run, etc.), or their size (e.g., discharge volume, width, depth, stream order, etc.), waters that meet the definition of \u201ctributary\u201d would be jurisdictional under this proposed rule. However, tributaries as defined in this proposal do not include surface features that flow only in direct response to precipitation, such as ephemeral flows, dry washes, arroyos, and similar features. These features lack the required perennial or intermittent flow regimes to satisfy the tributary definition under this proposal and therefore would not be jurisdictional.\nThough \u201cperennial,\u201d \u201cintermittent,\u201d and \u201cephemeral\u201d are commonly used scientific terms, the agencies are proposing to provide definitions of these terms for purposes of CWA jurisdiction to ensure that the regulation is clear. The agencies propose to define the term \u201cperennial\u201d to mean surface water flowing continuously year-round during a typical year."
+        }
+    ]
+}

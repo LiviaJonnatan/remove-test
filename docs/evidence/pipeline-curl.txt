@@ -1,0 +1,20 @@
+$ curl -s localhost:8000/health
+{"status":"ok","passages":879,"dockets":["EPA-HQ-OW-2022-0801"]}
+
+$ curl -sI localhost:3000 | head -3
+HTTP/1.1 200 OK
+Server: nginx/1.27.5
+Date: Tue, 13 Oct 2026 14:39:54 GMT
+
+$ curl -s localhost:9000/api/v2/heartbeat
+{"nanosecond heartbeat":1791902395017343628}
+
+$ ls data/derived/letters/EPA-HQ-OW-2022-0801 data/derived/campaigns/EPA-HQ-OW-2022-0801
+data/derived/campaigns/EPA-HQ-OW-2022-0801:
+assignments.parquet
+
+data/derived/letters/EPA-HQ-OW-2022-0801:
+letters.parquet
+processing_report.json
+records.parquet
+signers.parquet

@@ -1,0 +1,31 @@
+passage_id,docket,scope,targets,source,confidence_if_settled
+P002,HHS-OS-2022-0012,CROSS_CUTTING,,both readers,
+P004,HHS-OS-2022-0012,CROSS_CUTTING,,both readers,
+P007,HHS-OS-2022-0012,PROVISION_SPECIFIC,92.206,both readers,
+P011,HHS-OS-2022-0012,PREAMBLE_ONLY,,both readers,
+P019,HHS-OS-2022-0012,OTHER_LAW_ONLY,,"settled by Claude, confirmed by both readers",low
+P029,HHS-OS-2022-0012,PROVISION_SPECIFIC,92.101;92.206,both readers,
+P031,HHS-OS-2022-0012,PROVISION_SPECIFIC,92.301,"settled by Claude, confirmed by both readers",medium
+P045,HHS-OS-2022-0012,PROVISION_SPECIFIC,92.101,both readers,
+P053,HHS-OS-2022-0012,PROVISION_SPECIFIC,92.101,both readers,
+P055,HHS-OS-2022-0012,NOT_SUBSTANTIVE,,both readers,
+P072,ED-2021-OCR-0166,CROSS_CUTTING,,both readers,
+P077,ED-2021-OCR-0166,CROSS_CUTTING,,both readers,
+P078,ED-2021-OCR-0166,PROVISION_SPECIFIC,106.45,both readers,
+P096,ED-2021-OCR-0166,PROVISION_SPECIFIC,106.2;106.45,"settled by Claude, confirmed by both readers",medium
+P097,ED-2021-OCR-0166,PROVISION_SPECIFIC,106.45,both readers,
+P102,ED-2021-OCR-0166,PROVISION_SPECIFIC,106.10;106.31,"settled by Claude, confirmed by both readers",high
+P103,ED-2021-OCR-0166,PROVISION_SPECIFIC,106.44,both readers,
+P111,ED-2021-OCR-0166,CROSS_CUTTING,,both readers,
+P113,ED-2021-OCR-0166,PROVISION_SPECIFIC,106.10,"settled by Claude, confirmed by both readers",low
+P118,ED-2021-OCR-0166,PROVISION_SPECIFIC,106.44,both readers,
+P132,EPA-HQ-OW-2022-0801,CROSS_CUTTING,,readers rejected the settled label,low
+P135,EPA-HQ-OW-2022-0801,PROVISION_SPECIFIC,141.85;141.202,"settled by Claude, confirmed by both readers",medium
+P141,EPA-HQ-OW-2022-0801,PROVISION_SPECIFIC,141.85,both readers,
+P156,EPA-HQ-OW-2022-0801,CROSS_CUTTING,,both readers,
+P160,EPA-HQ-OW-2022-0801,PROVISION_SPECIFIC,141.81,both readers,
+P163,EPA-HQ-OW-2022-0801,PROVISION_SPECIFIC,141.2,both readers,
+P164,EPA-HQ-OW-2022-0801,PROVISION_SPECIFIC,141.84;141.85,"settled by Claude, confirmed by both readers",low
+P168,EPA-HQ-OW-2022-0801,PROVISION_SPECIFIC,141.84,both readers,
+P177,EPA-HQ-OW-2022-0801,OTHER_LAW_ONLY,,"settled by Claude, confirmed by both readers",medium
+P180,EPA-HQ-OW-2022-0801,PROVISION_SPECIFIC,141.92,both readers,

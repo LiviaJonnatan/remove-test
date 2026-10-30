@@ -1,0 +1,15 @@
+ Container undersigned-chromadb Running 
+ Container ac215_undersigned-rule-passages-run-d9b578088aa2 Creating 
+ Container ac215_undersigned-rule-passages-run-d9b578088aa2 Created 
+2026-10-09 13:44:44,751 INFO [EPA-HQ-OW-2018-0149] downloaded 2018-28296 (Revised Definition of “Waters of the United States”)
+2026-10-09 13:44:44,794 INFO [EPA-HQ-OW-2018-0149] downloaded 2019-01483 (Revised Definition of “Waters of the United States”)
+2026-10-09 13:44:45,032 INFO [EPA-HQ-OW-2018-0149] downloaded 2019-00791 (Revised Definition of “Waters of the United States”)
+2026-10-09 13:44:45,282 INFO [EPA-HQ-OW-2018-0149] downloaded 2020-02500 (The Navigable Waters Protection Rule: Definition of “Waters )
+2026-10-09 13:44:45,283 INFO [EPA-HQ-OW-2018-0149] 4 documents on disk
+2026-10-09 13:44:45,682 INFO [EPA-HQ-OW-2018-0149] 2019-00791: 538 chunks
+2026-10-09 13:44:51,223 INFO [rule_passages] embedded 128/538
+2026-10-09 13:44:56,347 INFO [rule_passages] embedded 256/538
+2026-10-09 13:45:01,686 INFO [rule_passages] embedded 384/538
+2026-10-09 13:45:06,706 INFO [rule_passages] embedded 512/538
+2026-10-09 13:45:07,886 INFO [rule_passages] embedded 538/538
+2026-10-09 13:45:07,923 INFO [rule_passages] 538 chunks, 538 embedded this run, 0 pruned, 538 in the collection

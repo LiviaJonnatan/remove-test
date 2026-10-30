@@ -1,0 +1,33 @@
+{
+ "base_model": "BAAI/bge-small-en-v1.5",
+ "epochs": 4,
+ "batch_size": 32,
+ "hard_negatives": 3,
+ "lr": 3e-05,
+ "warmup": 0.1,
+ "weight_decay": 0.01,
+ "scale": 20.0,
+ "max_seq_length": 384,
+ "remine_each_epoch": true,
+ "grad_chunk": 16,
+ "val_share": 0.1,
+ "limit_train": 0,
+ "preamble_queries": true,
+ "seed": 13,
+ "commit": "ec9e6dc",
+ "data_root": "gs://ac215-undersigned-data/linking",
+ "device": "cpu",
+ "mode": "in",
+ "n_train_pool": 4490,
+ "vertex_job": "6979369066280517632",
+ "n_train": 6066,
+ "n_val": 299,
+ "combined_from": "in-pre-us-east1-1029-1444",
+ "w_pre": 0.1,
+ "w_cite": 0.0,
+ "chosen_on": "val, n=299",
+ "uncited": [
+  0.35,
+  0.01
+ ]
+}

@@ -1,0 +1,68 @@
+[
+  {
+    "retriever": "bm25",
+    "rank": 1,
+    "score": 63.7066,
+    "id": "2019-00791:0188",
+    "citation": "84 FR 4154",
+    "page": 4177,
+    "section_ref": "III/D/1",
+    "heading": "III. Proposed Definition of \u201cWaters of the United States\u201d > D. Tributaries > 1. What are the agencies proposing?",
+    "text": "The geographic area proposed to be used by the agencies would be on a watershed-scale basis to ensure specific climatic data are representative of the landscape in relation to the feature under consideration for meeting the tributary definition.\nOther potential data sources for obtaining relevant information to determine typical year could include one or several of the following: the Web-based Water-Budget Interactive Modeling Program (WebWIMP) for approximate dates of wet and dry seasons for any terrestrial location based on average monthly precipitation and estimated evapotranspiration (http://climate.geog.udel.edu/~wimp/); WETS tables (or similar tools) which are provided by the NRCS National Water and Climate Center (http://www.wcc.nrcs.usda.gov/climate/wetlands.html) and are calculated from long-term (30-year) weather records gathered at National Weather Service; meteorological stations; or by examining trends in drought indices, such as the Palmer Drought Severity Index (PDSI) (Sprecher and Warne 2000), where time-series plots of PDSI values by month or year are available from the National Climatic Data Center (http://www.ncdc.noaa.gov/oa/climate/onlineprod/drought/xmgr.html#ds). The agencies are not proposing to codify specific tools or resources in the regulation to determine a \u201ctypical year.\u201d"
+  },
+  {
+    "retriever": "bm25",
+    "rank": 2,
+    "score": 53.0384,
+    "id": "2019-00791:0389",
+    "citation": "84 FR 4154",
+    "page": 4202,
+    "section_ref": "VI/F",
+    "heading": "VI. Statutory and Executive Order Reviews > F. Executive Order 13132: Federalism",
+    "text": "All letters received by the agencies during Federalism consultation may be found on EPA's website at https://www.epa.gov/wotus-rule/federalism-consultation.\nState and local governments were consulted at the outset of rule development starting on April 19, 2017. The agencies held nineteen Federalism meetings between April 19 and June 16, 2017. Seventeen intergovernmental associations, including nine of the ten organizations identified in EPA's 2008 E.O. 13132 Guidance, attended the initial Federalism consultation meeting, as well as several associations representing State and local governments. Organizations in attendance included: The National Governors Association, the National League of Cities, the National Association of Counties, the U.S. Conference of Mayors, the Council of State Governments, the National Conference of State Legislatures, the County Executives of America, the National Association of Towns and Townships, the Environmental Council of the States, the Western Governors Association, the National Association of Clean Water Agencies, the Association of Clean Water Administrators, the National Association of State Departments of Agriculture, the Association of State Wetlands Managers, the Association of State Floodplain Managers, the National Water Resources Association, the State/Local Legal Center, and several members of EPA's Local Government Advisory Committee (LGAC)."
+  },
+  {
+    "retriever": "bm25",
+    "rank": 3,
+    "score": 51.5373,
+    "id": "2019-00791:0397",
+    "citation": "84 FR 4154",
+    "page": 4203,
+    "section_ref": "VI/K",
+    "heading": "VI. Statutory and Executive Order Reviews > K. Executive Order 12898: Federal Actions To Address Environmental Justice in Minority Populations and Low-Income Populations",
+    "text": "This action is not subject to Executive Order 12898 (59 FR 7629, February 11, 1994) because there is no significant evidence of disproportionately high and adverse human health or environmental effects on minority populations, low-income populations, and/or indigenous peoples, as specified in Executive Order 12898.\nList of Subjects\n33 CFR Part 328\nEnvironmental protection, Administrative practice and procedure, Navigation (water), Water pollution control, Waterways.\n40 CFR Part 110\nEnvironmental protection, Oil pollution, Reporting and recordkeeping requirements.\n40 CFR Part 112\nEnvironmental protection, Oil pollution, Penalties, Reporting and recordkeeping requirements.\n40 CFR Part 116\nEnvironmental protection, Hazardous substances, Reporting and recordkeeping requirements, Water pollution control.\n40 CFR Part 117\nEnvironmental protection, Hazardous substances, Penalties, Reporting and recordkeeping requirements, Water pollution control.\n40 CFR Part 122\nEnvironmental protection, Administrative practice and procedure, Confidential business information, Hazardous substances, Reporting and recordkeeping requirements, Water pollution control.\n40 CFR Part 230\nEnvironmental protection, Water pollution control.\n40 CFR Part 232\nEnvironmental protection, Intergovernmental relations, Water pollution control.\n40 CFR Part 300\nEnvironmental protection, Air pollution control, Chemicals, Hazardous substances, Hazardous waste, Intergovernmental relations, Natural resources, Occupational safety and health, Oil pollution, Penalties, Reporting and recordkeeping requirements, Superfund, Water pollution control, Water supply."
+  },
+  {
+    "retriever": "dense",
+    "rank": 1,
+    "score": 0.8021,
+    "id": "2019-00791:0291",
+    "citation": "84 FR 4154",
+    "page": 4190,
+    "section_ref": "III/H/1",
+    "heading": "III. Proposed Definition of \u201cWaters of the United States\u201d > H. Waters and Features That Are Not Waters of the United States > 1. What are the agencies proposing?",
+    "text": "The proposed rule would also exclude water-filled depressions created in upland incidental to mining or construction activity, and pits excavated in upland for the purpose of obtaining fill, sand, or gravel. The agencies also propose to exclude stormwater control features excavated or constructed in upland to convey, treat, infiltrate, or store stormwater run-off. Also proposed to be excluded are wastewater recycling structures constructed in upland, such as detention, retention and infiltration basins and ponds, and groundwater recharge basins. Waste treatment systems have been excluded from this definition since 1979, and they would continue to be excluded under this proposal; however, waste treatment systems are being defined for the first time in this proposed rule under paragraph (c). A waste treatment system would include all components, including lagoons and treatment ponds (such as settling or cooling ponds), designed to convey or retain, concentrate, settle, reduce, or remove pollutants, either actively or passively, from wastewater prior to discharge (or eliminating any such discharge). A waste treatment system requires a section 402 permit if it discharges into a water of the United States. 2. Why are the agencies proposing this approach?"
+  },
+  {
+    "retriever": "dense",
+    "rank": 2,
+    "score": 0.7978,
+    "id": "2019-00791:0012",
+    "citation": "84 FR 4154",
+    "page": 4155,
+    "section_ref": "II/A",
+    "heading": "II. Background > A. Executive Summary",
+    "text": "Wetlands physically separated from other waters of the United States by upland or by dikes, barriers, or similar structures and also lacking a direct hydrologic surface connection to such waters are not adjacent under this proposal.\nThe proposal would exclude from the definition of \u201cwaters of the United States\u201d waters or water features not mentioned above. The proposed definition specifically clarifies that \u201cwaters of the United States\u201d do not include features that flow only in response to precipitation; groundwater, including groundwater drained through subsurface drainage systems; certain ditches; prior converted cropland; artificially irrigated areas that would revert to upland if artificial irrigation ceases; certain artificial lakes and ponds constructed in upland; water-filled depressions created in upland incidental to mining or construction activity; stormwater control features excavated or constructed in upland to convey, treat, infiltrate, or store stormwater run-off; wastewater recycling structures constructed in upland; and waste treatment systems. In addition, the agencies are proposing to clarify and define the terms \u201cprior converted cropland\u201d and \u201cwaste treatment system\u201d to improve regulatory predictability and clarity."
+  },
+  {
+    "retriever": "dense",
+    "rank": 3,
+    "score": 0.7954,
+    "id": "2019-00791:0326",
+    "citation": "84 FR 4154",
+    "page": 4194,
+    "section_ref": "III/H/1",
+    "heading": "III. Proposed Definition of \u201cWaters of the United States\u201d > H. Waters and Features That Are Not Waters of the United States > 1. What are the agencies proposing?",
+    "text": "These features often connect or carry flow to other water recycling structures, for example a channel or canal that carries water to an infiltration pond. The agencies have not considered these water distributary systems jurisdictional.\nThe existing exclusion for waste treatment systems moves to paragraph (b)(11). As discussed above, the agencies propose to not change the longstanding approach to implementing the waste treatment exclusion. As a result, the agencies would continue to apply the exclusion to systems that are treating water so as to meet the requirements of the CWA. Discharges from these systems to waters of the United States would continue to be subject to regulation by the section 402 permitting program. Similarly, if a waste treatment system is abandoned or otherwise ceases to serve the treatment function for which it was designed, it would not continue to qualify for the exclusion."
+  }
+]

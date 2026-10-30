@@ -1,0 +1,8 @@
+NAME                   STATUS                          PORTS
+api-service            Up 43 seconds                   0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp
+campaign-builder       Exited (0) 56 seconds ago       
+data-collector         Exited (0) About a minute ago   
+data-processor         Exited (0) 59 seconds ago       
+frontend               Up 43 seconds                   0.0.0.0:3000->80/tcp, [::]:3000->80/tcp
+rule-passages          Exited (0) 43 seconds ago       
+undersigned-chromadb   Up About a minute               0.0.0.0:9000->8000/tcp, [::]:9000->8000/tcp

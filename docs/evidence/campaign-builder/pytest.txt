@@ -1,0 +1,31 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0 -- /home/aadil/ac215/undersigned/ac215_Undersigned/campaign-builder/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/aadil/ac215/undersigned/ac215_Undersigned/campaign-builder
+configfile: pyproject.toml
+testpaths: tests
+collecting ... collected 20 items
+
+tests/test_bcubed.py::test_worked_example PASSED                         [  5%]
+tests/test_bcubed.py::test_perfect_grouping_scores_one PASSED            [ 10%]
+tests/test_bcubed.py::test_everything_in_one_group_has_full_recall_but_low_precision PASSED [ 15%]
+tests/test_bcubed.py::test_every_letter_alone_has_full_precision_but_low_recall PASSED [ 20%]
+tests/test_bcubed.py::test_none_prediction_is_a_group_of_one PASSED      [ 25%]
+tests/test_bcubed.py::test_no_gold_at_all_is_an_error PASSED             [ 30%]
+tests/test_bcubed.py::test_gold_letter_missing_from_predictions_is_an_error PASSED [ 35%]
+tests/test_bcubed.py::test_score_frames_reads_the_schema_columns PASSED  [ 40%]
+tests/test_exact_match.py::test_normalize_ignores_markup_case_punctuation_and_spacing PASSED [ 45%]
+tests/test_exact_match.py::test_group_exact_groups_copies_and_leaves_singletons_alone PASSED [ 50%]
+tests/test_exact_match.py::test_group_exact_keeps_input_order PASSED     [ 55%]
+tests/test_exact_match.py::test_short_and_empty_texts_are_never_grouped PASSED [ 60%]
+tests/test_exact_match.py::test_min_words_is_a_threshold_on_the_normalized_text PASSED [ 65%]
+tests/test_exact_match.py::test_summarize_counts PASSED                  [ 70%]
+tests/test_exact_match.py::test_main_writes_assignments_and_scores PASSED [ 75%]
+tests/test_exact_match.py::test_main_creates_the_output_folder PASSED    [ 80%]
+tests/test_main.py::test_build_docket_writes_assignments_where_the_schema_says PASSED [ 85%]
+tests/test_main.py::test_build_docket_scores_only_when_epa_grouped_some_letters PASSED [ 90%]
+tests/test_main.py::test_empty_letters_fail_the_stage PASSED             [ 95%]
+tests/test_main.py::test_missing_letters_fail_the_stage PASSED           [100%]
+
+============================== 20 passed in 0.48s ==============================
+All checks passed!

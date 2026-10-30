@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Undersigned architecture</title>
+<!-- Preliminary architecture for the MS1 appendix, kept as submitted. Rendered with headless Chrome
+     at 1600x640 and cropped to docs/architecture_crop.png, which milestone1.tex includes. The current
+     architecture is in docs/architecture/. -->
+<style>
+  body { margin: 0; width: 1600px; height: 640px; background: #fff; }
+  svg { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  .band { fill: #f6f7f8; stroke: #d5d9de; }
+  .bandt { font-size: 15px; font-weight: 700; fill: #5d6673; letter-spacing: .06em; }
+  .box { fill: #fff; stroke: #9aa3ad; stroke-width: 1.2; rx: 5; }
+  .ours { fill: #fff; stroke: #1f4e79; stroke-width: 2; rx: 5; }
+  .ext { fill: #fff; stroke: #9aa3ad; stroke-width: 1.2; stroke-dasharray: 5 4; rx: 5; }
+  .store { fill: #eef2f6; stroke: #9aa3ad; stroke-width: 1.2; rx: 5; }
+  .t { font-size: 17px; font-weight: 700; fill: #1c2430; }
+  .tb { font-size: 17px; font-weight: 700; fill: #1f4e79; }
+  .s { font-size: 14px; fill: #4a5360; }
+  .a { stroke: #5d6673; stroke-width: 1.6; fill: none; marker-end: url(#arr); }
+  .lab { font-size: 13px; fill: #5d6673; font-style: italic; }
+  .key { font-size: 13px; fill: #4a5360; }
+</style>
+</head>
+<body>
+<svg width="1600" height="640" viewBox="0 0 1600 640">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#5d6673"/>
+    </marker>
+  </defs>
+
+  <!-- Bands -->
+  <rect class="band" x="20" y="20" width="1150" height="270" rx="8"/>
+  <text class="bandt" x="40" y="48">BATCH PIPELINE, ONE RUN PER DOCKET (VERTEX AI PIPELINES)</text>
+  <rect class="band" x="20" y="310" width="1150" height="230" rx="8"/>
+  <text class="bandt" x="40" y="338">TRAINING (VERTEX AI, W&amp;B)</text>
+  <rect class="band" x="1190" y="20" width="390" height="520" rx="8"/>
+  <text class="bandt" x="1210" y="48">SERVING (CLOUD RUN, THEN GKE)</text>
+
+  <!-- Sources -->
+  <rect class="ext" x="40" y="70" width="210" height="196"/>
+  <text class="t" x="56" y="98">Public APIs</text>
+  <text class="s" x="56" y="126">Regulations.gov</text>
+  <text class="s" x="56" y="148">FCC ECFS</text>
+  <text class="s" x="56" y="170">Federal Register</text>
+  <text class="s" x="56" y="206">comments, PDFs,</text>
+  <text class="s" x="56" y="226">rule text</text>
+
+  <!-- data-collector -->
+  <rect class="box" x="290" y="70" width="240" height="120"/>
+  <text class="t" x="306" y="98">data-collector</text>
+  <text class="s" x="306" y="124">Fetch with checkpoints, five</text>
+  <text class="s" x="306" y="144">keys; PDF text, OCR for scans;</text>
+  <text class="s" x="306" y="164">signer names hashed</text>
+
+  <!-- data-processor -->
+  <rect class="box" x="570" y="70" width="240" height="120"/>
+  <text class="t" x="586" y="98">data-processor</text>
+  <text class="s" x="586" y="124">One record per letter;</text>
+  <text class="s" x="586" y="144">MinHash collapses near-exact</text>
+  <text class="s" x="586" y="164">copies to representatives</text>
+
+  <!-- campaign-builder -->
+  <rect class="ours" x="850" y="70" width="300" height="120"/>
+  <text class="tb" x="866" y="98">campaign-builder</text>
+  <text class="s" x="866" y="124">Embed representatives and the</text>
+  <text class="s" x="866" y="144">rest; HDBSCAN (sample, then assign</text>
+  <text class="s" x="866" y="164">at FCC scale); evidence and rank</text>
+
+  <!-- GCS + DVC -->
+  <rect class="store" x="290" y="212" width="520" height="56"/>
+  <text class="t" x="306" y="246">GCS bucket, versioned with DVC</text>
+  <text class="s" x="600" y="246">raw and cleaned letters</text>
+
+  <!-- Training band -->
+  <rect class="ext" x="40" y="360" width="210" height="160"/>
+  <text class="t" x="56" y="388">Labels</text>
+  <text class="s" x="56" y="414">Training: EPA campaigns,</text>
+  <text class="s" x="56" y="434">leave-one-sponsor-out</text>
+  <text class="s" x="56" y="464">Held out: Clean Power Plan</text>
+  <text class="s" x="56" y="484">docket, NY AG, Kao cluster,</text>
+  <text class="s" x="56" y="504">LLM-reworded letters</text>
+
+  <rect class="ours" x="290" y="360" width="240" height="160"/>
+  <text class="tb" x="306" y="388">model-training</text>
+  <text class="s" x="306" y="414">Contrastive fine-tuning</text>
+  <text class="s" x="306" y="434">of bge-small-en-v1.5 on</text>
+  <text class="s" x="306" y="454">EPA campaigns; personalized</text>
+  <text class="s" x="306" y="474">copies as hard positives</text>
+
+  <rect class="box" x="570" y="360" width="240" height="160"/>
+  <text class="t" x="586" y="388">evaluation</text>
+  <text class="s" x="586" y="414">B-cubed F1 vs exact match,</text>
+  <text class="s" x="586" y="434">MinHash, untuned model;</text>
+  <text class="s" x="586" y="454">transfer to a second docket;</text>
+  <text class="s" x="586" y="474">recall in top 20 on FCC</text>
+
+  <rect class="store" x="850" y="360" width="300" height="160"/>
+  <text class="t" x="866" y="388">Model registry</text>
+  <text class="s" x="866" y="414">Vertex AI; a new version is</text>
+  <text class="s" x="866" y="434">promoted only if it beats the</text>
+  <text class="s" x="866" y="454">current one on held-out sponsors</text>
+
+  <!-- Serving -->
+  <rect class="store" x="1210" y="70" width="350" height="56"/>
+  <text class="t" x="1226" y="104">Campaign store</text>
+  <text class="s" x="1370" y="104">Postgres</text>
+  <rect class="store" x="1210" y="140" width="350" height="56"/>
+  <text class="t" x="1226" y="174">Rule passages</text>
+  <text class="s" x="1370" y="174">ChromaDB vector DB</text>
+
+  <rect class="ours" x="1210" y="226" width="350" height="96"/>
+  <text class="tb" x="1226" y="254">api-service</text>
+  <text class="s" x="1226" y="280">FastAPI; live match with the fine-</text>
+  <text class="s" x="1226" y="300">tuned model, or &#8220;no campaign&#8221;</text>
+
+  <rect class="ext" x="1210" y="344" width="160" height="74"/>
+  <text class="t" x="1226" y="368">Gemini</text>
+  <text class="s" x="1226" y="388">only if it beats</text>
+  <text class="s" x="1226" y="406">both baselines</text>
+
+  <rect class="box" x="1400" y="344" width="160" height="60"/>
+  <text class="t" x="1416" y="370">frontend</text>
+  <text class="s" x="1416" y="392">React</text>
+
+  <rect class="ext" x="1400" y="440" width="160" height="80"/>
+  <text class="t" x="1416" y="470">Analyst</text>
+  <text class="s" x="1416" y="494">web browser</text>
+
+  <!-- Arrows: batch -->
+  <path class="a" d="M250,130 L288,130"/>
+  <path class="a" d="M530,130 L568,130"/>
+  <path class="a" d="M810,130 L848,130"/>
+  <path class="a" d="M410,190 L410,210"/>
+  <path class="a" d="M690,190 L690,210"/>
+  <path class="a" d="M1150,98 L1208,98"/>
+  <path class="a" d="M145,266 L145,280 L1180,280 L1180,168 L1208,168"/>
+  <text class="lab" x="1060" y="274">rule text</text>
+
+  <!-- Arrows: training -->
+  <path class="a" d="M250,440 L288,440"/>
+  <path class="a" d="M530,440 L568,440"/>
+  <path class="a" d="M810,440 L848,440"/>
+  <path class="a" d="M145,520 L145,530 L690,530 L690,522"/>
+  <path class="a" d="M1000,360 L1000,192"/>
+  <path class="a" d="M1150,480 L1182,480 L1182,304 L1208,304"/>
+  <text class="lab" x="1008" y="300">fine-tuned model</text>
+  <path class="a" d="M450,268 L450,358"/>
+  <text class="lab" x="458" y="304">letters</text>
+
+  <!-- Arrows: serving -->
+    <path class="a" d="M1300,196 L1300,224"/>
+  <path class="a" d="M1560,98 L1572,98 L1572,274 L1562,274"/>
+  <path class="a" d="M1290,322 L1290,342"/>
+  <path class="a" d="M1480,322 L1480,342"/>
+  <path class="a" d="M1480,404 L1480,438"/>
+
+  <!-- Key -->
+  <rect class="ours" x="40" y="570" width="26" height="18"/>
+  <text class="key" x="74" y="584">we build and train</text>
+  <rect class="box" x="230" y="570" width="26" height="18"/>
+  <text class="key" x="264" y="584">we build</text>
+  <rect class="store" x="360" y="570" width="26" height="18"/>
+  <text class="key" x="394" y="584">storage</text>
+  <rect class="ext" x="480" y="570" width="26" height="18"/>
+  <text class="key" x="514" y="584">external</text>
+  <text class="key" x="620" y="584">Each component we build is its own Docker container, built by GitHub Actions.</text>
+</svg>
+</body>
+</html>

@@ -1,0 +1,29 @@
+[project]
+name = "campaign-builder"
+version = "0.1.0"
+description = "MinHash, embeddings and HDBSCAN grouping; campaign evidence."
+requires-python = ">=3.12"
+dependencies = [
+    "python-dotenv>=1.0",
+    "google-cloud-storage>=2.10",
+    "datasketch>=1.6",
+    "pandas>=2.2",
+    "pyarrow>=16",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "ruff>=0.6",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]

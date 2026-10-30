@@ -1,0 +1,9 @@
+NAME                   IMAGE                   COMMAND                  SERVICE            CREATED          STATUS                      PORTS
+api-service            api-service             "uvicorn main:app --…"   api-service        12 minutes ago   Up 19 seconds               0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp
+campaign-builder       campaign-builder        "python src/main.py"     campaign-builder   12 minutes ago   Exited (0) 10 minutes ago   
+data-collector         data-collector          "python src/main.py"     data-collector     12 minutes ago   Exited (0) 12 minutes ago   
+data-processor         data-processor          "python src/main.py"     data-processor     12 minutes ago   Exited (0) 11 minutes ago   
+frontend               frontend                "/docker-entrypoint.…"   frontend           12 minutes ago   Up 19 seconds               0.0.0.0:3000->80/tcp, [::]:3000->80/tcp
+passage-stage          passage-stage           "python src/main.py"     passage-stage      12 minutes ago   Exited (0) 20 seconds ago   
+rule-passages          rule-passages           "python src/main.py"     rule-passages      12 minutes ago   Exited (0) 27 seconds ago   
+undersigned-chromadb   chromadb/chroma:1.5.9   "dumb-init -- chroma…"   chromadb           12 minutes ago   Up 12 minutes               0.0.0.0:9000->8000/tcp, [::]:9000->8000/tcp

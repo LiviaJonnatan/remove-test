@@ -1,0 +1,40 @@
+[project]
+name = "linker-train"
+version = "0.1.0"
+description = "Train and score the passage-to-section linker on free citation labels."
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "numpy>=1.26",
+    "pandas>=2.2",
+    "pyarrow>=16",
+    "scikit-learn>=1.5",
+    "sentence-transformers>=3.3",
+    "torch>=2.4",
+    "wandb>=0.18",
+    "python-dotenv>=1.0",
+    "pyyaml>=6",
+    "onnx>=1.23.2",
+    "onnxruntime>=1.31.1",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "ruff>=0.6",
+]
+pipeline = [
+    "google-cloud-aiplatform>=2.7.0",
+    "kfp>=2.18.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 110
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+ignore = ["SIM905"]

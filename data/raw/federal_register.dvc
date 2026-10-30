@@ -1,0 +1,6 @@
+outs:
+- md5: 5279c1c1d103f2a909f979d797d4b242.dir
+  size: 2478571
+  nfiles: 22
+  hash: md5
+  path: federal_register

@@ -1,0 +1,100 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Undersigned · talking points 30 Oct</title>
+<style>
+@page{size:letter;margin:0.45in 0.55in}
+:root{--b:#2b5797;--bl:#eef2f8;--g:#1a7f37;--gl:#e9f6ec;--o:#b35900;--ol:#fff3e0;--r:#b42318;--rl:#fde8e7}
+body{font:9.6pt/1.38 -apple-system,"Helvetica Neue",Arial,sans-serif;color:#1d1d1f;margin:0}
+h1{font-size:16pt;margin:0}
+.sub{color:#666;margin:2px 0 10px;font-size:9pt}
+h2{font-size:11.5pt;margin:12px 0 5px;color:var(--b);display:flex;align-items:center;gap:7px}
+h2 .n{background:var(--b);color:#fff;border-radius:50%;width:19px;height:19px;display:inline-flex;align-items:center;justify-content:center;font-size:9pt}
+.card{display:grid;grid-template-columns:1fr 1fr 1.15fr;gap:7px;break-inside:avoid}
+.card>div{border-radius:5px;padding:6px 9px}
+.want{background:var(--bl);border-left:4px solid var(--b)}
+.tried{background:var(--ol);border-left:4px solid var(--o)}
+.got{background:var(--gl);border-left:4px solid var(--g)}
+.got.bad{background:var(--rl);border-left-color:var(--r)}
+.lab{display:block;font-size:7.8pt;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px}
+.want .lab{color:var(--b)}.tried .lab{color:var(--o)}.got .lab{color:var(--g)}.got.bad .lab{color:var(--r)}
+ul{margin:2px 0 2px 15px;padding:0} li{margin:2px 0}
+table{border-collapse:collapse;width:100%;margin:3px 0}
+th,td{border:1px solid #d6d6d6;padding:2px 6px;text-align:left}
+th{background:#f3f5f9;font-weight:600} td.n{text-align:right}
+tr.hi td{background:#fff8e1}
+.box{border:1.5px solid #ccc;border-radius:5px;padding:6px 10px;break-inside:avoid}
+.ask{border-color:var(--b)}
+.small{font-size:8.5pt;color:#555}
+</style></head><body>
+
+<h1>Undersigned: talking points for Alyssa</h1>
+<div class="sub">Fri 30 Oct · MS3 due Thu 12 Nov · each item is what we wanted, what we tried, what happened</div>
+
+<h2><span class="n">1</span>Linking comments to the right section</h2>
+<div class="card">
+<div class="want"><span class="lab">We wanted</span>MS2 could only place comments that cite a section number, and only 3.7% do. We wanted a model that reads any passage and says which section of the rule it's arguing about.</div>
+<div class="tried"><span class="lab">We tried</span>Fine-tuning a small embedding model (bge-small). Labels come free: take comments that do cite, hide the citation, make the model guess it. Trained as a Vertex job, logged in W&amp;B.</div>
+<div class="got"><span class="lab">Result</span>65.5% right on the first guess over 490 test passages. Adding two extra signals (the agency's own discussion of each section, and other sections the letter cites) brought it to 66.7%. On 40 hand-labelled passages with no citation: 90%.</div>
+</div>
+
+<h2><span class="n">2</span>How it compares to an LLM</h2>
+<div class="card" style="grid-template-columns:1fr 1.4fr">
+<div class="want"><span class="lab">We wanted</span>To know whether a free small model is good enough, or whether we just need to pay for Claude. Same 232 passages for everyone.</div>
+<div class="got"><span class="lab">Result</span>
+<table>
+<tr><th>Method</th><th>Right first</th><th>$ per 1,000</th></tr>
+<tr><td>Plain search (MS2)</td><td class="n">53.4%</td><td class="n">0</td></tr>
+<tr class="hi"><td><b>Our model</b></td><td class="n"><b>69.8%</b></td><td class="n"><b>0</b></td></tr>
+<tr><td>Haiku</td><td class="n">69.0%</td><td class="n">1.29</td></tr>
+<tr><td>Sonnet</td><td class="n">75.4%</td><td class="n">19.58</td></tr>
+</table>
+We tie Haiku and are about 6 points behind Sonnet.</div>
+</div>
+
+<h2><span class="n">3</span>Getting close to Sonnet without paying for Sonnet</h2>
+<div class="card">
+<div class="want"><span class="lab">We wanted</span>Sonnet-level accuracy at a cost we could afford on the full data. Running Sonnet on all 721k passages would cost $14,121.</div>
+<div class="tried"><span class="lab">We tried</span>A cascade. Our model answers when it's confident and hands the unsure ones to Sonnet. This works because its confidence means something: on its surest fifth it beats Sonnet (96% vs 87%), on its least sure fifth it loses badly (33% vs 67%).</div>
+<div class="got"><span class="lab">Result</span>72.0% at $2.43 per 1,000, which is 95% of Sonnet's accuracy for an eighth of the price. On all 721k passages: about $1,750 instead of $14,121. A cheaper setting gets 70.7% for about $960.</div>
+</div>
+
+<h2><span class="n">4</span>Rules the model has never seen</h2>
+<div class="card">
+<div class="want"><span class="lab">We wanted</span>The model to work on a new rule out of the box, since every campaign is about a different rule.</div>
+<div class="tried"><span class="lab">We tried</span>Holding out one rule (ED) entirely, then adding the agency's preamble text to training so the model learns how agencies describe their own sections.</div>
+<div class="got"><span class="lab">Result</span>On the unseen rule: 50% before, 67% with the preamble. Plain search gets 57% there.</div>
+</div>
+
+<h2><span class="n">5</span>Putting it in production</h2>
+<div class="card">
+<div class="want"><span class="lab">We wanted</span>The MS3 stack: Vertex training, W&amp;B, a Vertex pipeline, and the model served on Cloud Run.</div>
+<div class="tried"><span class="lab">We tried</span>A pipeline that trains, evaluates, and only replaces the live model if the new one beats both plain search and the current model. Then deployed to Cloud Run with logging and a <code>/stats</code> page.</div>
+<div class="got"><span class="lab">Result</span>The new model passed (+12.9 points over search) and is live. Live check on 80 LCRI passages: 57.5% right first, 88.8% in the top 5, 172 ms typical response. 44 API tests run in CI.</div>
+</div>
+
+<h2><span class="n">6</span>GPU training</h2>
+<div class="card">
+<div class="want"><span class="lab">We wanted</span>To train on GPUs, which would also cover the optional multi-GPU part of MS3.</div>
+<div class="tried"><span class="lab">We tried</span>Requesting 2 T4 GPUs in us-central1 on 29 Oct.</div>
+<div class="got bad"><span class="lab">Result</span>Google blocked it because the project is on a free-trial billing account. It needs the billing owner to upgrade to paid. So far we've trained on CPU, which has been fine.</div>
+</div>
+
+<h2><span class="n">7</span>Where it's still weak</h2>
+<div class="box">
+<ul>
+<li>Two rules are bad: CPP 46.7% and LCRI 52.5%. The others are 60 to 76%.</li>
+<li>The labels limit us. Two of us labelled the same 30 passages and agreed on only 21 (70%), so the ceiling is around 83%.</li>
+<li>The live endpoint still uses only the base model. The two extra signals from item 1 aren't served yet.</li>
+<li>We've only held out one rule. The other five haven't been tested as unseen.</li>
+</ul>
+</div>
+
+<h2><span class="n">8</span>Questions for Alyssa</h2>
+<div class="box ask">
+<ul>
+<li>Is CPU training on Vertex OK, or does the course have a billing account we should use for GPUs?</li>
+<li>The Cloud Run service is private. Does it need to be public for grading, or is staff access enough?</li>
+<li>Is it fine to lead with the cascade as our main result, or should we lead with the plain model vs. Sonnet?</li>
+<li>Do you want unseen-rule tests on the other five rules too, or is one enough?</li>
+</ul>
+</div>
+
+</body></html>

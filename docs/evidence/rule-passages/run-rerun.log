@@ -1,0 +1,6 @@
+ Container undersigned-chromadb Running 
+ Container ac215_undersigned-rule-passages-run-6315ab979e28 Creating 
+ Container ac215_undersigned-rule-passages-run-6315ab979e28 Created 
+2026-10-09 13:45:09,712 INFO [EPA-HQ-OW-2018-0149] 4 documents on disk
+2026-10-09 13:45:10,131 INFO [EPA-HQ-OW-2018-0149] 2019-00791: 538 chunks
+2026-10-09 13:45:10,198 INFO [rule_passages] 538 chunks, 0 embedded this run, 0 pruned, 538 in the collection

@@ -1,0 +1,57 @@
+{
+  "title": "Undersigned: where we are",
+  "due": "2026-10-20T22:00:00-04:00",
+  "due_label": "MS2 is due Tue 20 Oct, 10 PM ET",
+  "short": {
+    "U-01": "schema", "U-02": "collector", "U-03": "download", "U-04": "processor", "U-05": "MinHash",
+    "U-06": "rule loader", "U-07": "retrieval", "U-08": "API endpoint", "U-09": "baseline", "U-10": "compose gate",
+    "U-11": "full pull", "U-12": "at scale", "U-13": "baselines", "U-14": "chunk sizes", "U-15": "React page",
+    "U-16": "labels", "U-17": "reworded", "U-18": "CREDO trace", "U-19": "DVC", "U-20": "screenshots",
+    "U-21": "README", "U-22": "slides", "U-23": "clean clone", "U-24": "submit"
+  },
+  "notes": {
+    "U-03": "Livia finishing the last 4,107",
+    "U-10": "chain runs, gate open",
+    "U-14": "harness built",
+    "U-16": "sheet built",
+    "U-18": "draft written",
+    "U-21": "partly written"
+  },
+  "blockers": [
+    {"title": "Everyone needs to pull the data.", "text": "It is in the bucket (uv run dvc pull). Each person needs bucket access and a Google login. Livia is finishing the last 4,107 comment details and will push the full version."},
+    {"title": "Reviews are the bottleneck.", "text": "Rule retrieval (#25) is waiting on Rishi, and his API endpoint needs the retrieval contract in it."},
+    {"title": "Hand labels come next.", "text": "They gate every claim that one retriever beats the other. The labeling sheet is built: 50 campaigns, 5 shared by everyone."},
+    {"title": "Clean Power Plan index is untested.", "text": "The fixed indexer returns exactly 11,444 on the development docket. The 26,206-comment docket still needs one run on a fresh key."}
+  ],
+  "facts": [
+    ["Campaign records", "201 of 201, match MS1"],
+    ["Rule indexed", "538 chunks, 60 sections"],
+    ["MS1 numbers not yet reproduced", "MinHash 7% and 78%, 13 / 8 / 180 split"]
+  ],
+  "path": [
+    {"lane": "Labels", "boxes": [
+      {"title": "Send the label pack", "sub": "Aidan, today", "ticket": 16},
+      {"title": "Everyone labels 14 campaigns", "sub": "20 to 30 min each, by Thu 15"},
+      {"title": "Run eval and sweep", "sub": "Aidan, Fri 16", "ticket": 14},
+      {"title": "Pick retriever and chunk size", "sub": "the evidence for MS2 and MS3"}
+    ]},
+    {"lane": "Data", "boxes": [
+      {"title": "Everyone pulls the data", "sub": "DVC, in the bucket", "ticket": 19},
+      {"title": "Processor on a sample", "sub": "Andrew, Sun 11", "ticket": 4},
+      {"title": "Baselines and B-cubed", "sub": "Aadil, Sun 11 and Fri 16", "ticket": 13},
+      {"title": "Reproduce MinHash 7% / 78%", "sub": "Andrew, Fri 16", "ticket": 12}
+    ]},
+    {"lane": "Pipeline", "boxes": [
+      {"title": "API endpoint for retrieval", "sub": "Rishi, Sun 11", "ticket": 8},
+      {"title": "Gate: letter in, sections out", "sub": "one command, Mon 12 night", "ticket": 10},
+      {"title": "Slides, clean-clone test", "sub": "Mon 19", "ticket": 23},
+      {"title": "Submit the hash", "sub": "before 10 PM, Tue 20", "ticket": 24}
+    ]}
+  ],
+  "next": [
+    {"title": "Fri 9: meeting with Alyssa", "items": ["3:30 PM: demo and the questions.", "Rishi reviews #25.", "Everyone pulls the data once they have bucket access."]},
+    {"title": "Sat 10 to Mon 12: stage 1, all five", "items": ["Schema (U-01), processor on a sample (U-04, U-05).", "API endpoint (U-08), baseline and B-cubed (U-09).", "Compose gate on Monday night (U-10). If it fails, nobody starts stage 2."]},
+    {"title": "Tue 13 to Fri 16: stage 2, in pairs", "items": ["Full pull and OCR (U-11), processor at scale and MinHash reproduction (U-12).", "Baselines scored (U-13). Labels in by Thu, then eval and sweep (U-14).", "React page (U-15). Meeting 2 on Fri 16."]},
+    {"title": "Sat 17 to Tue 20: integrate", "items": ["CREDO trace redone on a personalized campaign (U-18), README (U-21).", "Slides and the explain-each-other drill (U-22), clean-clone test (U-23).", "Submit the commit hash well before 10 PM on Tue (U-24)."]}
+  ]
+}

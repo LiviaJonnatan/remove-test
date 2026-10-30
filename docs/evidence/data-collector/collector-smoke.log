@@ -1,0 +1,7 @@
+ Container ac215_undersigned-data-collector-run-ba7bcd1c4765 Creating 
+ Container ac215_undersigned-data-collector-run-ba7bcd1c4765 Created 
+2026-10-09 16:08:44,739 INFO keys=1 dockets=['EPA-HQ-OW-2018-0149'] max_records=50 skip_attachments=False shard=1/1
+2026-10-09 16:08:45,435 INFO [EPA-HQ-OW-2018-0149] index page 1: +250 (250 so far of ~11444)
+2026-10-09 16:08:45,438 INFO [EPA-HQ-OW-2018-0149] index capped at MAX_RECORDS=50 (50 kept)
+2026-10-09 16:08:45,442 INFO [EPA-HQ-OW-2018-0149] details: 0 of 50 already on disk, 50 to fetch
+2026-10-09 16:08:54,766 INFO [EPA-HQ-OW-2018-0149] done: {'docket': 'EPA-HQ-OW-2018-0149', 'shard': '1/1', 'comments_indexed': 50, 'details_on_disk': 50, 'attachment_files': 18, 'attachments_downloaded_this_run': 18, 'attachments_failed': [], 'api_calls_this_run': 51, 'collected_at': '2026-10-09T16:08:54Z'}

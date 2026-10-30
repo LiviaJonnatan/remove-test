@@ -1,0 +1,22 @@
+# Vertex AI custom job. vertex/submit.sh fills in the __PLACEHOLDERS__.
+workerPoolSpecs:
+  - machineSpec:
+      machineType: n1-standard-8
+      acceleratorType: NVIDIA_TESLA_T4
+      acceleratorCount: 1
+    replicaCount: 1
+    containerSpec:
+      imageUri: __IMAGE__
+      args: ["train", "--mode", "__MODE__", "--out", "/gcs/__BUCKET__/linker-runs/__RUN__", "--name", "__RUN__", "--tag", "vertex"__EXTRA_ARGS__]
+      env:
+        - name: DATA_ROOT
+          value: gs://__BUCKET__/linking
+        - name: EXTRAS_ROOT
+          value: gs://__BUCKET__/linking-extra
+        - name: GIT_COMMIT
+          value: __COMMIT__
+        - name: WANDB_API_KEY
+          value: __WANDB_KEY__
+# A job that hangs stops here instead of billing all night.
+scheduling:
+  timeout: __TIMEOUT__

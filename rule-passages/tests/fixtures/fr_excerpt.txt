@@ -1,0 +1,183 @@
+<html>
+<head>
+<title>Federal Register, Volume 84 Issue 31 (Thursday, February 14, 2019)</title>
+</head>
+<body><pre>
+[Federal Register Volume 84, Number 31 (Thursday, February 14, 2019)]
+[Proposed Rules]
+[Pages 4154-4220]
+From the Federal Register Online via the Government Publishing Office [<a href="http://www.gpo.gov">www.gpo.gov</a>]
+[FR Doc No: 2019-00791]
+
+
+
+[[Page 4153]]
+
+Vol. 84
+
+AGENCY: Department of the Army, Corps of Engineers, Department of 
+Defense; and Environmental Protection Agency (EPA).
+
+
+ACTION: Proposed rule.
+
+SUMMARY: The Environmental Protection Agency and the Department of the 
+Army (``the agencies'') are publishing for public comment a proposed 
+rule defining the scope of waters federally regulated under the Clean 
+Water Act (CWA). This proposal is the second step in a comprehensive, 
+two-step process intended to review and revise the definition of 
+``waters of the United States'' consistent with the Executive Order 
+signed on February 28, 2017, ``Restoring the Rule of Law, Federalism, 
+and Economic Growth by Reviewing the `Waters of the United States' 
+Rule.'' This proposed rule is intended to increase CWA program 
+
+DATES: Comments must be received on or before April 15, 2019.
+
+ADDRESSES: You may submit comments, identified by Docket ID No. EPA-HQ-
+
+SUPPLEMENTARY INFORMATION:
+
+Table of Contents
+
+I. General Information
+    A. How can I get copies of this document and related 
+information?
+    B. Under what legal authority is this proposed rule issued?
+    C. How should I submit comments?
+II. Background
+    A. Executive Summary
+    B. The Clean Water Act and Regulatory Definition of ``Waters of 
+the United States''
+    1. The Clean Water Act
+    2. Regulatory History
+    3. Supreme Court Decisions
+    4. The 2015 Rule
+    C. Executive Order 13778, the ``Step One'' Notice of Proposed 
+Rulemaking, and the Applicability Date Rule
+    D. Summary of Stakeholder Outreach
+    E. Overview of Legal Construct for the Proposed Rule
+    1. Statutory Framework
+    2. Supreme Court Precedent
+    3. Guiding Legal Principles for Proposed Rule
+III. Proposed Definition of ``Waters of the United States''
+    A. Traditional Navigable Waters and Territorial Seas
+    B. Interstate Waters
+    C. Impoundments
+    D. Tributaries
+    E. Ditches
+    F. Lakes and Ponds
+    G. Wetlands
+    H. Waters and Features That Are Not Waters of the United States
+    I. Summary of Proposed Rule as Compared to the 1986 and 2015 
+Regulations
+    J. Placement of the Definition of Waters of the United States in 
+the Code of Federal Regulations
+IV. State, Tribal and Federal Agency Datasets of ``Waters of the 
+United States''
+V. Overview of Supporting Analyses
+VI. Statutory and Executive Order Reviews
+    A. Executive Order 13771: Reducing Regulation and Controlling 
+Regulatory Costs
+    B. Executive Order 12866: Regulatory Planning and Review; 
+Executive Order 13563: Improving Regulation and Regulatory Review
+    C. Paperwork Reduction Act
+    D. Regulatory Flexibility Act
+    E. Unfunded Mandates Reform Act
+    F. Executive Order 13132: Federalism
+    G. Executive Order 13175: Consultation and Coordination With 
+Indian Tribal Governments
+    H. Executive Order 13045: Protection of Children From 
+Environmental Health and Safety Risks
+    I. Executive Order 13211: Actions Concerning Regulations That 
+Significantly Affect Energy Supply, Distribution, or Use
+    J. National Technology Transfer and Advancement Act
+    K. Executive Order 12898: Federal Actions To Address 
+Environmental Justice in Minority Populations and Low-Income 
+Populations
+
+I. General Information
+
+A. How can I get copies of this document and related information?
+
+    1. Docket. An official public docket for this action has been 
+established under Docket ID No. EPA-HQ-OW-2018-0149. The official 
+public docket consists of the documents specifically referenced in this 
+action, and other information related to this action. The official 
+public docket is the collection of materials that is available for 
+public viewing at the OW Docket, EPA West, Room 3334, 1301 Constitution 
+Ave. NW, Washington, DC 20004. This Docket Facility is open from 8:30 
+a.m. to 4:30 p.m., Monday through Friday, excluding legal holidays. The 
+OW Docket telephone number is 202-566-2426. A reasonable fee will be 
+charged for copies.
+    2. Electronic Access. You may access this Federal Register document 
+electronically under the Federal Register listings at <a href="http://www.regulations.gov">http://www.regulations.gov</a>. An electronic version of the public docket is 
+
+has posted a map of current effective regulation by state online at 
+<a href="https://www.epa.gov/wotus-rule/definition-waters-united-states-rule-status-and-litigation-update">https://www.epa.gov/wotus-rule/definition-waters-united-states-rule-status-and-litigation-update</a>.
+---------------------------------------------------------------------------
+
+D. Summary of Stakeholder Outreach
+
+    Following the March 6, 2017 Federal Register notice announcing the 
+agencies' intent to review and rescind or revise the 2015 Rule, the 
+agencies initiated an effort to engage the public to hear perspectives 
+as to how the agencies could define ``waters of the United States,'' 
+including creating a new website to provide information on the
+
+[[Page 4163]]
+
+rulemaking. See <a href="http://www.epa.gov/wotus-rule">www.epa.gov/wotus-rule</a>. On April 19, 2017, the agencies 
+held an initial Federalism consultation with State and local government 
+officials as well as national organizations representing such 
+officials. The agencies also convened several additional meetings with 
+intergovernmental associations and their members to solicit input on 
+the future rule. The EPA, with participation from the Army, initiated 
+
+H. Waters and Features That Are Not Waters of the United States
+
+1. What are the agencies proposing?
+    In paragraph (b) of the proposal, the agencies propose eleven 
+exclusions from the definition of ``waters of the United States.'' 
+Specifically, under this proposal, any water not enumerated in 
+paragraphs (a)(1) through (6) would not be a water of the United 
+States. The proposed rule would exclude groundwater, including 
+
+I. Summary of Proposed Rule as Compared to the 1986 and 2015 
+Regulations
+
+    The agencies are proposing a definition of ``waters of the United 
+States'' that they consider to be superior to both the 1986 and 2015 
+Rules. The agencies are proposing to revise previous regulatory 
+definitions of this term to distinguish between water that is a ``water 
+of the United States'' subject to Federal regulation under the CWA and 
+
+PART 328--DEFINITION OF WATERS OF THE UNITED STATES
+
+0
+1. The authority citation for part 328 continues to read as follows:
+
+    Authority:  33 U.S.C. 1251 et seq.
+
+0
+2. Section 328.3 is revised to read as follows:
+
+
+Sec.  328.3  Definitions.
+
+    For the purpose of this regulation these terms are defined as 
+follows:
+    (a) For purposes of the Clean Water Act, 33 U.S.C. 1251 et seq. and 
+its implementing regulations, subject to the exclusions in paragraph 
+(b) of this section, the term ``waters of the United States'' means:
+    (1) Waters which are currently used, or were used in the past, or 
+may be susceptible to use in interstate or foreign commerce, including 
+the territorial seas and waters which are subject to the ebb and flow 
+of the tide;
+    (2) Tributaries of waters identified in paragraph (a)(1) of this 
+section;
+    (3) Ditches that satisfy any of the conditions identified in 
+paragraph (a)(1) of this section, ditches constructed in a tributary or 
+that relocate or alter a tributary as long as those ditches also 
+satisfy the conditions of the tributary definition, and ditches 
+constructed in an adjacent wetland as long as those ditches also 
+satisfy the conditions of the tributary definition;

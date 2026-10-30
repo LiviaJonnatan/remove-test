@@ -1,0 +1,68 @@
+# docker compose up --build -d, fresh clone, default .env plus an API key. 13 Oct 2026, laptop.
+# Commit 548a4cc. Build output left out; container events and each stage's own log follow.
+
+Container data-collector Creating
+Container undersigned-chromadb Creating
+Container undersigned-chromadb Created
+Container rule-passages Creating
+Container data-collector Created
+Container data-processor Creating
+Container rule-passages Created
+Container data-processor Created
+Container campaign-builder Creating
+Container campaign-builder Created
+Container api-service Creating
+Container api-service Created
+Container frontend Creating
+Container frontend Created
+Container undersigned-chromadb Starting
+Container data-collector Starting
+Container undersigned-chromadb Started
+Container rule-passages Starting
+Container data-collector Started
+Container data-collector Waiting
+Container rule-passages Started
+Container data-collector Exited
+Container data-processor Starting
+Container data-processor Started
+Container data-processor Waiting
+Container data-processor Exited
+Container campaign-builder Starting
+Container campaign-builder Started
+Container campaign-builder Waiting
+Container rule-passages Waiting
+Container campaign-builder Exited
+Container rule-passages Exited
+Container api-service Starting
+Container api-service Started
+Container frontend Starting
+Container frontend Started
+
+==> data-collector
+2026-10-13 14:38:28,772 INFO keys=1 dockets=['EPA-HQ-OW-2022-0801'] max_records=50 skip_attachments=False shard=1/1
+2026-10-13 14:38:28,786 INFO [EPA-HQ-OW-2022-0801] fixed list of 40 records, index stage skipped
+2026-10-13 14:38:28,808 INFO [EPA-HQ-OW-2022-0801] details: 0 of 40 already on disk, 40 to fetch
+2026-10-13 14:38:43,166 INFO [EPA-HQ-OW-2022-0801] done: {'docket': 'EPA-HQ-OW-2022-0801', 'shard': '1/1', 'comments_indexed': 40, 'details_on_disk': 40, 'attachment_files': 11, 'attachments_downloaded_this_run': 11, 'attachments_failed': [], 'api_calls_this_run': 40, 'collected_at': '2026-10-13T14:38:43Z'}
+
+==> data-processor
+{"docket_id": "EPA-HQ-OW-2022-0801", "records_attempted": 40, "records_failed": 0, "letters": 40, "campaign_records": 0, "signers": 0, "tokenizer_sha256": "d241a60d5e8f04cc1b2b3e9ef7a4921b27bf526d9f6050ab90f9267a1f9e5c66", "tokenizer_model": "BAAI/bge-small-en-v1.5 (checksum verified)", "token_count_includes_special_tokens": true, "plan_sha256": null, "raw_dvc_pointer_sha256": "f4dcf2233983ac3132797bb25e8fcd27faab577759be9a1375cf4f70acf7c4b4"}
+
+==> campaign-builder
+[EPA-HQ-OW-2022-0801] 40 letters: 2 in 1 exact-match groups, 38 individual
+
+==> rule-passages
+2026-10-13 14:38:29,924 INFO [EPA-HQ-OW-2022-0801] downloaded 2022-21857 (Notice of Public Meeting: Environmental Justice Consideratio)
+2026-10-13 14:38:30,290 INFO [EPA-HQ-OW-2022-0801] downloaded 2023-26148 (National Primary Drinking Water Regulations for Lead and Cop)
+2026-10-13 14:38:30,501 INFO [EPA-HQ-OW-2022-0801] downloaded 2024-23549 (National Primary Drinking Water Regulations for Lead and Cop)
+2026-10-13 14:38:30,502 INFO [EPA-HQ-OW-2022-0801] 3 documents on disk
+2026-10-13 14:38:31,099 INFO [EPA-HQ-OW-2022-0801] 2023-26148: 879 chunks
+2026-10-13 14:39:05,333 INFO [rule_passages] embedded 768/879
+2026-10-13 14:39:10,928 INFO [rule_passages] embedded 879/879
+2026-10-13 14:39:11,000 INFO [rule_passages] 879 chunks, 879 embedded this run, 0 pruned, 879 in the collection
+
+==> api-service
+INFO:     Started server process [1]
+INFO:     Waiting for application startup.
+INFO:     Loaded 879 rule passages from 'rule_passages' for EPA-HQ-OW-2022-0801
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)

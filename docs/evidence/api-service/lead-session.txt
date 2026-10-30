@@ -1,0 +1,112 @@
+$ curl -s localhost:8000/health
+{"status":"ok","passages":1649,"dockets":["EPA-HQ-OW-2018-0149","EPA-HQ-OW-2022-0801"]}
+
+$ curl -s localhost:8000/rules/EPA-HQ-OW-2022-0801/sections \
+    | python3 -c "import json,sys; b=json.load(sys.stdin); s=b['sections']; print('unresolved_citations', b['unresolved_citations']); print(len(s), 'sections'); [print('  '*(x['depth']-1)+x['section_ref'], '| citing', x['citing_passages'], x['citing_letters'], '|', x['title'][:55]) for x in s if x['section_ref'].split('/')[0] in ('PART 141','PART 142','V')]; print(sum(x['citing_passages']>0 for x in s), 'cited,', sum(x['citing_passages']==0 for x in s), 'uncited')"
+unresolved_citations 1
+88 sections
+V | citing 0 0 | V. Proposed Revisions to 40 CFR Subpart I Control of Le
+  V/A | citing 0 0 | A. Regulatory Approach
+  V/B | citing 0 0 | B. Service Line Replacement
+    V/B/1 | citing 0 0 | 1. Mandatory Full Service Line Replacement and SDWA Req
+  V/C | citing 0 0 | C. Tap Sampling for Lead and Copper
+  V/D | citing 0 0 | D. Service Line Inventory
+  V/E | citing 0 0 | E. Corrosion Control Treatment
+  V/F | citing 0 0 | F. Water Quality Parameter Monitoring
+    V/F/1 | citing 0 0 | 1. Systems Required To Monitor for Water Quality Parame
+  V/G | citing 0 0 | G. Compliance Alternatives for a Lead Action Level Exce
+  V/H | citing 0 0 | H. Public Education
+  V/I | citing 0 0 | I. Additional Requirements for Systems With Multiple Le
+  V/J | citing 0 0 | J. Lead Sampling at Schools and Child Care Facilities
+  V/K | citing 0 0 | K. Reporting and Recordkeeping
+    V/K/1 | citing 0 0 | 1. System Reporting Requirements
+  V/L | citing 0 0 | L. Other Proposed Revisions to 40 CFR Part 141
+    V/L/1 | citing 0 0 | 1. Consumer Confidence Report (40 CFR Part 141, Subpart
+PART 141 | citing 153 5 | PART 141--NATIONAL PRIMARY DRINKING WATER REGULATIONS
+  PART 141/§ 141.2 | citing 13 4 | Sec. 141.2 Definitions.
+  PART 141/§ 141.80 | citing 9 4 | Sec. 141.80 General requirements and action level.
+  PART 141/§ 141.81 | citing 18 4 | Sec. 141.81 Applicability of corrosion control treatmen
+  PART 141/§ 141.82 | citing 20 5 | Sec. 141.82 Description of corrosion control treatment 
+  PART 141/§ 141.84 | citing 39 5 | Sec. 141.84 Service line inventory and replacement requ
+  PART 141/§ 141.85 | citing 31 5 | Sec. 141.85 Public education and supplemental monitorin
+  PART 141/§ 141.86 | citing 28 4 | Sec. 141.86 Monitoring requirements for lead and copper
+  PART 141/§ 141.87 | citing 2 2 | Sec. 141.87 Monitoring requirements for water quality p
+  PART 141/§ 141.90 | citing 19 3 | Sec. 141.90 Reporting requirements.
+  PART 141/§ 141.92 | citing 19 5 | Sec. 141.92 Monitoring for lead in schools and child ca
+  PART 141/§ 141.93 | citing 1 1 | Sec. 141.93 Small water system compliance flexibility.
+  PART 141/§ 141.153 | citing 0 0 | Sec. 141.153 Content of the reports.
+  PART 141/§ 141.154 | citing 1 1 | Sec. 141.154 Required additional health information.
+  PART 141/§ 141.202 | citing 0 0 | Sec. 141.202 Tier 1 Public Notice--Form, manner, and fr
+PART 142 | citing 3 2 | PART 142--NATIONAL PRIMARY DRINKING WATER REGULATIONS I
+  PART 142/§ 142.14 | citing 1 1 | Sec. 142.14 Records kept by States.
+  PART 142/§ 142.15 | citing 1 1 | Sec. 142.15 Reports by States.
+  PART 142/§ 142.16 | citing 1 1 | Sec. 142.16 Special primacy requirements.
+  PART 142/§ 142.19 | citing 0 0 | Sec. 142.19 EPA review of State implementation of natio
+17 cited, 71 uncited
+
+$ curl -s localhost:8000/rules/EPA-HQ-OW-2018-0149/sections \
+    | python3 -c "import json,sys; b=json.load(sys.stdin); print('unresolved_citations', b['unresolved_citations']); s=b['sections'][0]; print(s['section_ref'], s['citing_passages'], s['citing_letters'])"
+unresolved_citations None
+II None None
+
+$ curl -sG localhost:8000/rules/EPA-HQ-OW-2022-0801/passages \
+    --data-urlencode 'section_ref=PART 141/§ 141.84' --data-urlencode 'limit=2'
+{
+  "docket_id": "EPA-HQ-OW-2022-0801",
+  "section_ref": "PART 141/§ 141.84",
+  "total": 39,
+  "passages": [
+    {
+      "passage_id": "EPA-HQ-OW-2022-0801-0775:p010",
+      "letter_id": "EPA-HQ-OW-2022-0801-0775",
+      "index": 10,
+      "text": "However, Wisconsin supports requiring pipe loop studies for medium and large systems under certain conditions [§ 141.81(d) and § 141.81(e)]. Lead Service Line Inventories and Replacement (§ 141.84) The WDNR emphasizes its support for the ASDWA comments described below.  Clarify § 141.84(d)(5)(iv) to explain what factors for a state should consider when deciding whether it is feasible for a system to replace LSLs at a faster rate.  Remove the requirement in § 141.84(a)(2)(ii)(B) for water systems to identify where lead connectors have been replaced in the past, and instead make the “replaced lead” connector category optional. It is more efficient to allow water systems to focus their time and resources on higher priority inventory and replacement activities such as lead service line removal and replacement, and identification and removal of galvanized service lines currently and formerly downstream of lead service lines.",
+      "n_words": 143,
+      "citations": [
+        {
+          "section_ref": "PART 141/§ 141.84",
+          "citation_raw": "§ 141.84"
+        }
+      ]
+    },
+    {
+      "passage_id": "EPA-HQ-OW-2022-0801-0775:p011",
+      "letter_id": "EPA-HQ-OW-2022-0801-0775",
+      "index": 11,
+      "text": "However, if connectors are required to be included in inventories, it would be helpful if the rule specified which connectors (i.e., only the connection to main) must be included in the inventory.  Require all water systems update their inventory when service lines previously categorized as non-lead are subsequently determined to be lead or GRR, instead of leaving it to the states to determine what “additional actions” are appropriate to address the inaccuracy [§ 141.84 (b)(3)]. Page 4  Give states the flexibility and authority in § 141.84(b)(5)(i) & (ii) to allow a single point of inspection where an entire service line is under the same ownership. For example, at most NTNCWS and many non-municipal community water systems, all portions of all service lines are entirely owned by the water system.",
+      "n_words": 131,
+      "citations": [
+        {
+          "section_ref": "PART 141/§ 141.84",
+          "citation_raw": "§ 141.84 (b)(3)"
+        }
+      ]
+    }
+  ]
+}
+
+$ curl -sG localhost:8000/rules/EPA-HQ-OW-2022-0801/passages \
+    --data-urlencode 'section_ref=PART 141' --data-urlencode 'limit=1' \
+    | python3 -c "import json,sys; b=json.load(sys.stdin); p=b['passages'][0]; print(b['total'], 'passages, first', p['passage_id'], p['citations'])"
+153 passages, first EPA-HQ-OW-2022-0801-0775:p001 [{'section_ref': 'PART 141/§ 141.80', 'citation_raw': '§ 141.80'}]
+
+$ curl -sG localhost:8000/rules/EPA-HQ-OW-2022-0801/passages \
+    --data-urlencode 'section_ref=V/B'
+{"docket_id":"EPA-HQ-OW-2022-0801","section_ref":"V/B","total":0,"passages":[]}
+
+$ curl -sG localhost:8000/rules/EPA-HQ-OW-2018-0149/passages \
+    --data-urlencode 'section_ref=IV'
+{"docket_id":"EPA-HQ-OW-2018-0149","section_ref":"IV","total":null,"passages":null}
+
+$ curl -sG localhost:8000/rules/EPA-HQ-OW-2022-0801/passages \
+    --data-urlencode 'section_ref=PART 141/§ 141.99' ; echo
+{"detail":"Docket 'EPA-HQ-OW-2022-0801' has no section 'PART 141/§ 141.99'."}
+HTTP 404
+
+$ curl -s -w '\nHTTP %{http_code}\n' localhost:8000/rules/NO-SUCH-DOCKET/sections
+{"detail":"No rule text indexed for docket 'NO-SUCH-DOCKET'. Indexed: EPA-HQ-OW-2018-0149, EPA-HQ-OW-2022-0801."}
+HTTP 404
+
+$ curl -s -w '\nHTTP %{http_code}\n' localhost:8000/rules/EPA-HQ-OW-2022-0801/passages
+{"detail":[{"type":"missing","loc":["query","section_ref"],"msg":"Field required","input":null}]}
+HTTP 422

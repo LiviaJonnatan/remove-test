@@ -1,0 +1,15 @@
+{
+ "run": "in-pre",
+ "test_acc@1": 0.6551,
+ "minus_hybrid_points": [
+  12.9,
+  8.0,
+  17.2
+ ],
+ "served_acc@1": 0.649,
+ "checks": {
+  "beats_hybrid": true,
+  "not_worse_than_served": true
+ },
+ "promote": true
+}

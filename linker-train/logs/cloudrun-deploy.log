@@ -1,0 +1,5 @@
+Creating temporary archive of 17 file(s) totalling 732.8 KiB before compression.
+Uploading tarball of [/var/folders/81/k0kd9h_527zgydmg46m8zlvh0000gn/T/tmp.TXNImUHUZu] to [gs://ac215-undersigned_cloudbuild/source/1793244717.982076-5909bab5fdec423b8da5f7caa8e02bc4.tgz]
+Created [https://cloudbuild.googleapis.com/v1/projects/ac215-undersigned/locations/us-central1/builds/ad27ceef-94ff-4587-8aad-671d66837c91].
+Logs are available at [ https://console.cloud.google.com/cloud-build/builds;region=us-central1/ad27ceef-94ff-4587-8aad-671d66837c91?project=658318685216 ].
+Waiting for build to complete. Polling interval: 1 second(s).

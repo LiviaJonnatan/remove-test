@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Undersigned wireframe</title>
+<!-- Wireframe for the MS1 statement of work. Rendered to docs/mock.png with headless Chrome at 1500x600.
+     Screens 1 and 2 use records from EPA-HQ-OW-2018-0149 retrieved 27 Sep 2026.
+     Screen 3 is campaign EPA-HQ-OW-2018-0149-4291, read from its two PDF attachments. -->
+<style>
+  :root {
+    --ink: #1c2430; --muted: #5d6673; --faint: #8a929c; --line: #d5d9de; --panel: #f6f7f8;
+    --accent: #1f4e79; --accent-soft: #e6eef6; --flag: #9a3b1b; --flag-soft: #f8ece6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { width: 1500px; height: 600px; background: #fff; color: var(--ink);
+         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 15px; line-height: 1.35;
+         padding: 22px 24px; display: flex; gap: 22px; }
+  .screen { flex: 1; display: flex; flex-direction: column; }
+  .cap { font-size: 14px; font-weight: 600; color: var(--muted); letter-spacing: .02em; margin-bottom: 8px; }
+  .cap b { color: var(--ink); margin-right: 6px; }
+  .frame { flex: 1; border: 1px solid #b9bfc6; border-radius: 6px; overflow: hidden; display: flex; flex-direction: column; }
+  .bar { height: 34px; background: var(--panel); border-bottom: 1px solid var(--line); display: flex;
+         align-items: center; padding: 0 14px; gap: 10px; font-size: 13px; color: var(--muted); }
+  .bar .logo { font-weight: 700; color: var(--accent); letter-spacing: .04em; }
+  .body { padding: 14px 16px; flex: 1; display: flex; flex-direction: column; gap: 12px; }
+  h1 { font-size: 17px; font-weight: 600; }
+  .sub { font-size: 13px; color: var(--muted); }
+  .kpis { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .kpi { border: 1px solid var(--line); border-radius: 4px; padding: 8px 10px; }
+  .kpi .v { font-size: 21px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .kpi .l { font-size: 12.5px; color: var(--muted); }
+  .kpi.hl .v { color: var(--flag); }
+  .label { font-size: 12.5px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+  .chart { border: 1px solid var(--line); border-radius: 4px; padding: 10px 10px 6px; flex: 1; display: flex; flex-direction: column; }
+  .bars { flex: 1; display: flex; align-items: flex-end; gap: 5px; border-bottom: 1px solid var(--faint); position: relative; margin-top: 6px; }
+  .bars .b { flex: 1; background: #9fb4c9; min-height: 1px; }
+  .bars .b.peak { background: var(--accent); }
+  .axis { display: flex; justify-content: space-between; font-size: 12px; color: var(--faint); padding-top: 3px; }
+  .note { position: absolute; right: 22px; top: 0; font-size: 12px; color: var(--ink); text-align: right; }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chip { font-size: 12.5px; border: 1px solid var(--line); border-radius: 12px; padding: 3px 10px; color: var(--muted); }
+  .chip.on { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th { text-align: left; font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase;
+       letter-spacing: .04em; padding: 0 6px 6px; border-bottom: 1px solid var(--faint); }
+  td { padding: 7px 6px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; }
+  tr.sel td { background: var(--accent-soft); font-weight: 600; }
+  tr.sel td:first-child { box-shadow: inset 3px 0 0 var(--accent); }
+  .unk { color: var(--flag); font-style: italic; }
+  .foot { font-size: 12.5px; color: var(--faint); margin-top: auto; }
+  .sec { border-top: 1px solid var(--line); padding-top: 9px; display: flex; flex-direction: column; gap: 4px; }
+  .sec:first-of-type { border-top: 0; padding-top: 0; }
+  .row { display: flex; justify-content: space-between; gap: 12px; font-size: 13.5px; }
+  .row span:last-child { font-variant-numeric: tabular-nums; text-align: right; }
+  .quote { font-size: 13px; color: var(--ink); border-left: 3px solid var(--line); padding-left: 9px; font-style: italic; }
+  .src { font-size: 12px; color: var(--faint); }
+  .flag { background: var(--flag-soft); border-radius: 4px; padding: 6px 9px; font-size: 13px; }
+  .flag b { color: var(--flag); }
+  .disclaim { font-size: 12px; color: var(--muted); margin-top: auto; border-top: 1px solid var(--line); padding-top: 8px; }
+</style>
+</head>
+<body>
+
+<!-- 1. Docket overview -->
+<section class="screen">
+  <div class="cap"><b>1</b>Docket overview</div>
+  <div class="frame">
+    <div class="bar"><span class="logo">UNDERSIGNED</span><span>Dockets / EPA-HQ-OW-2018-0149</span></div>
+    <div class="body">
+      <div>
+        <h1>Revised Definition of &ldquo;Waters of the United States&rdquo;</h1>
+        <div class="sub">EPA proposed rule, comment period closed 15 Apr 2019</div>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><div class="v">518,473</div><div class="l">comments represented</div></div>
+        <div class="kpi"><div class="v">201</div><div class="l">campaigns grouped by EPA</div></div>
+        <div class="kpi"><div class="v">97.8%</div><div class="l">of comments are in a campaign</div></div>
+        <div class="kpi hl"><div class="v">92</div><div class="l">campaigns with no listed sponsor</div></div>
+      </div>
+      <div class="chart">
+        <div class="label">Campaign copies per week, by record date</div>
+        <div class="sub">Peak: <b>314,045</b> in the week of the 15 Apr deadline</div>
+        <div class="bars" id="bars"></div>
+        <div class="axis"><span>week of 28 Jan</span><span>week of 29 Apr</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. Campaigns -->
+<section class="screen" style="flex:1.12">
+  <div class="cap"><b>2</b>Campaigns</div>
+  <div class="frame">
+    <div class="bar"><span class="logo">UNDERSIGNED</span><span>EPA-HQ-OW-2018-0149 / Campaigns</span></div>
+    <div class="body">
+      <div class="chips">
+        <span class="chip on">All 201</span>
+        <span class="chip">No listed sponsor 92</span>
+        <span class="chip">Full letters attached 13</span>
+      </div>
+      <table>
+        <tr><th>Sponsor (EPA record)</th><th>Channel</th><th class="n">Copies</th><th class="n">Received</th></tr>
+        <tr><td>Sierra Club</td><td>web</td><td class="n">74,908</td><td class="n">15 Apr</td></tr>
+        <tr><td>NRDC</td><td>web</td><td class="n">72,280</td><td class="n">15 Apr</td></tr>
+        <tr class="sel"><td class="unk">Unknown</td><td>email</td><td class="n">66,777</td><td class="n">11 Apr</td></tr>
+        <tr><td>Environment America</td><td>web</td><td class="n">34,373</td><td class="n">15 Apr</td></tr>
+        <tr><td>Friends of the Earth</td><td>email</td><td class="n">27,588</td><td class="n">14 May &rsquo;20 (late)</td></tr>
+        <tr><td>National Wildlife Federation</td><td>web</td><td class="n">26,128</td><td class="n">15 Apr</td></tr>
+        <tr><td>Clean Water Action</td><td>paper</td><td class="n">24,662</td><td class="n">15 Apr</td></tr>
+        <tr><td>Clean Water Action</td><td>web</td><td class="n">23,368</td><td class="n">14 Apr</td></tr>
+        <tr><td>National Audubon Society</td><td>web</td><td class="n">20,495</td><td class="n">1 Apr</td></tr>
+      </table>
+      <div class="foot">9 of 201 shown, sorted by copies. Select a row to open its evidence.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. Campaign evidence -->
+<section class="screen">
+  <div class="cap"><b>3</b>Campaign evidence</div>
+  <div class="frame">
+    <div class="bar"><span class="logo">UNDERSIGNED</span><span>Campaigns / EPA-HQ-OW-2018-0149-4291</span></div>
+    <div class="body" style="gap:9px">
+      <div>
+        <h1>66,777 copies, received 11 Apr 2019 by email</h1>
+      </div>
+      <div class="sec">
+        <div class="label">Sponsor</div>
+        <div class="row"><span>EPA record</span><span class="unk">unknown</span></div>
+        <div class="row"><span>Cover letter in attachment</span><span><b>CREDO Action</b></span></div>
+      </div>
+      <div class="sec">
+        <div class="label">Text</div>
+        <div class="quote">&ldquo;Abandon this proposed rollback and return to the 2015 Clean Water Rule&hellip;&rdquo;</div>
+        <div class="row"><span>Provision argued</span><span>rule as a whole</span></div>
+      </div>
+      <div class="sec">
+        <div class="label">Signers</div>
+        <div class="row"><span>Claimed in cover letter</span><span>66,887</span></div>
+        <div class="row"><span>Listed in signer file</span><span>66,777</span></div>
+        <div class="row"><span>ZIP region outside listed state</span><span>49 (0.07%)</span></div>
+        <div class="flag"><b>29 signers</b> list Bellmead, TX with ZIPs from all 10 national ZIP regions</div>
+      </div>
+      <div class="disclaim">Describes the campaign, not any signer. Coordination is normal and is not evidence of fraud.
+        <div class="src">Sources: attachment_1.pdf (cover letter), attachment_2.pdf (1,717 pages)</div></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Weekly totals of campaign copies by receipt date, weeks starting 28 Jan to 29 Apr 2019.
+  const w = [1559, 0, 3, 598, 131, 543, 13601, 970, 548, 43819, 98175, 314045, 230, 21];
+  const max = Math.max(...w), el = document.getElementById('bars');
+  w.forEach((v, i) => { const d = document.createElement('div'); d.className = 'b'; d.style.height = (100 * v / max) + '%';
+    if (v === max) d.className = 'b peak'; el.appendChild(d); });
+</script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Undersigned · TF meeting 30 Oct</title>
+<style>
+@page{size:letter;margin:0.4in 0.5in}
+:root{--b:#2b5797;--bl:#eef2f8;--g:#1a7f37;--gl:#e9f6ec;--o:#b35900;--ol:#fff3e0;--r:#b42318}
+body{font:9.1pt/1.33 -apple-system,"Helvetica Neue",Arial,sans-serif;color:#1d1d1f;margin:0}
+h1{font-size:16pt;margin:0}
+.sub{color:#666;margin:1px 0 8px;font-size:8.8pt}
+h2{font-size:11.5pt;margin:9px 0 4px;color:var(--b);display:flex;align-items:center;gap:7px}
+h2 .n{background:var(--b);color:#fff;border-radius:50%;width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;font-size:9pt}
+h3{font-size:10pt;margin:8px 0 3px}
+table{border-collapse:collapse;width:100%;margin:2px 0 4px}
+th,td{border:1px solid #d6d6d6;padding:2.5px 6px;text-align:left;vertical-align:top}
+th{background:var(--bl);font-weight:600}
+td.n{text-align:right;white-space:nowrap}
+tr.hi td{background:#fff8e1}
+ul{margin:2px 0 3px 15px;padding:0} li{margin:1.5px 0}
+ol{margin:2px 0 3px 17px;padding:0} ol li{margin:3px 0}
+.row{display:flex;gap:10px}.row>div{flex:1}
+.goal{border-left:4px solid var(--b);background:var(--bl);padding:6px 10px;border-radius:0 4px 4px 0}
+.talk{border:1.5px solid var(--g);background:var(--gl);padding:6px 10px;border-radius:5px}
+.talk b.t{color:var(--g)}
+.pill{display:inline-block;padding:0 6px;border-radius:9px;font-size:8.2pt;font-weight:600;white-space:nowrap}
+.done{background:var(--gl);color:var(--g)}.part{background:var(--ol);color:var(--o)}.todo{background:#fde8e7;color:var(--r)}
+.met{color:var(--g);font-weight:600}
+code{font:8.3pt Menlo,monospace;background:#f1f1f1;padding:0 2px;border-radius:2px}
+.small{font-size:8.4pt;color:#555}
+.pb{page-break-before:always}
+td.grp{background:#f6f6f6;font-weight:600}
+.links{border:1px solid #d6d6d6;border-radius:5px;padding:5px 9px;margin:0 0 6px;font-size:8.6pt;columns:2;column-gap:18px;background:#fafbfc}
+.links div{break-inside:avoid;margin:1px 0}
+.links a{color:var(--b);text-decoration:none}
+.links b{color:#333}
+</style></head><body>
+
+<h1>Undersigned: TF meeting w/ Alyssa</h1>
+<div class="sub">Fri 30 Oct · MS3 due Thu 12 Nov, 10:00 PM ET, <code>milestone3</code> branch · numbers from <code>docs/linker-results.md</code></div>
+
+<div class="links">
+<div><b>Repo:</b> <a href="https://github.com/aidaneichman/AC215_Undersigned/tree/milestone3">milestone3 branch</a> · <a href="https://github.com/aidaneichman/AC215_Undersigned/tree/milestone3#milestone-3-the-linker">README MS3 section</a></div>
+<div><b>Results:</b> <a href="https://github.com/aidaneichman/AC215_Undersigned/blob/milestone3/docs/linker-results.md">linker-results.md</a> · <a href="https://github.com/aidaneichman/AC215_Undersigned/blob/milestone3/docs/evidence/linker-train/report-pre/report.md">full report</a></div>
+<div><b>W&amp;B:</b> <a href="https://forge.coreweave.com/wandb/aidaneichman-harvard-university/undersigned-linker">project</a> · <a href="https://forge.coreweave.com/wandb/aidaneichman-harvard-university/undersigned-linker/runs/ls2ekysw">current model run</a> · <a href="https://forge.coreweave.com/wandb/aidaneichman-harvard-university/undersigned-linker/runs/zyqws7hu">pipeline run</a></div>
+<div><b>Vertex:</b> <a href="https://console.cloud.google.com/vertex-ai/training/custom-jobs?project=ac215-undersigned">training jobs</a> · <a href="https://console.cloud.google.com/vertex-ai/pipelines/runs?project=ac215-undersigned">pipeline runs</a></div>
+<div><b>Cloud Run:</b> <a href="https://console.cloud.google.com/run/detail/us-central1/undersigned-api/metrics?project=ac215-undersigned">undersigned-api</a> · <a href="https://console.cloud.google.com/logs/query;query=resource.type%3D%22cloud_run_revision%22%20resource.labels.service_name%3D%22undersigned-api%22?project=ac215-undersigned">request logs</a></div>
+<div><b>Evidence:</b> <a href="https://github.com/aidaneichman/AC215_Undersigned/tree/milestone3/docs/evidence/linker-train">training</a> · <a href="https://github.com/aidaneichman/AC215_Undersigned/tree/milestone3/docs/evidence/cloud-run">Cloud Run checks</a></div>
+</div>
+<h2><span class="n">1</span>What MS3 was supposed to do</h2>
+<div class="goal">
+MS2 could only place comments that cite a section number, which is <b>3.7%</b> of them. For MS3 we trained a model to link the rest: given a passage, rank the rule's sections by which one it's arguing about. Then train it on Vertex, track in W&amp;B, and put it behind the API on Cloud Run.
+</div>
+<div class="small" style="margin-top:4px">Training labels come from the comments that do cite: we hide the citation and make the model recover it. No hand labelling.</div>
+
+<h2><span class="n">2</span>Where we are vs the targets we set in MS2</h2>
+<table>
+<tr><th style="width:24%">Target</th><th style="width:22%">Goal</th><th>Now</th><th style="width:11%"></th></tr>
+<tr><td>Linking accuracy (right section first)</td><td>≥ 69%, aim 75%</td><td><b>69.8%</b> on the 232 passages the LLMs also answered; 66.7% on all 490</td><td><span class="met">min. met</span></td></tr>
+<tr><td>Cost of reading at scale</td><td>≤ $5 per 1,000 passages, keeping ≥ 94% of the large model's accuracy</td><td>Cascade: <b>72.0% at $2.43</b>, 95% of Sonnet's accuracy</td><td><span class="met">met</span></td></tr>
+<tr><td>Works on uncited passages</td><td>the 96% that don't cite</td><td>90.0% on 40 hand-labelled uncited passages; Sonnet 87.5%</td><td><span class="met">good so far</span></td></tr>
+<tr><td>Serving cost per request</td><td>no LLM call at request time</td><td>ONNX model on Cloud Run, ~172 ms median</td><td><span class="met">met</span></td></tr>
+</table>
+<div class="small">For scale: when two of us labelled the same 30 passages we only agreed on 21 (70%). ~17% of citation labels can't be recovered from the text at all, so ~83% is roughly the ceiling. The right section is in our top 3 82.7% of the time.</div>
+
+<h2><span class="n">3</span>Comparison with Sonnet</h2>
+<div class="row">
+<div>
+<table>
+<tr><th>232 test passages</th><th>Top-1</th><th>$ / 1,000</th></tr>
+<tr><td>Untuned encoder (MS2)</td><td class="n">44.8%</td><td class="n">0</td></tr>
+<tr><td>Hybrid search</td><td class="n">53.4%</td><td class="n">0</td></tr>
+<tr class="hi"><td><b>Ours</b> (fine-tuned bge-small)</td><td class="n"><b>69.8%</b></td><td class="n"><b>0</b></td></tr>
+<tr><td>Haiku</td><td class="n">69.0%</td><td class="n">1.29</td></tr>
+<tr><td>Sonnet</td><td class="n">75.4%</td><td class="n">19.58</td></tr>
+<tr class="hi"><td><b>Ours, least confident ones sent to Sonnet</b></td><td class="n"><b>72.0%</b></td><td class="n"><b>2.43</b></td></tr>
+</table>
+<div class="small">We don't beat Sonnet: −5.6 pts (CI −11.9 to +0.5). vs Haiku: +0.9.</div>
+</div>
+<div class="talk" style="flex:1.05">
+<b class="t">Points worth making</b>
+<ul>
+<li><b>Cost.</b> The 7 test dockets have 721k passages. Sonnet on all of them is ~<b>$14k</b>.</li>
+<li><b>Our confidence is useful.</b> On our most confident 20% we're better than Sonnet (96% vs 87%); on our least confident 20% much worse (33% vs 67%). That's why sending only the unsure ones to Sonnet works.</li>
+<li><b>New rules.</b> Trained with no Title IX comments at all, just the rule's preamble text, we get <b>67% on Title IX</b> (was 50%, hybrid search 57%). Only tested on 1 rule so far.</li>
+<li><b>Same model size as MS2</b>, so no new service; it just replaced the old one.</li>
+</ul>
+</div>
+</div>
+
+<h3>Weak spots</h3>
+<table>
+<tr><td style="width:22%"><b>Small dockets</b></td><td>MSHA 60%, lead &amp; copper 52.5%, Clean Power Plan 47%. Fewest citing comments, shortest preambles</td></tr>
+<tr><td><b>Neighbouring sections</b></td><td>Most errors pick a section next to or cross-referenced by the right one. These get flagged <code>needs_reader</code></td></tr>
+<tr><td><b>Transfer, n=1</b></td><td>Title IX result is one held-out rule. 5 more to run</td></tr>
+</table>
+
+<h2 class="pb"><span class="n">4</span>MS3 checklist</h2>
+<table>
+<tr><th style="width:23%">Requirement</th><th style="width:9%">Status</th><th>What we have</th><th style="width:22%">Where</th></tr>
+<tr><td colspan="4" class="grp">1 · Advanced training workflows</td></tr>
+<tr><td>Experiment tracking (W&amp;B)</td><td><span class="pill done">done</span></td><td>Loss, LR, val accuracy per epoch, test predictions table. Project <code>undersigned-linker</code></td><td>runs <code>ls2ekysw</code> (current), <code>zyqws7hu</code></td></tr>
+<tr><td>Serverless training on Vertex AI, logged and reproducible</td><td><span class="pill done">done</span></td><td>Vertex and laptop runs gave identical ranks on all 490 test passages</td><td><code>linker-train/vertex/</code>: <code>submit.sh</code>, <code>job.yaml</code></td></tr>
+<tr><td>Multi-GPU (if applicable)</td><td><span class="pill part">pending</span></td><td>T4 quota was 0, requested 2 on 29 Oct. Everything so far on CPU</td><td></td></tr>
+<tr><td colspan="4" class="grp">2 · Serverless deployment</td></tr>
+<tr><td>Model/API on Cloud Run</td><td><span class="pill done">done</span></td><td><code>undersigned-api</code>, 2 CPU / 4 GiB, scales to zero. New model deployed 29 Oct</td><td><code>api-service/cloudrun/</code></td></tr>
+<tr><td>Public or staff-accessible</td><td><span class="pill part">ask</span></td><td>private right now, see Q1</td><td></td></tr>
+<tr><td>Deploy config + how to redeploy</td><td><span class="pill done">done</span></td><td>one script, pulls the promoted model from the bucket and deploys</td><td><code>deploy.sh</code>, README "Deployment"</td></tr>
+<tr><td colspan="4" class="grp">3 · ML workflow with Vertex AI</td></tr>
+<tr><td>Automated pipeline: preprocessing, training, evaluation</td><td><span class="pill done">done</span></td><td><b>train → evaluate → promote</b>, only if it beats hybrid search and the current model. The check caught a rounding bug on the first run</td><td><code>vertex/pipeline.py</code>, <code>promote.py</code></td></tr>
+<tr><td colspan="4" class="grp">4 · Production monitoring</td></tr>
+<tr><td>Logging, error tracking, metrics, documented</td><td><span class="pill done">done</span></td><td>JSON request logs in Cloud Logging, <code>/stats</code> with error counts and latency percentiles</td><td>README "Deployment and monitoring"</td></tr>
+<tr><td colspan="4" class="grp">5 · Working API</td></tr>
+<tr><td>Exposes predictions</td><td><span class="pill done">done</span></td><td><code>POST /link</code> returns ranked sections + a <code>needs_reader</code> flag</td><td>README "The API"</td></tr>
+<tr><td>Documented and tested</td><td><span class="pill done">done</span></td><td>README has fields + example curl. 44 API tests, run in CI</td><td><code>api-service/tests/</code>, <code>scripts/link_check.py</code></td></tr>
+<tr><td colspan="4" class="grp">Deliverables</td></tr>
+<tr><td>README: reproduce, deploy, pipeline, API; changes since MS2 highlighted</td><td><span class="pill done">done</span></td><td>"Milestone 3: the linker" at the top</td><td><code>README.md</code></td></tr>
+<tr><td>Screenshots: W&amp;B run, <code>curl</code> to the deployed service</td><td><span class="pill todo">to do</span></td><td>only have text logs so far</td><td><code>docs/evidence/</code></td></tr>
+<tr><td>15-min slides; everyone can answer on every part</td><td><span class="pill todo">to do</span></td><td>she'll ask each of us about any part of the repo</td><td></td></tr>
+</table>
+
+<h2 class="pb"><span class="n">5</span>Questions for Alyssa</h2>
+<ol>
+<li>Is it OK to keep Cloud Run private and give staff access (<code>run.invoker</code>)? Whose accounts?</li>
+<li>If the GPU quota doesn't come through, is the CPU Vertex run fine? Do we need multi-GPU at all?</li>
+<li>The Sonnet cascade is evaluated on saved Sonnet outputs. Does it need to be live in the API for MS3?</li>
+<li>Is it a problem that we're below Sonnet if the argument is cost + it works on unlabelled rules?</li>
+<li>How many held-out rules would she want to see for the Title IX-style result?</li>
+<li>How much of the 15 min should be demo vs results?</li>
+</ol>
+
+<h2><span class="n">6</span>To do before 12 Nov</h2>
+<table>
+<tr><th>Task</th><th style="width:16%">Who</th></tr>
+<tr><td>Screenshots: W&amp;B run, curl to Cloud Run</td><td></td></tr>
+<tr><td>Add the preamble + letter scores to <code>/link</code> (API serves the model alone, 65.5%)</td><td></td></tr>
+<tr><td>Held-out runs for the other 5 rules</td><td></td></tr>
+<tr><td>Add <code>linker-train</code> to the CI matrix</td><td></td></tr>
+<tr><td>Slides</td><td></td></tr>
+</table>
+</body></html>

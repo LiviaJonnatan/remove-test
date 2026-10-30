@@ -1,0 +1,15 @@
+{
+ "run": "linker-1028-2343",
+ "test_acc@1": 0.649,
+ "minus_hybrid_points": [
+  12.2,
+  7.1,
+  17.1
+ ],
+ "served_acc@1": 0.649,
+ "checks": {
+  "beats_hybrid": true,
+  "not_worse_than_served": false
+ },
+ "promote": false
+}

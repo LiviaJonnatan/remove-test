@@ -1,0 +1,136 @@
+{
+  "data": {
+    "id": "EPA-HQ-OW-2018-0149-0084",
+    "type": "comments",
+    "links": {
+      "self": "https://api.regulations.gov/v4/comments/EPA-HQ-OW-2018-0149-0084"
+    },
+    "attributes": {
+      "commentOn": "0900006483a74b03",
+      "commentOnDocumentId": "EPA-HQ-OW-2018-0149-0003",
+      "duplicateComments": 1,
+      "address1": null,
+      "address2": null,
+      "agencyId": "EPA",
+      "city": null,
+      "category": null,
+      "comment": "See attached",
+      "country": null,
+      "displayProperties": [
+        {
+          "name": "pageCount",
+          "label": "Page Count",
+          "tooltip": "Number of pages In the content file"
+        }
+      ],
+      "docAbstract": null,
+      "docketId": "EPA-HQ-OW-2018-0149",
+      "documentType": "Public Submission",
+      "email": null,
+      "fax": null,
+      "field1": null,
+      "field2": null,
+      "fileFormats": null,
+      "firstName": null,
+      "govAgency": null,
+      "govAgencyType": null,
+      "objectId": "0900006483a8ac9b",
+      "lastName": null,
+      "legacyId": null,
+      "modifyDate": "2019-02-21T02:12:36Z",
+      "organization": null,
+      "originalDocumentId": null,
+      "pageCount": 1,
+      "phone": null,
+      "postedDate": "2019-02-20T05:00:00Z",
+      "postmarkDate": "2018-12-21T05:00:00Z",
+      "reasonWithdrawn": null,
+      "receiveDate": "2018-12-21T05:00:00Z",
+      "restrictReason": null,
+      "restrictReasonType": null,
+      "stateProvinceRegion": null,
+      "submitterRep": null,
+      "submitterRepAddress": null,
+      "submitterRepCityState": null,
+      "subtype": "Company/Organization Comment",
+      "title": "Comment submitted by [redacted]",
+      "trackingNbr": "1k3-98ci-zfeb",
+      "withdrawn": false,
+      "zip": null,
+      "openForComment": false
+    },
+    "relationships": {
+      "attachments": {
+        "data": [
+          {
+            "id": "0900006483a8ac9f",
+            "type": "attachments"
+          },
+          {
+            "id": "0900006483a8b2db",
+            "type": "attachments"
+          }
+        ],
+        "links": {
+          "self": "https://api.regulations.gov/v4/comments/EPA-HQ-OW-2018-0149-0084/relationships/attachments",
+          "related": "https://api.regulations.gov/v4/comments/EPA-HQ-OW-2018-0149-0084/attachments"
+        }
+      }
+    }
+  },
+  "included": [
+    {
+      "id": "0900006483a8ac9f",
+      "type": "attachments",
+      "links": {
+        "self": "https://api.regulations.gov/v4/attachments/0900006483a8ac9f"
+      },
+      "attributes": {
+        "agencyNote": null,
+        "authors": null,
+        "docAbstract": null,
+        "docOrder": 1,
+        "fileFormats": [
+          {
+            "fileUrl": "https://downloads.regulations.gov/EPA-HQ-OW-2018-0149-0084/attachment_1.pdf",
+            "format": "pdf",
+            "size": 73571
+          }
+        ],
+        "modifyDate": "2019-02-20T21:12:34Z",
+        "publication": null,
+        "restrictReason": null,
+        "restrictReasonType": null,
+        "title": "Cover page"
+      }
+    },
+    {
+      "id": "0900006483a8b2db",
+      "type": "attachments",
+      "links": {
+        "self": "https://api.regulations.gov/v4/attachments/0900006483a8b2db"
+      },
+      "attributes": {
+        "agencyNote": null,
+        "authors": null,
+        "docAbstract": null,
+        "docOrder": 2,
+        "fileFormats": [
+          {
+            "fileUrl": "https://downloads.regulations.gov/EPA-HQ-OW-2018-0149-0084/attachment_2.pdf",
+            "format": "pdf",
+            "size": 434387
+          }
+        ],
+        "modifyDate": "2019-02-20T21:12:33Z",
+        "publication": null,
+        "restrictReason": null,
+        "restrictReasonType": null,
+        "title": "Comment"
+      }
+    }
+  ],
+  "links": {
+    "self": "https://regulations.gov/v4/comments/EPA-HQ-OW-2018-0149-0084?include=attachments"
+  }
+}

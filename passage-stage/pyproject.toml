@@ -1,0 +1,27 @@
+[project]
+name = "passage-stage"
+version = "0.1.0"
+description = "Split letters into passages and read the rule sections they cite."
+requires-python = ">=3.12"
+dependencies = [
+    "python-dotenv>=1.0",
+    "pandas>=2.2",
+    "pyarrow>=16",
+    # rule_passages.collect imports it. The stage reads rule text already on disk, no download.
+    "requests>=2.31",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "ruff>=0.6",
+]
+
+[tool.pytest.ini_options]
+# The rule chunking lives in rule-passages; tests import it from there so there is one copy.
+pythonpath = ["src", "../rule-passages/src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]

@@ -1,0 +1,22 @@
+{
+ "api": "https://undersigned-api-658318685216.us-central1.run.app",
+ "docket": "EPA-HQ-OW-2022-0801",
+ "n": 80,
+ "top1": 0.575,
+ "top5": 0.8875,
+ "needs_reader_share": 0.2625,
+ "latency_ms_p50": 171.5,
+ "latency_ms_p90": 281.9,
+ "model": {
+  "run": "in-pre",
+  "commit": "ec9e6dc",
+  "base_model": "BAAI/bge-small-en-v1.5",
+  "test_acc@1": [
+   0.6551,
+   0.6075,
+   0.7022
+  ],
+  "reader_share": 0.2,
+  "margin_cutoff": 0.0265
+ }
+}

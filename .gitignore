@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+
+# Secrets
+secrets/
+.env
+undersigned-key.json
+
+# Data is tracked by DVC. Each tracked path gets its own .gitignore entry from `dvc add`.
+# Local comment text used for demos and labeling stays out of git.
+data/samples/
+data/derived/
+data/models/
+
+# macOS
+.DS_Store
+
+# Local container state
+docker-volumes/

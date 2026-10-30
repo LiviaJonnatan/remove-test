@@ -1,0 +1,17 @@
+INFO:     Started server process [1]
+INFO:     Waiting for application startup.
+INFO:     No passage links for EPA-HQ-OW-2018-0149, so its citation counts stay null
+INFO:     Read 204 passage links for EPA-HQ-OW-2022-0801
+INFO:     Loaded 1649 rule passages from 'rule_passages' for EPA-HQ-OW-2018-0149, EPA-HQ-OW-2022-0801
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     172.18.0.1:58166 - "GET /health HTTP/1.1" 200 OK
+INFO:     172.18.0.1:58174 - "GET /rules/EPA-HQ-OW-2022-0801/sections HTTP/1.1" 200 OK
+INFO:     172.18.0.1:58178 - "GET /rules/EPA-HQ-OW-2018-0149/sections HTTP/1.1" 200 OK
+INFO:     172.18.0.1:58188 - "GET /rules/EPA-HQ-OW-2022-0801/passages?section_ref=PART+141%2F%C2%A7+141.84&limit=2 HTTP/1.1" 200 OK
+INFO:     172.18.0.1:58194 - "GET /rules/EPA-HQ-OW-2022-0801/passages?section_ref=PART+141&limit=1 HTTP/1.1" 200 OK
+INFO:     172.18.0.1:58210 - "GET /rules/EPA-HQ-OW-2022-0801/passages?section_ref=V%2FB HTTP/1.1" 200 OK
+INFO:     172.18.0.1:58212 - "GET /rules/EPA-HQ-OW-2018-0149/passages?section_ref=IV HTTP/1.1" 200 OK
+INFO:     172.18.0.1:58214 - "GET /rules/EPA-HQ-OW-2022-0801/passages?section_ref=PART+141%2F%C2%A7+141.99 HTTP/1.1" 404 Not Found
+INFO:     172.18.0.1:58218 - "GET /rules/NO-SUCH-DOCKET/sections HTTP/1.1" 404 Not Found
+INFO:     172.18.0.1:58228 - "GET /rules/EPA-HQ-OW-2022-0801/passages HTTP/1.1" 422 Unprocessable Entity

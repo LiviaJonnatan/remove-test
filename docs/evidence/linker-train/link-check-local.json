@@ -1,0 +1,22 @@
+{
+ "api": "http://localhost:8011",
+ "docket": "EPA-HQ-OW-2022-0801",
+ "n": 80,
+ "top1": 0.575,
+ "top5": 0.875,
+ "needs_reader_share": 0.2125,
+ "latency_ms_p50": 20.3,
+ "latency_ms_p90": 35.1,
+ "model": {
+  "run": "in",
+  "commit": "ffa2ae3",
+  "base_model": "BAAI/bge-small-en-v1.5",
+  "test_acc@1": [
+   0.649,
+   0.5946,
+   0.7018
+  ],
+  "reader_share": 0.2,
+  "margin_cutoff": 0.0227
+ }
+}

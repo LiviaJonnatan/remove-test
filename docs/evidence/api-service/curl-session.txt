@@ -1,0 +1,132 @@
+$ curl -s localhost:8000/health
+{"status":"ok","passages":538,"dockets":["EPA-HQ-OW-2018-0149"]}
+
+$ curl -s -X POST localhost:8000/retrieve -H 'Content-Type: application/json' \
+    -d '{"text": "The rule removes protection for ephemeral streams and intermittent tributaries", "k": 1}'
+{
+    "hits": [
+        {
+            "retriever": "bm25",
+            "rank": 1,
+            "score": 12.9581,
+            "id": "2019-00791:0176",
+            "docket_id": "EPA-HQ-OW-2018-0149",
+            "document_number": "2019-00791",
+            "citation": "84 FR 4154",
+            "page": 4175,
+            "section_ref": "III/D/1",
+            "heading": "III. Proposed Definition of \u201cWaters of the United States\u201d > D. Tributaries > 1. What are the agencies proposing?",
+            "text": "In October 2014, the SAB completed its peer review (\u201cSAB Review\u201d) of the Draft Connectivity Report. While the SAB found that \u201c[t]he literature review provides strong scientific support for the conclusion that ephemeral, intermittent, and perennial streams exert a strong influence on the character and functioning of downstream waters and that tributary streams are connected to downstream waters,\u201d at the same time the SAB stressed that \u201cthe EPA should recognize that there is a gradient of connectivity.\u201d \\28\\ The SAB recommended that \u201cthe interpretation of connectivity be revised to reflect a gradient approach that recognizes variation in the frequency, duration, magnitude, predictability, and consequences of physical, chemical, and biological connections.\u201d \\29\\\n\\26\\ U.S. EPA. Connectivity of Streams and Wetlands to Downstream Waters: A Review and Synthesis of the Scientific Evidence (Final Report). U.S. Environmental Protection Agency, Washington, DC, EPA/600/R-14/475F, 2015.\n\\27\\ U.S. EPA. Connectivity of Streams and Wetlands to Downstream Waters: A Review and Synthesis of the Scientific Evidence (External Review Draft). U.S. Environmental Protection Agency, Washington, DC, EPA/600/R11/098B, September 2013."
+        },
+        {
+            "retriever": "dense",
+            "rank": 1,
+            "score": 0.7326,
+            "id": "2019-00791:0106",
+            "docket_id": "EPA-HQ-OW-2018-0149",
+            "document_number": "2019-00791",
+            "citation": "84 FR 4154",
+            "page": 4167,
+            "section_ref": "II/E",
+            "heading": "II. Background > E. Overview of Legal Construct for the Proposed Rule",
+            "text": "However, \u201c[t]he Corps' existing standard for tributaries\u201d provided Justice Kennedy \u201cno such assurance\u201d to infer the categorical existence of a requisite nexus between waters traditionally understood as navigable and wetlands adjacent to nonnavigable tributaries. Id. at 781. That is because\nthe breadth of the [tributary] standard--which seems to leave wide room for regulation of drains, ditches, and streams remote from any navigable-in-fact water and carrying only minor water volumes towards it--precludes its adoption as the determinative measure of whether adjacent wetlands are likely to play an important role in the integrity of an aquatic system comprising navigable waters as traditionally understood. Indeed, in many cases, wetlands adjacent to tributaries covered by this standard might appear little more related to navigable-in-fact waters than were the isolated ponds held to fall beyond the Act's scope in SWANCC.\nId. at 781-82."
+        }
+    ]
+}
+
+$ curl -s -X POST localhost:8000/retrieve -H 'Content-Type: application/json' \
+    -d '{"text": "The rule removes protection for ephemeral streams and intermittent tributaries", "k": 3, "method": "merged"}'
+{
+    "hits": [
+        {
+            "retriever": "merged",
+            "rank": 1,
+            "score": 0.0315,
+            "id": "2019-00791:0314",
+            "docket_id": "EPA-HQ-OW-2018-0149",
+            "document_number": "2019-00791",
+            "citation": "84 FR 4154",
+            "page": 4193,
+            "section_ref": "III/H/1",
+            "heading": "III. Proposed Definition of \u201cWaters of the United States\u201d > H. Waters and Features That Are Not Waters of the United States > 1. What are the agencies proposing?",
+            "text": "How might the agencies implement this approach?\nThe agencies propose to include an exclusion for groundwater under paragraph (b)(2), including groundwater drained through subsurface drainage systems. The agencies added the subsurface drainage clarification to specify that even when groundwater is channelized in subsurface systems, like tile drains used in agriculture, it still remains subject to the exclusion. However, the exclusion would not apply to surface expressions of groundwater, such as where groundwater emerges on the surface and becomes baseflow in intermittent or perennial streams.\nThe proposed rule would exclude ephemeral features and diffuse stormwater run-off including directional sheet flow over upland under proposed paragraph (b)(3). This exclusion would include ephemeral flows, swales, and erosional features, including gullies and rills, as non-jurisdictional features. Tributaries can be distinguished from these excluded features by the flow regime proposed in the definition of \u201ctributary.\u201d Tributaries would have intermittent or perennial flow while these proposed excluded features would have ephemeral flow. It should be noted that some streams are colloquially called \u201cgullies\u201d or the like even when they exhibit the characteristics of a tributary; regardless of the name they are given locally, waters that meet the definition of \u201ctributary\u201d would not be excluded ephemeral features."
+        },
+        {
+            "retriever": "merged",
+            "rank": 2,
+            "score": 0.0304,
+            "id": "2019-00791:0161",
+            "docket_id": "EPA-HQ-OW-2018-0149",
+            "document_number": "2019-00791",
+            "citation": "84 FR 4154",
+            "page": 4173,
+            "section_ref": "III/D/1",
+            "heading": "III. Proposed Definition of \u201cWaters of the United States\u201d > D. Tributaries > 1. What are the agencies proposing?",
+            "text": "Similarly, such a wetland would be considered \u201cadjacent\u201d and thus jurisdictional under this proposal given the wetland abuts (i.e., touches at a point in this case) the tributary. In the case of a perennial or intermittent stream which flows through ditches excluded from this proposed definition of \u201cwaters of the United States,\u201d the non-jurisdictional ditches would not sever jurisdiction under the proposed rule as long as the ditches convey perennial or intermittent flow to tributaries or other jurisdictional waters at the downstream end of the ditch. However, a perennial or intermittent stream that flows into a non-jurisdictional ephemeral feature would not meet the definition of \u201ctributary\u201d if the perennial or intermittent flow does not reach a traditional navigable water or territorial sea; the ephemeral feature would sever jurisdiction for such perennial and intermittent streams as it does not convey surface water year-round or continuously for extended periods of time to a traditional navigable water or territorial sea."
+        },
+        {
+            "retriever": "merged",
+            "rank": 3,
+            "score": 0.0294,
+            "id": "2019-00791:0192",
+            "docket_id": "EPA-HQ-OW-2018-0149",
+            "document_number": "2019-00791",
+            "citation": "84 FR 4154",
+            "page": 4177,
+            "section_ref": "III/D/1",
+            "heading": "III. Proposed Definition of \u201cWaters of the United States\u201d > D. Tributaries > 1. What are the agencies proposing?",
+            "text": "As proposed, effluent-dependent streams would be included in the definition of \u201ctributary\u201d as long as they contribute perennial or intermittent flow to a traditional navigable water or territorial sea in a typical year.\nThe agencies also solicit comment on whether the tributary definition should include streams that contribute less than intermittent flow to a traditional navigable water or territorial sea in a typical year. Additionally, the agencies request comment on whether less than intermittent flow in a channel breaks jurisdiction of upstream perennial or intermittent flow and under what conditions that may happen. The agencies recognize that the proposed definition may present a challenge for certain landowners upstream of an ephemeral feature. For example, landowners may find it difficult to determine whether there is a jurisdictional break downstream of a feature on their property. The agencies therefore solicit comment on this issue. The agencies also seek comment on the proposed treatment of natural and man-made breaks regarding the jurisdictional status of upstream waters, including whether these features can convey perennial or intermittent flow to downstream jurisdictional waters. The agencies also seek comment on the jurisdictional status of the breaks themselves."
+        }
+    ]
+}
+
+$ curl -s -X POST localhost:8000/retrieve -H 'Content-Type: application/json' \
+    -d '{"text": "The rule removes protection for ephemeral streams and intermittent tributaries", "k": 50, "method": "merged"}' \
+    | python3 -c "import json,sys; h=json.load(sys.stdin)['hits']; print(len(h), 'hits, ranks', h[0]['rank'], 'to', h[-1]['rank'], '| all merged:', all(x['retriever'] == 'merged' for x in h))"
+50 hits, ranks 1 to 50 | all merged: True
+
+$ curl -s -X POST localhost:8000/retrieve -H 'Content-Type: application/json' -d '{"text": "wetlands", "docket_id": "NO-SUCH-DOCKET"}'
+{"hits":[]}
+
+$ curl -s -w '\nHTTP %{http_code}\n' -X POST localhost:8000/retrieve -H 'Content-Type: application/json' -d '{"text": "  ", "k": 51, "method": "fuzzy"}'
+{
+  "detail": [
+    {
+      "type": "string_too_short",
+      "loc": [
+        "body",
+        "text"
+      ],
+      "msg": "String should have at least 1 character",
+      "input": "  ",
+      "ctx": {
+        "min_length": 1
+      }
+    },
+    {
+      "type": "less_than_equal",
+      "loc": [
+        "body",
+        "k"
+      ],
+      "msg": "Input should be less than or equal to 50",
+      "input": 51,
+      "ctx": {
+        "le": 50
+      }
+    },
+    {
+      "type": "literal_error",
+      "loc": [
+        "body",
+        "method"
+      ],
+      "msg": "Input should be 'bm25', 'dense', 'both' or 'merged'",
+      "input": "fuzzy",
+      "ctx": {
+        "expected": "'bm25', 'dense', 'both' or 'merged'"
+      }
+    }
+  ]
+}
+HTTP 422

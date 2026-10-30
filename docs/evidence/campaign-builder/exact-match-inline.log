@@ -1,0 +1,25 @@
+# Exact match on the inline comment bodies of the development docket, 12 Oct 2026
+# Input: a provisional letters.parquet of the 3,967 records (of 7,337 on disk) whose comment
+# body is longer than 200 characters. epa_campaign_id is null throughout, so no B-cubed.
+
+$ python src/exact_match.py --letters letters.parquet --out assignments.parquet
+3967 letters: 62 in 17 exact-match groups, 3905 individual
+
+# Groups by size (campaign_id is the earliest letter in the group):
+  14  EPA-HQ-OW-2018-0149-0754
+  13  EPA-HQ-OW-2018-0149-5753
+   4  EPA-HQ-OW-2018-0149-5692
+   4  EPA-HQ-OW-2018-0149-5829
+   3  EPA-HQ-OW-2018-0149-5711
+   2  EPA-HQ-OW-2018-0149-0194
+   2  EPA-HQ-OW-2018-0149-0543
+   2  EPA-HQ-OW-2018-0149-10012
+   2  EPA-HQ-OW-2018-0149-11452
+   2  EPA-HQ-OW-2018-0149-1440
+   2  EPA-HQ-OW-2018-0149-5558
+   2  EPA-HQ-OW-2018-0149-5645
+   2  EPA-HQ-OW-2018-0149-5659
+   2  EPA-HQ-OW-2018-0149-5683
+   2  EPA-HQ-OW-2018-0149-5749
+   2  EPA-HQ-OW-2018-0149-5790
+   2  EPA-HQ-OW-2018-0149-5875

@@ -1,0 +1,57 @@
+$ curl -s -X POST "$URL/link" -H "Authorization: Bearer $(gcloud auth print-identity-token)" -H "Content-Type: application/json" -d @request.json
+
+{
+    "docket_id": "EPA-HQ-OW-2022-0801",
+    "margin": 0.0001,
+    "needs_reader": true,
+    "sections": [
+        {
+            "rank": 1,
+            "section_ref": "PART 141/\u00a7 141.84",
+            "heading": "PART 141--NATIONAL PRIMARY DRINKING WATER REGULATIONS > Sec. 141.84 Service line inventory and replacement requirements.",
+            "citation": "88 FR 84878",
+            "page": 85067,
+            "score": 0.5264,
+            "evidence": {
+                "id": "2023-26148:0931",
+                "text": "(iii) When a water system is notified or otherwise learns of a customer-initiated replacement of a lead or galvanized requiring replacement service line that occurred more than six months in the past, this rule does not require the water system to complete the lead or galvanized requiring replacement service line replacement of the system-owned portion under this paragraph (f). However, the remaining portion of the lead or galvanized requiring replacement service line must be identified in the inventory in accordance with paragraph (b) of this section and replaced in accordance with paragraph (d) of this section.\n(g) Requirements for conducting partial service line replacements-- (1) Partial service line replacement. This rule prohibits water systems from conducting a partial lead service line replacement or a partial galvanized requiring replacement service line replacement as defined under Sec. 141.2 unless it is conducted as part of an emergency repair or in coordination with planned infrastructure work, excluding planned infrastructure work solely for the purposes of lead or galvanized requiring replacement service line replacement. Where a water system conducts partial service line replacement, the system must comply with the notification and mitigation requirements specified in paragraphs (h)(1) and (2) of this section."
+            }
+        },
+        {
+            "rank": 2,
+            "section_ref": "PART 141/\u00a7 141.81",
+            "heading": "PART 141--NATIONAL PRIMARY DRINKING WATER REGULATIONS > Sec. 141.81 Applicability of corrosion control treatment steps to small, medium, and large water systems.",
+            "citation": "88 FR 84878",
+            "page": 85058,
+            "score": 0.5263,
+            "evidence": {
+                "id": "2023-26148:0866",
+                "text": "(2) Systems with corrosion control treatment must continue to operate and maintain corrosion control treatment in addition to completing the mandatory service line replacement requirements under Sec. 141.84(d).\n(3) A water system that does not replace a minimum of 20 percent of lead or galvanized requiring replacement service lines calculated in accordance with Sec. 141.84(d)(5) each year in any one year of the five-year period in paragraph (f)(1)(i) of this section or complete the service line replacement requirements under Sec. 141.84(d) within five years of the end of the tap sampling period that either the system first exceeds the lead action level or the 90th percentile results first exceed the lead PQL for large systems without corrosion control treatment must meet the requirements under paragraph (d) or (e) of this section, as applicable."
+            }
+        },
+        {
+            "rank": 3,
+            "section_ref": "PART 141/\u00a7 141.93",
+            "heading": "PART 141--NATIONAL PRIMARY DRINKING WATER REGULATIONS > Sec. 141.93 Small water system compliance flexibility.",
+            "citation": "88 FR 84878",
+            "page": 85086,
+            "score": 0.4248,
+            "evidence": {
+                "id": "2023-26148:1086",
+                "text": "(2) Replacement of lead-bearing plumbing. A water system that has control over all plumbing in its buildings, and is not served by unknown, galvanized requiring replacement, or lead service lines, must replace all plumbing that does not meet the definition of \u201clead free\u201d in section 1417 of the Safe Drinking Water Act, as amended by the Reduction of Lead in Drinking Water Act and any future amendments applicable at the time of replacement. The replacement of all lead- bearing plumbing must occur on a schedule established by the State but not to exceed one year. Water systems must provide certification to the State that all lead-bearing material has been replaced in accordance with Sec. 141.90(j)(2). 13. Amend Sec. 141.153 by: a. Revising paragraph (d)(4)(xi); b. Adding paragraphs (d)(4)(xiii) and (xiv); and c. Revising paragraph (f)(3).\nThe revisions and additions read as follows:"
+            }
+        }
+    ],
+    "model": {
+        "run": "in",
+        "commit": "ffa2ae3",
+        "base_model": "BAAI/bge-small-en-v1.5",
+        "test_acc@1": [
+            0.649,
+            0.5946,
+            0.7018
+        ],
+        "reader_share": 0.2,
+        "margin_cutoff": 0.0227
+    }
+}

@@ -1,0 +1,19 @@
+# Two loads of the rule page, as the two containers logged them (docker compose logs -t frontend api-service),
+# sorted by time. nginx logs a request when it finishes, so each API line comes just before the nginx line
+# for the same call. Captured 15 Oct 2026 in desktop Chrome, the same session as ../ui-calling-backend.png.
+#
+# 23:38:50 first load: nginx serves the page (200), its CSS and its script; the script calls
+#          /api/rules/EPA-HQ-OW-2022-0801/sections, nginx forwards it to api-service as /rules/..., the API answers 200.
+# 23:39:02 the reload (Cmd+R) before the screenshot: the page is a 304 (browser cache, unchanged), and its
+#          CSS and script come from the cache without a request, but the API call is made again.
+#
+# frontend lines are nginx's access log (the browser address 192.168.65.1 is Docker Desktop's gateway).
+# api-service lines are uvicorn's; 172.18.0.3 is the frontend container on the compose network.
+frontend  | 2026-10-15T23:38:50.661816876Z 192.168.65.1 - - [15/Oct/2026:23:38:50 +0000] "GET /?docket=EPA-HQ-OW-2022-0801 HTTP/1.1" 200 394 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36" "-"
+frontend  | 2026-10-15T23:38:50.680961126Z 192.168.65.1 - - [15/Oct/2026:23:38:50 +0000] "GET /assets/index-MtSboLVT.css HTTP/1.1" 200 2551 "http://localhost:3000/?docket=EPA-HQ-OW-2022-0801" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36" "-"
+frontend  | 2026-10-15T23:38:50.681309960Z 192.168.65.1 - - [15/Oct/2026:23:38:50 +0000] "GET /assets/index-viUTww1d.js HTTP/1.1" 200 223959 "http://localhost:3000/?docket=EPA-HQ-OW-2022-0801" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36" "-"
+api-service  | 2026-10-15T23:38:50.717337335Z INFO:     172.18.0.3:56494 - "GET /rules/EPA-HQ-OW-2022-0801/sections HTTP/1.0" 200 OK
+frontend  | 2026-10-15T23:38:50.717813668Z 192.168.65.1 - - [15/Oct/2026:23:38:50 +0000] "GET /api/rules/EPA-HQ-OW-2022-0801/sections HTTP/1.1" 200 31814 "http://localhost:3000/?docket=EPA-HQ-OW-2022-0801" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36" "-"
+frontend  | 2026-10-15T23:39:02.645742007Z 192.168.65.1 - - [15/Oct/2026:23:39:02 +0000] "GET /?docket=EPA-HQ-OW-2022-0801 HTTP/1.1" 304 0 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36" "-"
+api-service  | 2026-10-15T23:39:02.693923340Z INFO:     172.18.0.3:45346 - "GET /rules/EPA-HQ-OW-2022-0801/sections HTTP/1.0" 200 OK
+frontend  | 2026-10-15T23:39:02.694868215Z 192.168.65.1 - - [15/Oct/2026:23:39:02 +0000] "GET /api/rules/EPA-HQ-OW-2022-0801/sections HTTP/1.1" 200 31814 "http://localhost:3000/?docket=EPA-HQ-OW-2022-0801" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36" "-"

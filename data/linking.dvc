@@ -1,0 +1,6 @@
+outs:
+- md5: b888e43e3c955e2156f6e7a209d22abf.dir
+  size: 13579682
+  nfiles: 16
+  hash: md5
+  path: linking

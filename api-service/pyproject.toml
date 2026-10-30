@@ -1,0 +1,35 @@
+[project]
+name = "api-service"
+version = "0.1.0"
+description = "FastAPI backend."
+requires-python = ">=3.12"
+dependencies = [
+    "python-dotenv>=1.0",
+    "fastapi>=0.110",
+    "uvicorn>=0.29",
+    # Same lower bounds as rule-passages: the API reads the collection that container writes,
+    # so both must use a compatible Chroma client and the same embedding library.
+    "chromadb>=1.0",
+    "fastembed>=0.7",
+    # Reads passage-stage's links.parquet for the section counts. Same lower bound as that stage.
+    "pyarrow>=16",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "ruff>=0.6",
+    "httpx2>=2.13",  # FastAPI's TestClient sends requests through it without starting a server
+]
+
+[tool.pytest.ini_options]
+# The retrieval code lives in rule-passages; tests import it from there so there is one copy.
+pythonpath = ["src", "../rule-passages/src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]

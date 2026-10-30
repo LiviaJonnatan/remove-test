@@ -1,0 +1,68 @@
+[
+  {
+    "retriever": "bm25",
+    "rank": 1,
+    "score": 72.0219,
+    "id": "2019-00791:0187",
+    "citation": "84 FR 4154",
+    "page": 4177,
+    "section_ref": "III/D/1",
+    "heading": "III. Proposed Definition of \u201cWaters of the United States\u201d > D. Tributaries > 1. What are the agencies proposing?",
+    "text": "The agencies also solicit comment on other implementation tools available to determine the flow regime of a river or stream and its contribution of flow to a traditional navigable water.\nTo determine whether the year in question is a \u201ctypical year,\u201d the agencies presently use observed rainfall amount and compare it to tables developed by the Corps using data from the National Oceanic and Atmospheric Administration (NOAA). The agencies consider a year to be \u201ctypical\u201d when the observed rainfall from the previous three months falls within the 30th and 70th percentiles established by a 30-year rainfall average generated at NOAA weather stations. A typical year would generally not include times of drought or extreme floods. A rolling 30-year period would account for variability to provide a reliable indicator of the climate in a given geographic area without being confounded by a year or two of unusual climate data for the given area. The geographic area proposed to be used by the agencies would be on a watershed-scale basis to ensure specific climatic data are representative of the landscape in relation to the feature under consideration for meeting the tributary definition."
+  },
+  {
+    "retriever": "bm25",
+    "rank": 2,
+    "score": 64.4882,
+    "id": "2019-00791:0159",
+    "citation": "84 FR 4154",
+    "page": 4173,
+    "section_ref": "III/D/1",
+    "heading": "III. Proposed Definition of \u201cWaters of the United States\u201d > D. Tributaries > 1. What are the agencies proposing?",
+    "text": "The agencies recognize that perennial or intermittent flow in certain mountain streams, for example, may result primarily from melting snowpack, not groundwater contributions to the channel.\nThe phrase \u201ccertain times of a typical year\u201d is intended to include extended periods of predictable, continuous, seasonal surface flow occurring in the same geographic feature year after year. The agencies are not proposing a specific duration (e.g., the number days, weeks, or months) of surface flow that constitutes intermittent flow as the agencies believe the time period that encompasses intermittent flow can vary widely across the country based upon climate, hydrology, topography, soils, and other conditions. \u201cTypical year\u201d is defined in the proposed rule to mean within the normal range of precipitation over a rolling thirty-year period for a particular geographic area. Under this proposed definition, a typical year would generally not include times of drought or extreme flooding. The term \u201cephemeral\u201d in the proposal means surface water flowing or pooling only in direct response to precipitation, such as rain or snow fall. The agencies intend to distinguish flow resulting from snow fall from sustained flow resulting from melting snowpack in these definitions."
+  },
+  {
+    "retriever": "bm25",
+    "rank": 3,
+    "score": 58.6361,
+    "id": "2019-00791:0158",
+    "citation": "84 FR 4154",
+    "page": 4173,
+    "section_ref": "III/D/1",
+    "heading": "III. Proposed Definition of \u201cWaters of the United States\u201d > D. Tributaries > 1. What are the agencies proposing?",
+    "text": "The agencies propose to define the term \u201cperennial\u201d to mean surface water flowing continuously year-round during a typical year. The proposed definition of \u201cintermittent\u201d is surface water flowing continuously during certain times of a typical year, not merely in direct response to precipitation, but when the groundwater table is elevated, for example, or when snowpack melts. Continuous surface flow during certain times of the year may occur seasonally such as in the spring when evapotranspiration is low and the groundwater table is elevated. Under these conditions, the groundwater table intersects the channel bed and groundwater provides continuous baseflow for weeks or months at a time even when it is not raining or has not very recently rained. The term \u201csnowpack\u201d in this definition is proposed as \u201clayers of snow that accumulate over extended periods of time in certain geographic regions and high altitudes (e.g., in northern climes and mountainous regions).\u201d Melting snowpack can be the sole or primary source of perennial or intermittent flow in tributaries. The agencies recognize that perennial or intermittent flow in certain mountain streams, for example, may result primarily from melting snowpack, not groundwater contributions to the channel."
+  },
+  {
+    "retriever": "dense",
+    "rank": 1,
+    "score": 0.8297,
+    "id": "2019-00791:0161",
+    "citation": "84 FR 4154",
+    "page": 4173,
+    "section_ref": "III/D/1",
+    "heading": "III. Proposed Definition of \u201cWaters of the United States\u201d > D. Tributaries > 1. What are the agencies proposing?",
+    "text": "Similarly, such a wetland would be considered \u201cadjacent\u201d and thus jurisdictional under this proposal given the wetland abuts (i.e., touches at a point in this case) the tributary. In the case of a perennial or intermittent stream which flows through ditches excluded from this proposed definition of \u201cwaters of the United States,\u201d the non-jurisdictional ditches would not sever jurisdiction under the proposed rule as long as the ditches convey perennial or intermittent flow to tributaries or other jurisdictional waters at the downstream end of the ditch. However, a perennial or intermittent stream that flows into a non-jurisdictional ephemeral feature would not meet the definition of \u201ctributary\u201d if the perennial or intermittent flow does not reach a traditional navigable water or territorial sea; the ephemeral feature would sever jurisdiction for such perennial and intermittent streams as it does not convey surface water year-round or continuously for extended periods of time to a traditional navigable water or territorial sea."
+  },
+  {
+    "retriever": "dense",
+    "rank": 2,
+    "score": 0.8252,
+    "id": "2019-00791:0160",
+    "citation": "84 FR 4154",
+    "page": 4173,
+    "section_ref": "III/D/1",
+    "heading": "III. Proposed Definition of \u201cWaters of the United States\u201d > D. Tributaries > 1. What are the agencies proposing?",
+    "text": "The agencies intend to distinguish flow resulting from snow fall from sustained flow resulting from melting snowpack in these definitions.\nUnder the proposed rule a tributary must contribute perennial or intermittent flow to a traditional navigable water or territorial sea in typical year. Perennial or intermittent flow would require some form of discrete and confined flow (as opposed to diffuse overland flow) forming geographic features such as rivers, streams, or similar naturally occurring surface water channels. A tributary may contribute perennial or intermittent flow to downstream traditional navigable waters through, for example, lakes, impoundments, adjacent wetlands, or other tributaries. Under the proposed rule, when a tributary flows through a wetland and into another tributary (sometimes called a \u201crun- of-stream\u201d wetland), the tributary would remain jurisdictional even though it may be difficult to identify channelized flow through the wetland. Similarly, such a wetland would be considered \u201cadjacent\u201d and thus jurisdictional under this proposal given the wetland abuts (i.e., touches at a point in this case) the tributary."
+  },
+  {
+    "retriever": "dense",
+    "rank": 3,
+    "score": 0.8092,
+    "id": "2019-00791:0155",
+    "citation": "84 FR 4154",
+    "page": 4173,
+    "section_ref": "III/D/1",
+    "heading": "III. Proposed Definition of \u201cWaters of the United States\u201d > D. Tributaries > 1. What are the agencies proposing?",
+    "text": "In this proposed rule, the agencies would retain tributaries as a category of jurisdictional waters subject to CWA jurisdiction. This proposed rule defines \u201ctributary\u201d to mean a river, stream, or similar naturally occurring surface water channel that contributes perennial or intermittent flow to a traditional navigable water or territorial sea in a typical year either directly or indirectly through other jurisdictional waters, such as other tributaries, impoundments, and adjacent wetlands or through water features identified in paragraph (b) of this proposal so long as those water features convey perennial or intermittent flow downstream. Excluded waters and features in this proposal are not tributaries, but certain excluded waters and features may convey perennial or intermittent flow from a tributary to traditional navigable waters or the territorial seas. For example, if a tributary flows into an excluded ditch or a waste treatment system and those excluded features convey perennial or intermittent flow to a tributary downstream, the tributary remains a jurisdictional tributary upstream and downstream of the excluded feature. However, certain excluded waters and features are incapable of providing perennial or intermittent flow as defined in this proposal (e.g., ephemeral features) and therefore break jurisdiction upstream of the excluded feature."
+  }
+]

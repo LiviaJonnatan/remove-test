@@ -1,0 +1,30 @@
+[project]
+name = "rule-passages"
+version = "0.1.0"
+description = "Chunk Federal Register rule text into ChromaDB; BM25 baseline."
+requires-python = ">=3.12"
+dependencies = [
+    "python-dotenv>=1.0",
+    "requests>=2.31",
+    "chromadb>=1.0",
+    "fastembed>=0.7",
+    "pyarrow>=16",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "ruff>=0.6",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+ignore = ["SIM905"]  # the stopword list is clearer as a wrapped string

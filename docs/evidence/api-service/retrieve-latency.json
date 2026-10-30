@@ -1,0 +1,18 @@
+{
+ "n": 200,
+ "first_call_ms": 352.9,
+ "p50_ms": 67.2,
+ "p90_ms": 119.1,
+ "p99_ms": 191.7,
+ "max_ms": 319.9,
+ "health_p90_ms": 1.8,
+ "k": 5,
+ "method": "both (bm25 + dense)",
+ "index_chunks": 1111,
+ "machine": "Apple M2 Pro laptop, Docker Desktop (12 CPUs, 8 GB)",
+ "cpus": 12,
+ "query_words_median": 134,
+ "measured": "2026-10-14",
+ "query": "200 random passages of the 40-record lead and copper sample, median 134 words",
+ "note": "index of 1,111 chunks, with the rule-passages fix in #67"
+}
