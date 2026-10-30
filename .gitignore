@@ -4,8 +4,6 @@ __pycache__/
 .venv/
 *.egg-info/
 
-.github
-
 # Secrets
 secrets/
 .env
