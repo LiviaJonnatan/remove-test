@@ -54,3 +54,19 @@ choice adds a row in the same PR, so anyone on the team can answer "why X and no
 | The API imports rule-passages' code through a second build context | Copying the retrieval code | Retrieval and the API can't drift apart: there is one copy of the code | `docker-compose.yml` (`additional_contexts`) |
 | FastAPI | Flask | Request validation from type hints (a bad request gets a 422 naming the field) and interactive docs at `/docs` | `api-service/` |
 | React page behind nginx, which forwards `/api` to the API | The browser calling the API directly | One origin, so the API needs no CORS. nginx looks the API up per request, so the page loads even while the API is starting | `frontend/nginx.conf` |
+
+## Argument graph (MS3, `argument-graph/`)
+
+| Choice | Over | Why | Where |
+|---|---|---|---|
+| Two model steps, extract and judge | A third agent that flags significance | Significance is a rule on the extractor's `evidence_type`: new data, a legal argument or a concrete alternative is what that field encodes. A model that re-reads the claim to say the same thing adds cost and a second place to be wrong | `argument-graph/src/issues.py` |
+| Every claim in a passage, no word caps | The 12 Oct one-ask-per-passage prompt with 18-word asks | 134 of 896 LCRI passages carry more than one ask, and 7 of the 8 unfaithful judge verdicts on 12 Oct were dropped second asks. The shortening passes cost $0.533 for cosmetics | `argument-graph/prompts/extract.md` |
+| Embeddings propose pairs, the model judges them | One merge call per section (12 Oct) | The section-wide merge left 405 of 507 positions as singletons and 63% of its merges clean. Pairs give the model two claims at a time, and a cosine floor keeps the pair count bounded. B1 (cosine clustering alone) is the baseline it has to beat | `argument-graph/src/pairs.py`, `eval/baselines.py` |
+| Issue label is a member's own ask | A model-written label | Cosmetic, and a paraphrase is one more thing to audit. The analyst reads a real commenter's sentence beside its quote. `GRAPH_LABEL_ISSUES=1` turns the label call on | `argument-graph/src/issues.py` |
+| Issues per section, no cross-section merge | A second merge pass over sections | Cut for MS3 and recorded as a limitation: the same ask about § 141.84 and § 141.86 appears twice | `argument-graph/README.md` |
+| Collision detection cut | The 12 Oct collide step | 16 of 60 "direct conflicts" were real on the Opus check. `same_issue_opposite_side` in the pair judge keeps the useful part | `argument-graph/prompts/judge.md` |
+| Linker as a cross-check only | Linking uncited passages into the graph | 65.5% top-1 would put a third of uncited claims under the wrong section. Citations are the label; the linker's top 5 flags disagreements for review | `argument-graph/src/crosscheck.py` |
+| Agency response nodes only in the eval | In the graph the analyst sees | The final rule does not exist when the response is being written | `argument-graph/eval/match.py` |
+| Deterministic quote check with one re-ask, never a script-side cut | Trusting the model's quote, or truncating long ones | The response writer cites the quote. On 12 Oct the string check passed 99.6% first try and 100% after one re-ask; the 15 quotes the script cut to 30 words could orphan a clause | `argument-graph/src/quotes.py` |
+| Count by distinct letters and by letters including copies, both shown | One count | A form letter sent 5,000 times is one argument and 5,000 signatures; the writer needs both numbers | `argument-graph/src/issues.py` |
+| Two backends behind one `call()`: `claude -p` and the SDK | The SDK only | Pilots run on the laptop's Claude Code login with no key; the container needs a key. Same ledger row either way | `argument-graph/src/backends.py` |

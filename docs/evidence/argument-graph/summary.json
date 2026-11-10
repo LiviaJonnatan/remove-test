@@ -1,0 +1,77 @@
+{
+  "docket_id": "EPA-HQ-OW-2022-0801",
+  "passages_in": 364,
+  "passages_extracted": 364,
+  "claims": 859,
+  "claims_first_pass": 859,
+  "quotes_verified_first_pass": 859,
+  "quotes_verified_final": 859,
+  "claims_dropped": 0,
+  "claims_needs_review": 0,
+  "issues": 605,
+  "issues_multi_claim": 116,
+  "flagged": 214,
+  "review_rows": 184,
+  "review_rows_by_reason": {
+    "quote_failed": 0,
+    "quote_fragment": 0,
+    "section_disagrees": 43,
+    "no_section": 63,
+    "linker_disagrees": 46,
+    "missing_from_output": 0,
+    "llm_failed": 0,
+    "contested_merge": 16,
+    "giant_issue": 1,
+    "judge_unsure": 15
+  },
+  "review_share_of_claims": 0.2142,
+  "pairs_proposed": 1300,
+  "pairs_judged": 1300,
+  "pair_verdicts": {
+    "different": 922,
+    "same_ask": 346,
+    "same_issue_opposite_side": 17,
+    "unsure": 15
+  },
+  "forced_fallbacks": 0,
+  "extract_batches_failed": 0,
+  "judge_batches_failed": 0,
+  "budget_exceeded": false,
+  "linker_checked": true,
+  "linker_agree": 813,
+  "linker_agree_share": 0.9464,
+  "model": "fable",
+  "model_id": [
+    "claude-fable-5-1"
+  ],
+  "backend": "cli",
+  "effort": null,
+  "prompt_sha1s": {
+    "extract": "5e4d4d5bce2988a82ad54ee142de3cce6ebc7c21"
+  },
+  "calls_by_step": {
+    "extract": 40,
+    "judge": 45
+  },
+  "usd_by_step": {
+    "extract": 17.5051,
+    "judge": 11.6831
+  },
+  "usd_total": 29.1882,
+  "cache_read_tokens": 0,
+  "cache_write_tokens": 530554,
+  "input_tokens": 170,
+  "output_tokens": 371509,
+  "model_seconds": 4062.6,
+  "models_seen": [
+    "claude-fable-5-1"
+  ],
+  "calls_cached": 2,
+  "calls_failed": 0,
+  "wall_clock_s": 156.3,
+  "rule_context": "files",
+  "letters_file": "../data/derived/letters/EPA-HQ-OW-2022-0801/letters.parquet",
+  "letters_sha256": "847089d654fe816db524a7e011fddae0f0ff9c48d62c65f0e50ceea002e2f885",
+  "passages_sha256": "2c702eca1799d8c2c31569b7c86d65fc6d4656632cdf57aab52fffe21202142e",
+  "built_at": "2026-10-31T01:08:09Z"
+}

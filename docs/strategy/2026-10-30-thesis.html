@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Undersigned Thesis</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap">
+<style>
+@page{size:Letter;margin:0.6in 0.65in}
+:root{--ink:#1b222c;--muted:#5d6774;--line:#dfe3e8;--accent:#1f4f96;--soft:#eef3fa;--warn:#8a4b12;--warn-soft:#fbf2e6;--good:#2e7d55}
+*{box-sizing:border-box}
+body{font-family:"Public Sans",system-ui,sans-serif;color:var(--ink);font-size:9.8pt;line-height:1.45;margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.top{display:flex;justify-content:space-between;align-items:baseline;border-bottom:2.5pt solid var(--ink);padding-bottom:5pt;font-size:8.5pt;color:var(--muted)}
+.top b{color:var(--ink);font-size:10pt}
+h1{font-family:"Source Serif 4",Georgia,serif;font-size:21pt;line-height:1.15;margin:12pt 0 6pt;letter-spacing:-.01em}
+.lede{font-family:"Source Serif 4",Georgia,serif;font-size:11.5pt;line-height:1.5;margin:0 0 10pt}
+h2{font-family:"Source Serif 4",Georgia,serif;font-size:13pt;margin:14pt 0 5pt;break-after:avoid}
+p{margin:0 0 6pt}
+table{width:100%;border-collapse:collapse;margin:4pt 0 8pt;font-size:9pt}
+tr{break-inside:avoid}
+th{text-align:left;font-weight:600;color:var(--muted);font-size:8pt;text-transform:uppercase;letter-spacing:.05em;border-bottom:1pt solid var(--ink);padding:4pt 6pt 3pt 0}
+td{border-bottom:.5pt solid var(--line);padding:4pt 6pt 4pt 0;vertical-align:top}
+td.n{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+tr.us td{font-weight:700}
+.box{background:var(--soft);border-radius:4pt;padding:8pt 10pt;margin:6pt 0 8pt;break-inside:avoid}
+.box.warn{background:var(--warn-soft)}
+.box b.k{display:block;font-size:8pt;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:2pt}
+.box.warn b.k{color:var(--warn)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:6pt 10pt}
+.grid .box{margin:0}
+.small{font-size:8.3pt;color:var(--muted)}
+.pb{break-before:page}
+ol,ul{margin:0 0 6pt;padding-left:14pt}
+li{margin-bottom:2pt}
+</style></head><body>
+
+<div class="top"><b>Undersigned</b><span>Strategy note · 30 Oct 2026 · AC215, Harvard</span></div>
+
+<h1>The model is a commodity. The record of what worked is not.</h1>
+<p class="lede">Today a single Fable prompt matched our custom extraction pipeline on the biggest provision of EPA's lead pipe rule. Any team with a model can read one docket. Nobody has the linked history of every comment, the agency's answer, and what changed in the final rule. That history is the product.</p>
+
+<h2>What we learned today</h2>
+<table>
+<thead><tr><th>System, § 141.84 (107 passages)</th><th class="n">Asks</th><th class="n">EPA points found (of 42)</th><th class="n">Cost</th></tr></thead>
+<tbody>
+<tr><td>Our pipeline: extract, quote check, pair judge</td><td class="n">148</td><td class="n">10 (23.8%)</td><td class="n">$7.63</td></tr>
+<tr class="us"><td>One Fable prompt per provision</td><td class="n">54</td><td class="n">9 (21.4%)</td><td class="n">$2.54</td></tr>
+<tr><td>Cosine clustering, no model</td><td class="n">140</td><td class="n">13 (31.0%)</td><td class="n">none</td></tr>
+<tr><td>12 Oct Sonnet run</td><td class="n">113</td><td class="n">14 (33.3%)</td><td class="n"></td></tr>
+</tbody></table>
+<ul>
+<li>The prompt's quotes were 159 of 159 verbatim, with none credited to the wrong letter. Our harness added no measured accuracy.</li>
+<li>Every method finds 21% to 33% of what EPA answered. The limit is the input: these runs read only letters that cite a provision by number, 41 of 1,553. Reading attachments behind cover notes (31 Oct) raises that to 74.</li>
+<li>The fine-tuned section linker reached 65.5% top-1 and an autolab agent could not beat it (best 65.78% on its own split). It is frozen and serves as a cross-check.</li>
+</ul>
+<div class="box"><b class="k">Decision</b>Use the one-prompt extractor. Stop building extraction machinery. Spend the effort on what a prompt cannot do.</div>
+
+<h2>What a model cannot give a competitor</h2>
+<table>
+<thead><tr><th style="width:24%">Asset</th><th>Why a prompt cannot produce it</th><th style="width:28%">What we have</th></tr></thead>
+<tbody>
+<tr><td><b>The corpus</b></td><td>Every comment linked to its argument, the agency's response, and the final text, across agencies and years. Reading one docket is easy. Holding all of them, linked and cleaned, is the work.</td><td>Collector, processor, campaign grouping; 7 dockets</td></tr>
+<tr><td><b>Outcome labels</b></td><td>Proposed text, then comment, then response, then final text. "Did this argument change the rule?" is a dataset that does not exist yet.</td><td>Final-rule parser; 489 EPA comment points on LCRI; 3 dockets with a final rule on disk</td></tr>
+<tr><td><b>Who's who over time</b></td><td>The same organization under different names across dockets and years, with its track record.</td><td>Submitter names from regulations.gov</td></tr>
+<tr><td><b>Integrity</b></td><td>Coordinated and fake campaigns. The NY Attorney General found fake comments made up nearly 18 million of the more than 22 million the FCC received in its 2017 net neutrality rulemaking.</td><td>Campaign grouping; the NY AG report and data</td></tr>
+</tbody></table>
+
+<h2>Who pays</h2>
+<table>
+<thead><tr><th style="width:26%">Buyer</th><th>Pain</th><th style="width:34%">Product</th></tr></thead>
+<tbody>
+<tr><td><b>Government affairs teams, trade associations, regulatory law firms</b></td><td>Rules move their business, and they comment without knowing who is on each side or what has worked before.</td><td>Before you comment: the sides, the arguments, and what this agency has conceded in the past</td></tr>
+<tr><td><b>Agencies</b></td><td>Must answer every significant comment or risk the rule being vacated.</td><td>Response-to-comments workspace with an audit trail</td></tr>
+<tr><td><b>Oversight, journalists, researchers</b></td><td>Was this campaign real? Who won?</td><td>Integrity reports and the influence dataset</td></tr>
+</tbody></table>
+
+
+<h2>Plan</h2>
+<table>
+<thead><tr><th style="width:6%">#</th><th style="width:34%">Build</th><th>Why</th><th style="width:20%">Course fit</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Outcome ledger on the 3 dockets with a final rule on disk (lead and copper 2024, WOTUS 2020, Clean Power Plan repeal 2019)</td><td>The first slice of the dataset nobody has. Each ask gets EPA's response, a verdict (adopted, partly, declined, not addressed) and the text diff.</td><td>MS4 evaluation</td></tr>
+<tr><td>2</td><td>Whole letters as input, one prompt per provision, campaigns counted by code</td><td>Fixes the coverage limit that holds every method at 21% to 33%.</td><td>MS4 pipeline</td></tr>
+<tr><td>3</td><td>Track record view: which kinds of asks EPA conceded, by stakeholder type</td><td>The first insight a single docket cannot give.</td><td>MS4 frontend</td></tr>
+<tr><td>4</td><td>Live mode for open comment periods: who is filing, which campaigns are surging, integrity flags</td><td>Turns a report into something used every week.</td><td>MS5 scaling and k8s</td></tr>
+<tr><td>5</td><td>More agencies: CMS, FCC, SEC, FERC</td><td>The corpus compounds with each one.</td><td>After the course</td></tr>
+</tbody></table>
+
+<h2>How we will know it works</h2>
+<table>
+<thead><tr><th>Question</th><th>Measure</th><th class="n">Today</th></tr></thead>
+<tbody>
+<tr><td>Do we find what the agency answered?</td><td>Recall of the agency's comment points in the final rule</td><td class="n">21% to 33%</td></tr>
+<tr><td>Is every line real?</td><td>Quotes verbatim (code); asks and stances (two human readers)</td><td class="n">100% / not yet read</td></tr>
+<tr><td>Do we see everyone?</td><td>Share of docket letters represented</td><td class="n">74 of 1,553</td></tr>
+<tr><td>Are outcome verdicts right?</td><td>Human agreement on a sample of adopted / declined calls</td><td class="n">not built</td></tr>
+</tbody></table>
+
+<h2>Risks</h2>
+<div class="grid">
+<div class="box warn"><b class="k">Incumbents</b>FiscalNote and Bloomberg Government sell policy tracking. Their gap is argument-level outcome data, and they could build it.</div>
+<div class="box warn"><b class="k">Prediction may be weak</b>Our 11 Oct test found the comment record added little to forecasting which sections change (within-rule AUC 0.57 to 0.63). Lead with description, not forecasts.</div>
+<div class="box warn"><b class="k">Market size</b>Rulemaking tooling is a niche. This may be a strong business rather than a large one.</div>
+<div class="box warn"><b class="k">Data access</b>Regulations.gov rate limits slow corpus building. Attachments need OCR: 39 of 1,553 LCRI letters did.</div>
+</div>
+
+<h2>Next steps</h2>
+<ol>
+<li>Share this with the team and Alyssa. Ask whether the outcome ledger is the right MS4 centerpiece.</li>
+<li>Two teammates read the 50-claim and 30-issue reader packs, about two hours, for the first human agreement numbers.</li>
+<li>Build step 1 on the lead and copper docket first, with a small spend cap and a dry run before any model calls.</li>
+</ol>
+
+<p class="small" style="margin-top:10pt">Sources: docs/evidence/argument-graph/pilot.md and prompt-baseline.md (commits 2616e49, 6781fcf); linker metrics in docs/evidence/linker-train/in-pre; NY AG, "Fake Comments: How U.S. Companies & Partisans Hack Democracy to Undermine Your Voice" (data/raw/nyag/oag-fakecommentsreport.pdf); predict-final results in undersigned2/predict-final/RESULT.md.</p>
+</body></html>

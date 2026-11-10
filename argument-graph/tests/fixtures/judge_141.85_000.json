@@ -1,0 +1,10 @@
+{
+ "result": "{\"pairs\": [{\"pair_id\": \"P000003\", \"verdict\": \"unsure\"}]}",
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 600,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 30
+ },
+ "usd": 0.009
+}

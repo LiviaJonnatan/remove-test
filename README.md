@@ -12,7 +12,9 @@ Milestone 1 proposal: `main.tex` / `milestone1.tex`. MS1 application mock: `docs
 
 ## Milestone 3: the linker
 
-New since MS2, all on the `milestone3` branch: a trained model that links a comment passage to the section of the rule it argues about, its training on Vertex AI tracked in W&B, a Vertex AI pipeline that only promotes a model that beats what is served, the model behind a new `POST /link` endpoint, and the API on Cloud Run with request logging. The MS2 submission (`milestone2` branch) is unchanged.
+New since MS2, all on the `milestone3` branch: a trained model that links a comment passage to the section of the rule it argues about, its training on Vertex AI tracked in W&B, a Vertex AI pipeline that only promotes a model that beats what is served, the model behind a new `POST /link` endpoint, and the API on Cloud Run with request logging. The MS2 submission (`milestone2` branch) is unchanged. Also new: `argument-graph/`, the stage that
+turns cited passages into claims, issues and a review queue for the response-to-comments writer,
+with the final rule's preamble as its eval label (see [argument-graph](#argument-graph)).
 
 ### The problem it solves
 
@@ -127,7 +129,7 @@ Checked end to end: the 80 lead and copper test passages sent to the running API
 
 ### Deployment and monitoring
 
-`api-service/cloudrun/deploy.sh` builds the API image in Cloud Build with the rule index and the promoted linker inside it (from `gs://ac215-undersigned-data/serving/`), so Cloud Run needs no ChromaDB server, and deploys it as `undersigned-api` (2 CPU, 4 GiB, scales to zero, at most 2 instances). The service is private: callers need an identity token from an account with the `run.invoker` role.
+`api-service/cloudrun/deploy.sh` builds the API image in Cloud Build with the rule index, the promoted linker, and passage-stage's parquet inside it (from `gs://ac215-undersigned-data/serving/`), so Cloud Run needs no ChromaDB server, and deploys it as `undersigned-api` (2 CPU, 4 GiB, scales to zero, at most 2 instances). The service is private: callers need an identity token from an account with the `run.invoker` role.
 
 ```bash
 URL=$(gcloud run services describe undersigned-api --region us-central1 --format 'value(status.url)')
@@ -147,6 +149,7 @@ gcloud logging read 'resource.type="cloud_run_revision" AND resource.labels.serv
 - [`link-curl.txt`](docs/evidence/cloud-run/link-curl.txt): the example above against Cloud Run. It ranks § 141.84 (service line inventory and replacement) first and § 141.81 (treatment steps by system size) a hair behind, 0.5264 against 0.5263, and sets `needs_reader`: the passage argues about both.
 - [`link-check.json`](docs/evidence/cloud-run/link-check.json): the 80 lead and copper test passages against Cloud Run, 57.5% top-1 and 87.5% top-5, the same as the local run, 166 ms median and 294 ms at the 90th percentile from a laptop on home wifi.
 - [`link-check-in-pre.json`](docs/evidence/cloud-run/link-check-in-pre.json): the same 80 passages after `in-pre` was promoted and redeployed on 29 Oct (revision `undersigned-api-00003-jc5`): 57.5% top-1, 88.8% top-5, 26% flagged for the reader, 172 ms median.
+- [`sections-counts.png`](docs/evidence/cloud-run/sections-counts.png): `GET /rules/EPA-HQ-OW-2022-0801/sections` after #91 (revision `undersigned-api-00004-lm7`). `PART 141` has 156 citing passages from 5 letters, not null.
 
 ## Architecture
 
@@ -244,9 +247,10 @@ Raw data lives in `data/raw/`, tracked with DVC and stored in `gs://ac215-unders
 | ---------------- | ---------------------------------- | ------------------------------------ | ------------ |
 | data-collector   | Regulations.gov / ECFS APIs        | `data/raw/<docket>/`                 | `data/raw/EPA-HQ-OW-2018-0149.dvc`; 11,444 details, 4,009 attachment files, 1 failed (403 on a .jpg) |
 | | | | `data/raw/EPA-HQ-OAR-2017-0355.dvc` (26,206 details, 9,699 attachment files, 0 failed) |
-| | | | `data/raw/EPA-HQ-OW-2022-0801.dvc` (1,589 details, 482 attachment files, 0 failed) |
+| | | | `data/raw/EPA-HQ-OW-2022-0801.dvc` (1,589 details, 482 attachment files, 0 failed, plus EPA's response-to-comments PDF in `rtc/`) |
 | data-processor   | `data/raw/<docket>/`               | `data/derived/letters/<docket>/`     | `processing_report.json` records the sha256 of the raw `.dvc` pointer it read, of the tokenizer, and of the plan |
 | campaign-builder | `data/derived/letters/<docket>/`   | `data/derived/campaigns/<docket>/`   | `summary.json` records the sha256 of the letters file it grouped |
+| response-index   | `data/raw/<docket>/rtc/rtc.pdf`, `data/derived/letters/<docket>/` | `data/derived/responses/<docket>/` | `summary.json` records the sha256 of the PDF and of the letters file |
 | passage-stage    | `data/derived/letters/`, `data/derived/campaigns/`, rule text | `data/derived/passages/<docket>/` | `summary.json` records the sha256 of the letters file and the rule documents it linked against |
 | rule-passages    | `data/raw/federal_register/<docket>/` | ChromaDB collection `rule_passages` | `data/raw/federal_register.dvc`. Chunk ids are `<document_number>:<index>` and each chunk carries a hash of its text, so a rerun re-embeds only what changed |
 
@@ -421,6 +425,27 @@ cd passage-stage && uv run pytest && uv run ruff check .        # 53 tests, offl
 docker compose run --rm passage-stage                            # after campaign-builder and rule-passages
 ```
 
+### response-index
+
+Reads the agency's own response-to-comments document and turns it into data. For LCRI that is EPA 815-R-24-029 (regulations.gov EPA-HQ-OW-2022-0801-2645, 3,529 pages), saved at `data/raw/EPA-HQ-OW-2022-0801/rtc/rtc.pdf`. EPA files every comment under one of 138 topic codes, opens each code with a summary response, and then quotes each commenter as `Organization (Doc. #1118, SBC-051937)`, an excerpt, and `EPA Response:`. Doc #1118 is our record EPA-HQ-OW-2022-0801-1118.
+
+```bash
+docker compose run --rm --no-deps response-index      # DOCKET_IDS from .env; skips dockets with no rtc.pdf
+```
+
+| Output in `data/derived/responses/<docket>/` | One row per |
+|---|---|
+| `codes.parquet` | topic code: title, first page, summary response |
+| `entries.parquet` | commenter entry: code, organization, record_id, excerpt, EPA's response, the codes it points to, and the excerpt's character span in our letter |
+| `rule_diff.parquet` | paragraph of regulatory text, proposed against final: `unchanged`, `modified`, `added` or `removed`, with a word diff (`[-old-] {+new+}`) for modified ones |
+| `summary.json` | counts, coverage, sha256 of the PDF and of the letters file |
+
+LCRI, 31 Oct: 7,889 entries on 1,543 records (97.1% of our letters). 7,358 of the 7,749 entries whose record has a letter are located word for word (at least half of the excerpt's 8-word chunks found). 5,916 responses (75.0%) only point to a code ("Please see the EPA response to comment code 9.6"), so the answer to those comments is somewhere in that code's summary; 1,841 carry more than 30 words of their own. These entries are the labels the comment-to-response matcher is scored on. Notes: `docs/evidence/rtc-gate.md`.
+
+`response-index/eval/match.py` ranks the 138 codes for a comment with BM25, bge-small, their fusion and a 5-feature logistic regression, scored on EPA's own filing with a campaign-grouped split. The ranker puts an answer code first for 52.7% of held-out excerpts and in the top 5 for 84.3%. On whole letters, without the three docket-wide codes, it gets 84.8% top 5. The frequency prior beats both retrievers alone there. Opus 5.5 reranking the top 20 (`eval/llm_rerank.py`, 175 held-out excerpts, $9.92) gets 78.3% top 1 against the ranker's 52.6% on the same excerpts, and 93.7% top 5. Notes: `docs/evidence/response-match.md`.
+
+The rule diff takes the final rule and the last proposal before it that printed regulatory text, both from `data/raw/federal_register/<docket>/`, and aligns them paragraph by paragraph within each section. For LCRI (proposed 2023-26148, final 2024-23549) it covers 21 sections: 479 paragraphs modified, 174 added, 70 removed, 309 unchanged. A paragraph the proposal left as `* * *` counts as added. The households to service connections change in § 141.84(d)(5)(vi)(A) reads `replacements [-per household served-] by the water system that exceeds [-0.039,-] {+39 per 1,000 service connections,+}`.
+
 ### rule-passages
 
 Finds the rule sections a comment argues about. A comment goes in; ranked passages of the proposed rule come out, each with its Federal Register citation, page and section.
@@ -545,6 +570,55 @@ npm run dev   # http://localhost:5173
 ```
 
 **Tests:** `cd frontend && npm test` (21 tests with Vitest and React Testing Library in a simulated browser; `fetch` is faked, so no API is needed). CI runs them and `npm run build` in the `frontend` job. Screenshot and request log: [`docs/evidence/frontend/`](docs/evidence/frontend/README.md).
+
+### argument-graph
+
+Reads the comment passages that cite a section (passage-stage's `links.parquet`, one copy per
+campaign) and writes what a response-to-comments writer needs: every claim with a verbatim quote,
+a stance, the ask and the kind of evidence offered; the claims of a section grouped into issues;
+each issue counted by distinct letters and by letters including campaign copies; and the issues
+flagged that carry new data, a legal argument or a concrete alternative. Two model steps, Fable
+through `claude -p` on a laptop or the Anthropic SDK in the container, with every call cached by
+tag and priced in a ledger. Everything else is script.
+
+- **Extractor** (`src/extract.py`). Twelve passages of one section per call with the section's
+  heading and first 150 words as context. Every claim's quote is checked by string match against
+  the passage after normalising quotes, dashes, spaces and ligatures; the failing quotes of a batch
+  get one re-ask, and a quote still failing drops the claim into the review queue. Quotes are never
+  shortened by script. A model that names a section the letter did not cite is overruled by the
+  citation, and the disagreement is logged.
+- **Pair judge** (`src/pairs.py`). bge-small embeds each claim's ask; pairs within a section above
+  cosine 0.60 (at most 10 per claim) go to the model 40 at a time: same ask, same issue from the
+  opposite side, different, or unsure. Union-find over the first two gives the issues. A component
+  that also holds a pair judged different is marked contested.
+- **Issues and significance** (`src/issues.py`). The label is a member's own ask (the one nearest
+  the centroid), counts are by distinct letters and campaigns, and `significant` is a rule on
+  `evidence_type`, listed claim by claim so it can be audited. No third model.
+- **Review queue** (`review.parquet`). Ten reasons, from a failed quote to a judge that said unsure.
+  The eval reports the review load; above 20% of claims is a failure.
+- **Eval** (`eval/`). The final rule's 35 "Summary of Public Comments and the EPA's Response"
+  blocks are cut deterministically into the points the EPA summarised (575 points in 2024-23549).
+  Each point is matched to its top-3 candidate issues by one model yes/no, checked by two readers
+  on 60 decisions. Baselines: passages as issues (B0), cosine clustering at the same issue count
+  (B1), the 12 Oct positions (B2); for significance, flag-all and top-k by letters or by passage
+  length. A reader pack (seed 215) covers 50 claims, 30 issues, 30 flags and 40 point boundaries.
+
+First run, three cited passages on § 141.90 through `claude -p --model fable`: 8 claims, 8 of 8
+quotes verified first try, 7 issues (one merged pair), 3 flagged, 2 calls, $0.20, 35 s. Evidence
+in [`docs/evidence/argument-graph/`](docs/evidence/argument-graph/README.md). The full LCRI run and
+the eval tables are the next step; the `GRAPH_MAX_USD` guard stops a run at $40.
+
+Where it fails, by design: issues are per section, so the same ask about two sections appears
+twice; the preamble omits comments the EPA judged insignificant, so point recall is a recall label
+only; the significance flag rests on an extractor field (in the first run one claim about burden
+"without a corresponding benefit" was tagged `legal`); uncited passages are out unless the linker's
+65.5% top-1 is turned on; no organisation field exists in the EPA dockets.
+
+```bash
+cd argument-graph && uv run pytest && uv run ruff check .      # 36 tests, offline
+GRAPH_BACKEND=cli DATA_DIR=../data PYTHONPATH=../rule-passages/src uv run python src/main.py all
+docker compose run --rm argument-graph                          # after passage-stage; needs ANTHROPIC_API_KEY
+```
 
 ## Evidence (MS2)
 

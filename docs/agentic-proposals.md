@@ -90,6 +90,12 @@ Vertex pipeline; the gate is the gated retraining from MS5, delivered early.
 
 ### A3. Argument graph: a knowledge graph of what the docket argues, and who argues it
 
+> **Superseded (30 Oct).** Built for MS3 as [`argument-graph/`](../argument-graph/README.md) in a
+> smaller form: two model steps (extract claims with verbatim quotes, judge candidate pairs), issues
+> per section counted by distinct letters, significance as a rule on evidence type, a review queue,
+> and the final rule's preamble as the eval label. Authority, rebuttal and sponsor nodes below were
+> cut; see `docs/decisions.md`, "Argument graph".
+
 **Issue:** An agency must respond to every significant comment, and today the pipeline only links a
 campaign to the rule sections it argues about. The idea is to have
 agents build a knowledge graph of the whole docket: the claims letters make, the provisions they

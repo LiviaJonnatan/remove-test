@@ -1,0 +1,300 @@
+service line replacement requirements ensures that all galvanized 
+service lines currently or previously downstream of an LSL will be 
+treated the same as an LSL under the service line replacement 
+requirements (USEPA, 2020d). The proposed LCRI maintained the 2021 LCRR 
+requirements for water systems to fully replace both lead and GRR 
+service lines in their distribution systems.
+    The 2021 LCRR did not require replacement of galvanized service 
+lines downstream of a lead connector. Galvanized service lines 
+downstream of a lead connector may contribute lead into drinking water, 
+but for the 2021 LCRR, the EPA did not find it appropriate to 
+categorize these service lines as ``galvanized requiring replacement'' 
+if these lines were not currently or previously downstream from an LSL 
+(USEPA, 2020e). The EPA determined that it was not feasible to include 
+a requirement for all systems to inventory lead connectors; therefore, 
+they cannot be used to categorize a galvanized line as needing to be 
+replaced under the LCRR (USEPA, 2020e). Additionally, the EPA did not 
+want LSLR to be slowed by including galvanized service lines downstream 
+of a lead connector in the total number of service lines requiring 
+replacement. The 2021 LCRR requires lead connectors to be tracked and 
+replaced as they are encountered during normal operations. The EPA did 
+not propose in the LCRI to expand the definition of a GRR service line 
+to include galvanized service lines downstream of a lead connector for 
+the same reasons identified in the 2021 LCRR, but the agency did 
+request public comment on this topic.
+    The EPA maintained the 2021 LCRR requirement to provide 
+notification and risk mitigation measures, including pitcher filters, 
+where full service line replacements were conducted to account for 
+potential temporary increases in lead levels and further prevent the 
+potential for known adverse health effects.
+b. Summary of Public Comments and the EPA's Response
+    Many commenters supported the proposed requirement for water 
+systems to replace lead and GRR service lines regardless of 90th 
+percentile lead levels, highlighting the benefits of service line 
+replacement to eliminate the risk of lead exposure posed by these 
+significant lead sources. A few commenters stated that CCT is effective 
+at reducing lead in drinking water, and therefore, mandatory service 
+line replacement should not be required. After consideration of all the 
+comments on this issue, the agency is requiring full replacement of 
+lead and GRR service lines in the final rule. Replacement of lead and 
+GRR service lines can substantially reduce the risk of lead exposure 
+from drinking water because lead and GRR service lines can release lead 
+even when systemwide lead levels are low (Triantafyllidou et al., 
+2007). Many water systems have proactively and voluntarily replaced 
+LSLs (USEPA, 2024d), and the States of Illinois, Michigan, New Jersey, 
+and Rhode Island have passed State laws and regulations requiring 
+mandatory service line replacement independent of their tap monitoring 
+results. Proactive and voluntary measures alone, however, cannot 
+achieve replacement of 100 percent of lead and GRR service lines as 
+quickly as feasible. A national mandate ensures public health 
+protection for customers and consumers served by these service lines, 
+including populations most sensitive to the effects of and communities 
+disproportionately impacted by lead exposure, in States or water 
+systems that do not have mandatory or proactive replacement programs.
+    One comment claimed that the proposed LCRI implicates the major 
+questions doctrine, violates the commerce clause, is ``unworkable, 
+underfunded, and unnecessary,'' and is arbitrary and capricious. The 
+comment was based on the erroneous assumption that the LCRI regulates 
+homeowners. The EPA disagrees with these characterizations of the 
+proposed rule. Regarding the major questions doctrine, the comment 
+claimed that the proposed LCRI implicates the major questions doctrine 
+because of a substantial expansion in scope, stating that the ``greater 
+the scope of the proposed action, the clearer that Congressional 
+authorization must be'' (State of Kansas and Office of Attorney General 
+of Kansas, 2024). Contrary to the comment's assumption, however, the 
+EPA has authority under SDWA to regulate PWSs, not homeowners. As a 
+result, the LCRI regulates PWSs and their distribution systems; it does 
+not regulate indoor plumbing or require homeowners to take any actions. 
+Moreover, the LSLR has been a central part of the LCR's treatment 
+technique as far back as the original 1991 LCR and continuing through 
+the 2021 LCRR. The LCRI's mandatory service line replacement 
+requirement differs from the 1991 LCR and 2021 LCRR LSLR requirements 
+in two ways, but neither difference represents an expansion of scope, 
+so the major questions doctrine is not applicable to the LCRI's service 
+line replacement requirements. The first difference is that the LCRI 
+requires water systems to conduct a full service line replacement 
+program independent of their tap monitoring results. The EPA notes that 
+the 2021 LCRR and 1991 LCR both also require systems to conduct 
+mandatory LSLR if a system exceeds the lead action level. The EPA does 
+not view the LCRI's similar requirement to be an expansion of scope 
+simply because the requirement applies independent of tap water 
+monitoring results. Rather, imposing that requirement irrespective of 
+tap monitoring results follows directly from SDWA's statutory mandate 
+in light of current information. SDWA requires the EPA to promulgate 
+NPDWRs that ``prevent known or anticipated adverse effects on the 
+health of persons to the extent feasible'' (SDWA 1412(b)(7)(A)). As 
+section IV.B.1 of this preamble explains, the EPA's finding that a 
+mandatory, systemwide service line replacement program irrespective of 
+tap monitoring results is essential to meet this statutory requirement, 
+as the requirement is both feasible and prevents known or anticipated 
+health effects of lead exposure from drinking water. For more 
+information, see section IV.B.1 of this preamble.
+    The second difference between the LCRI and the LCR and 2021 LCRR is 
+that the LCRI removes statements about service line ownership and 
+responsibility to pay for full service line replacement. This change 
+does not expand the scope of this rule; in fact, the EPA made the 
+change to better align
+
+[[Page 86448]]
+
+the rule with SDWA's definition of a ``public water system'' and to 
+clarify that the EPA is not directing through this rule how a water 
+system should cover the costs of compliance with a NPDWR. How a system 
+chooses to cover the costs or allocate the costs among users are 
+matters of State and local law beyond the scope of the EPA's authority 
+under section 1412 of SDWA. Because State and local governments 
+regulate how water systems charge for services they provide to their 
+customers, and the EPA has no explicit statutory authority to regulate 
+in an NPDWR how water systems charge for their services, under the 
+LCRI, the EPA has removed all statements in the prior rule about 
+service line ownership and responsibility to pay.
+    The EPA disagrees that the LCRI is ``unworkable, underfunded, and 
+unnecessary,'' particularly, the commenter's assertion that almost none 
+of the cost of the rule is offset by the Federal Government. On the 
+contrary, the Bipartisan Infrastructure Law (BIL) dedicates $15 billion 
+in funding for service line inventory and replacement, and other 
+Federal funding is also available to support implementation of the LCRI 
+(see section III.G of this preamble). The final tranche of this BIL 
+DWSRF funding for lead service line inventory and replacement will be 
+appropriated in Fiscal Year 2026; however, funds will remain available 
+for the EPA to obligate (i.e., award) to States during the fiscal year 
+in which they are appropriated and the following fiscal year, 
+consistent with SDWA section 1452(a)(1)(C). After the second fiscal 
+year of availability, any unobligated funds would be reallotted by the 
+EPA to other States, as described in SDWA section 1452(a)(1)(E). The 
+EPA notes that its economic analyses for the proposed and final rules 
+do not account for external funding, such as from BIL, in the 
+calculation of PWS costs and household cost to residents in CWSs. 
+Furthermore, the agency also did not rely upon external funding, such 
+as from BIL, to support its finding that the proposed and final rules 
+are affordable in accordance with SDWA's definition of ``feasible'' in 
+section 1412(b)(4)(D) for NPDWRs (``what may reasonably be afforded by 
+large metropolitan or regional public water systems.'') The EPA finds 
+the LCRI as a whole is affordable. For discussion on the affordability 
+of service line replacement, please see section IV.B.6 and IV.B.9 of 
+this preamble and the final rule's Technical Support Document (USEPA, 
+2024d). For CCT, please see section IV.F.1 of this preamble. For public 
+education, please see sections IV.J.1 and IV.K.1 of this preamble. Note 
+that the EPA is not including a discussion for source water treatment 
+because those requirements are not being amended by this final rule. 
+For the EPA's feasibility determination for source water treatment, see 
+the final LCR (56 FR 26482, USEPA 1991). In addition, the EPA evaluated 
+the cumulative impact of the LCRI requirements as a whole to household 
+costs by system size, which are discussed in the EPA's Economic 
+Analysis for the final LCRI (USEPA, 2024c) in section 4.3.7.3 and shown 
+in Exhibit 7 and Exhibit 8 in section VI.D.2 of this preamble.
+    The EPA disagrees that the LCRI is ``arbitrary and capricious.'' 
+The comment claimed the rule would cost the States, PWSs, and 
+households billions ``without resulting in any measured benefit, and 
+the agency lacks clear Congressional authorization to impose these 
+burdens, and the proposed rule does not adequately explain why it is 
+departing from past practice'' (State of Kansas and Office of Attorney 
+General of Kansas, 2024). The claim that the proposed rule had no 
+measured benefit is simply untrue. The final rule's economic analysis 
+showed that the monetized net annualized incremental benefits range 
+from $12.0 billion to $23.2 billion (in 2022 dollars, discounted at two 
+percent) as well as many unquantified benefits, and these benefits 
+justify the costs (USEPA, 2024a, chapter 6, section 6.3). As described 
+above, the EPA has clear authority to promulgate the LCRI under SDWA 
+section 1412. The proposed rule also explained at length the factors it 
+considered when proposing a mandatory service line replacement 
+requirement irrespective of lead levels (USEPA, 2023a).
+    Some commenters suggested that water systems' mandatory service 
+line replacement programs should extend to replacement of the lead 
+connector because they are a source of lead in drinking water. The EPA 
+agrees that lead connectors can contribute lead into drinking water and 
+encourages their replacement to reduce lead in drinking water. The LCRI 
+maintains the 2021 LCRR's requirement that lead connectors must be 
+replaced when they are encountered by the water system (e.g., during 
+water main replacements). The EPA disagrees, however, that the LCRI 
+should require systems to locate and then replace all connectors in the 
+system. Lead and GRR service lines, where present, are the most 
+significant source of lead in drinking water. Incorporating a 
+requirement for replacement of lead connectors into the 10-year service 
+line replacement could take significant time and resources away from 
+replacing lead and GRR service lines. Systems would be required to 
+identify where all lead connectors are and then replace them in 
+addition to the lead and GRR service lines. Furthermore, this would not 
+be feasible within the 10-year replacement timeframe required for 
+replacing lead and GRR service lines, and adding this requirement 
+would, therefore, delay replacement of the most significant sources of 
+lead exposure in drinking water. The LCRI requires that the system's 
+inventory include information about lead connectors based on available 
+information, but the rule does not require systems to engage in a 
+proactive effort to collect additional information to locate all lead 
+connectors that may be in the system. Many water systems do not have 
+information on the presence or location of lead connectors in their 
+distribution system, but systems conducting a service line inventory 
+may find that they have records of connectors, and systems may 
+encounter connectors while conducting service line replacements as well 
+as conducting repairs and maintenance work. Accordingly, the LCRI 
+requires water systems that do have records on the location of lead 
+connectors to include them in their inventory and replace connectors 
+encountered during service line replacement and other work.
+    Some commenters argued that galvanized service lines downstream of 
+a lead connector should be classified as requiring replacement (a 
+``GRR'') under the system's mandatory service line replacement program, 
+while other commenters stated that including such lines in mandatory 
+replacement requirements could significantly impact a system's ability 
+to complete their service line replacement program within 10 years. The 
+EPA disagrees with including galvanized service lines downstream of a 
+lead connector in the mandatory replacement program. In order to 
+prioritize replacement of the most significant contributors of lead in 
+drinking water, the final rule does not define galvanized service lines 
+that are or were downstream of a lead connector as GRR service lines, 
+and, thus, they are not inventoried or replaced as such (see section 
+IV.O.3 of this preamble).
+c. Final Rule Requirements
+    The final LCRI requires water systems to conduct full service line 
+replacement of lead and GRR service lines regardless of their 90th 
+percentile lead levels. Partial service line replacement and ``test-
+outs'' at individual service lines do not count towards mandatory full
+
+[[Page 86449]]
+
+service line replacement. Lead connectors must be replaced where 
+encountered during normal system operations and service line 
+replacement unless the connector is not under the control of the 
+system.
+3. Service Lines Under the Control of the System
+a. Rationale and Proposed LCRI Revisions
+    The EPA is authorized by SDWA to regulate PWSs to include any 
+``distribution facilities under control of the operator of such system 
+and used primarily in connection with such system'' (SDWA section 
+1401(4)(A)). In some cases, service line ownership is shared between 
+customers and PWSs; in other cases, service lines are owned in their 
+entirety either by customers or by PWSs and used by PWSs to distribute 
+water. Under the LCR, a water system is required to replace only the 
+portion of the service line that is owned by the system and offer to 
+replace the portion of the line not owned by the system. As a result, 
+for the LCR, ``under control'' of the water system was interpreted as 
+ownership of the service line. The LCR does not identify how ownership 
+of the service line would be determined. The LCR explicitly states that 
+a water system is not required to pay for replacement of the portion of 
+the service line that is not owned by the system, or to conduct the 
+replacement of the privately-owned portion of the service line where 
+the owner chooses not to pay for replacement of the privately-owned 
+portion of the line, or where replacing the privately-owned portion of 
+the service line is precluded by State, local, or common law.
+    Under the 2021 LCRR, water systems are required to conduct full 
+LSLR, and only full LSLR counts towards a system's mandatory 
+replacement rate. A system remains in compliance if it is unable to 
+meet the mandatory replacement rate because a customer refuses to 
+participate in the replacement program or does not respond to the 
+system after two good faith efforts to reach the customer. Under the 
+2021 LCRR, a system must conduct a full service line replacement 
+regardless of ownership if the customer consents to the replacement of 
+their portion of the line. However, the 2021 LCRR does not require a 
+water system to pay for replacement of the portion of the line that is 
+``customer-owned'' and not owned by the system. The cumulative effect 
+of these provisions is that a water system is required to conduct full 
+LSLR where the customer consents to the replacement and agrees to cover 
+the cost of the replacement or the water system chooses to cover the 
+full cost of the replacement.
+    The proposed LCRI builds on 2021 LCRR's requirement to conduct full 
+LSLR, but the proposed rule did not make any assumptions about customer 
+consent or payment requirements or assume that there are no other 
+potential barriers to the system's ability to access the service line 
+to conduct a full replacement. Under the proposed LCRI, full 
+replacement of all lead and GRR service lines is required wherever a 
+system can access the service line in order to conduct a full 
+replacement. The EPA does not have the authority under SDWA section 
+1412 to specify whether customer consent is required for a water system 
+to gain access to a service line, nor does the EPA have the authority 
+under SDWA section 1412 to determine that a water system is or is not 
+responsible for the cost of the service line, or how those costs should 
+be allocated among rate payers, as these are matters determined by 
+State or local law. In addition, the EPA recognizes that there may be 
+other barriers that prevent a system from gaining access to conduct a 
+full service line replacement on a case-by-case basis (e.g., threats to 
+the safety of system personnel due to site characteristics). 
+Accordingly, in the proposed LCRI, the EPA proposed to treat a service 
+line as ``under control'' of the system wherever the system has access 
+(e.g., legal access, physical access) to conduct a full service line 
+replacement.
+    Under the proposed LCRI, a water system's obligation to conduct 
+full service line replacement extends to those service lines under 
+control of the system, i.e., those service lines that the system can 
+access to conduct a full service line replacement. If a system does not 
+have access to conduct a full service line replacement, it is not 
+required by the rule to replace the lead or GRR service line, but it 
+must document the reasons that the water system does not have access 
+and include any specific laws, regulations, and/or water tariff 
+agreements that affect the system's ability to gain access to conduct 
+full service line replacement identified in the service line 
+replacement plan. The system must provide this documentation to the 
+State.
+    The proposal also included requirements for systems to make 
+reasonable efforts (four attempts using two different communication 
+methods) to obtain property owner consent where a water system has 
+legal access to conduct full service line replacement only if the 
+property owner consent is obtained, where the number of attempts was 
+doubled relative to the 2021 LCRR requirement and the use of multiple 
+communication methods was incorporated to better reach property owners 
+and increase participation in service line replacement programs (USEPA, 
+2021b). If the system is unable to obtain property owner consent after 
+four attempts, the system is not required to replace the service line. 
+However, the system would need to offer full service line replacement 
+within six months of any change in property ownership and make four 
+attempts to obtain property owner consent within one year of the change 
+in property ownership. The EPA proposed that requirement to continue to 

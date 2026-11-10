@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "pairs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "pair_id": {"type": "string"},
+          "verdict": {"type": "string", "enum": ["same_ask", "same_issue_opposite_side", "different", "unsure"]}
+        },
+        "required": ["pair_id", "verdict"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["pairs"],
+  "additionalProperties": false
+}

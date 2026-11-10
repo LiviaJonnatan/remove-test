@@ -5,7 +5,7 @@
 body{font:9.6pt/1.38 -apple-system,"Helvetica Neue",Arial,sans-serif;color:#1d1d1f;margin:0}
 h1{font-size:16pt;margin:0}
 .sub{color:#666;margin:2px 0 10px;font-size:9pt}
-h2{font-size:11.5pt;margin:12px 0 5px;color:var(--b);display:flex;align-items:center;gap:7px}
+h2{break-after:avoid;font-size:11.5pt;margin:12px 0 5px;color:var(--b);display:flex;align-items:center;gap:7px}
 h2 .n{background:var(--b);color:#fff;border-radius:50%;width:19px;height:19px;display:inline-flex;align-items:center;justify-content:center;font-size:9pt}
 .card{display:grid;grid-template-columns:1fr 1fr 1.15fr;gap:7px;break-inside:avoid}
 .card>div{border-radius:5px;padding:6px 9px}
@@ -22,11 +22,119 @@ th{background:#f3f5f9;font-weight:600} td.n{text-align:right}
 tr.hi td{background:#fff8e1}
 .box{border:1.5px solid #ccc;border-radius:5px;padding:6px 10px;break-inside:avoid}
 .ask{border-color:var(--b)}
+.flow{display:flex;align-items:stretch;gap:4px;font-size:8.6pt}
+.flow div{flex:1;background:var(--bl);border:1px solid #c9d4e6;border-radius:5px;padding:4px 6px}
+.flow span{align-self:center;color:var(--b);font-weight:700}
+.sec{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px;font-size:8.4pt;line-height:1.32}
+.sec>div{border-radius:5px;padding:5px 8px;break-inside:avoid}
+.sec ul{margin:1px 0 0 13px}.sec li{margin:1.5px 0}
+.s1{background:var(--bl);border-left:4px solid var(--b)}.s1 .lab{color:var(--b)}
+.s2{background:var(--ol);border-left:4px solid var(--o)}.s2 .lab{color:var(--o)}
+.s3{background:#f1ecf8;border-left:4px solid #6941c6}.s3 .lab{color:#6941c6}
+.s4{background:#fff8db;border-left:4px solid #a37b00}.s4 .lab{color:#8a6700}
+.s5{background:var(--gl);border-left:4px solid var(--g)}.s5 .lab{color:var(--g)}
+.open{border:2px solid var(--g);background:var(--gl);border-radius:6px;padding:6px 11px;margin:0 0 4px}
+.open .lab{color:var(--g);font-size:8.4pt}
+.open ol{margin:2px 0 0 17px;padding:0}.open li{margin:3px 0;font-size:9.8pt}
+.ideas{font-size:8.3pt;line-height:1.3}.ideas td{vertical-align:top}
 .small{font-size:8.5pt;color:#555}
 </style></head><body>
 
 <h1>Undersigned: talking points for Alyssa</h1>
 <div class="sub">Fri 30 Oct · MS3 due Thu 12 Nov · each item is what we wanted, what we tried, what happened</div>
+
+<div class="open">
+<span class="lab">If she says "update me"</span>
+<ol>
+<li><b>The MS3 stack is built and live.</b> The model trains on Vertex, every run is tracked in W&amp;B, a Vertex pipeline only promotes a model that beats the one being served, and it's serving on Cloud Run with API tests in CI.</li>
+<li><b>The model ties Haiku for free, and its top 5 is as good as Sonnet's.</b> Its first pick is right 69.8% of the time (Haiku 69.0%, Sonnet 75.4%), and the model we serve has the right section in its top 5 93.1% of the time, the same as Sonnet. Sending only its least-sure passages to Sonnet gets 95% of Sonnet's accuracy at an eighth of the cost.</li>
+<li><b>It works on a rule it was never trained on.</b> We tested on the Department of Education's 2022 Title IX proposed rule (ED). Trained with zero letters about it, the model got 50%. Adding ED's own preamble to training (no labels needed) lifted it to 67%, close to the 73% it gets when it has trained on ED letters. Livia is running the other five rules this week.</li>
+<li><b>Next: beat Sonnet on the first pick.</b> The right answer is already in our top 3 85% of the time, so the job is choosing among 3, not 30. The idea we're most excited about: <b>the agency already labelled the comments for us.</b> When a rule is finalized, the agency publishes its answer to every significant comment, sorted by section. That's thousands of free, expert labels written by the people who read every letter. More ideas below. Also left for MS3: Sonnet call in the API, screenshots, slides.</li>
+</ol>
+</div>
+
+<div class="box" style="border-color:var(--b);font-size:8.4pt;line-height:1.32;margin-bottom:4px">
+<span class="lab" style="color:var(--b)">What the accuracy numbers mean</span>
+Each passage is ranked against every section of its rule (11 to 39 sections). <b>Top-1</b> = our first pick is the section the commenter cited. <b>Top-3 / top-5</b> = the cited section is somewhere in our first 3 / 5.
+<table>
+<tr><th></th><th>Top-1</th><th>Top-3</th><th>Top-5</th></tr>
+<tr><td>Our model, all 490 test passages</td><td class="n">66.7%</td><td class="n">85.1%</td><td class="n">90.8%</td></tr>
+<tr class="hi"><td>Our model, the 232 Sonnet also answered</td><td class="n">69.8%</td><td class="n"></td><td class="n">92.2%</td></tr>
+<tr class="hi"><td>Served model (no extra signals), same 232</td><td class="n">68.5%</td><td class="n"></td><td class="n">93.1%</td></tr>
+<tr><td>Sonnet, same 232</td><td class="n">75.4%</td><td class="n"></td><td class="n">93.1%</td></tr>
+<tr><td>Plain search (MS2), same 232</td><td class="n">53.4%</td><td class="n"></td><td class="n">84.9%</td></tr>
+</table>
+So the model finds the right neighbourhood as well as Sonnet does. The gap is only in picking the single best one, which is what the next steps target. The report only has top-5 on the 232 subset, hence the blanks.
+</div>
+
+<h2 style="margin-top:4px">How it's set up</h2>
+<div class="flow">
+<div>Comment letter</div><span>→</span>
+<div>Split into passages, form-letter copies set aside</div><span>→</span>
+<div><b>Fine-tuned encoder</b> turns each passage into a vector</div><span>→</span>
+<div>Compared to every section of the rule (long sections cut into windows, best window counts)</div><span>→</span>
+<div>Sections ranked, with a margin. Small margin = flagged as unsure</div>
+</div>
+
+<div class="sec">
+<div class="s1"><span class="lab">The model, what kind of learning</span>
+<ul>
+<li><code>BAAI/bge-small-en-v1.5</code>, a small text encoder, the same one MS2 already served. We fine-tune it; the tuned copy replaces the old one, no new service.</li>
+<li><b>Supervised contrastive learning with labels we get for free.</b> Every example has a right answer (the section), so it isn't unsupervised. But no person labels anything: the labels come from the data itself, so it's closest to <b>self-supervised</b>.</li>
+<li>Contrastive: pull a passage's vector toward its section and push it away from wrong ones. The wrong ones are "hard negatives", the 3 wrong sections the model currently likes most, re-picked every epoch.</li>
+</ul></div>
+
+<div class="s1"><span class="lab">Where the labels come from</span>
+<ul>
+<li>Some commenters cite a section ("§ 106.44"). We hide the citation and make the model recover the section from what the passage argues.</li>
+<li>Plus the agency's preamble: each paragraph discussing a section becomes an example for that section, numbers hidden.</li>
+<li>6,066 training examples, 299 validation. Test is a frozen set of 490 passages from 6 rules, none sharing text with training letters.</li>
+</ul></div>
+
+<div class="s2"><span class="lab">"Unsure" and sending to Sonnet</span>
+<ul>
+<li>Each section gets a similarity score. <b>Margin = top score minus second score.</b> Tiny margin means two sections are nearly tied.</li>
+<li>Margin tracks correctness: biggest-margin fifth 96% right (Sonnet 87%), smallest-margin fifth 33% (Sonnet 67%).</li>
+<li><b>Cascade result is simulated:</b> Sonnet already answered these test passages in our 11 Oct test, with cost saved. We keep our answer when sure and swap in Sonnet's when unsure. Share sent is picked on half the comments, scored on the other half.</li>
+<li><b>Live API doesn't call Sonnet yet.</b> It returns the margin and a <code>needs_reader</code> flag (26% flagged on the LCRI check). Calling Sonnet on flagged ones is a small next step.</li>
+</ul></div>
+
+<div class="s3"><span class="lab">Vertex AI: training and pipeline</span>
+<ul>
+<li>Training is a Vertex custom job: image built in Cloud Build, reads data from the bucket, writes the run back. CPU (n2-standard-16), since GPUs are blocked on the free trial.</li>
+<li>Vertex pipeline: <b>train → evaluate → promote</b>. It only promotes if the new model beats plain search and the one being served. This one passed, +12.9 over search.</li>
+<li>Same seed and data gave identical answers on the laptop and on Vertex, all 490 test passages.</li>
+</ul></div>
+
+<div class="s4"><span class="lab">W&amp;B: what we track</span>
+<ul>
+<li>Every training run logs loss, learning rate and validation accuracy per epoch, plus a table of test predictions. Config and commit are saved with the run.</li>
+<li>Project <code>undersigned-linker</code> on the team's W&amp;B (CoreWeave host). Current model is run <code>ls2ekysw</code>, pipeline run <code>zyqws7hu</code>.</li>
+<li>It already caught a bug: validation sat flat at 73.9% for three epochs, which showed the learning-rate schedule hit zero halfway. Fixed, buggy run kept for comparison.</li>
+</ul></div>
+
+<div class="s5"><span class="lab">Cloud Run: how we serve it</span>
+<ul>
+<li>Service <code>undersigned-api</code> (FastAPI), us-central1, 2 CPU / 4 GB, scales 0 to 2 instances. Model exported to ONNX, so no PyTorch in the image.</li>
+<li>Deploy script builds in Cloud Build and bakes in the promoted model from the bucket. Live revision serves <code>in-pre</code>.</li>
+<li>Endpoints: <code>POST /link</code>, <code>/retrieve</code>, rule sections and passages, <code>/health</code>, <code>/stats</code>. JSON request logs. 172 ms typical response.</li>
+<li>Private right now: callers need a Google identity token. Making it public is a team decision.</li>
+</ul></div>
+</div>
+
+
+<div class="box" style="margin-top:6px;border-color:var(--o);font-size:8.4pt;line-height:1.32">
+<span class="lab" style="color:var(--o)">What it costs once we actually call Sonnet (served model, measured on the 232 passages Sonnet answered)</span>
+<table>
+<tr><th>Share of passages sent to Sonnet</th><th>Right first</th><th>$ per 1,000 passages</th><th>All 721k passages in the 7 test rules</th></tr>
+<tr><td>0% (our model only)</td><td class="n">68.5%</td><td class="n">$0</td><td class="n">$0</td></tr>
+<tr><td>10%</td><td class="n">70.7%</td><td class="n">$1.80</td><td class="n">$1,298</td></tr>
+<tr class="hi"><td>20% (what the API flags now)</td><td class="n">73.3%</td><td class="n">$3.50</td><td class="n">$2,524</td></tr>
+<tr><td>30%</td><td class="n">75.4%</td><td class="n">$5.77</td><td class="n">$4,161</td></tr>
+<tr><td>100% (Sonnet on everything)</td><td class="n">75.4%</td><td class="n">$19.58</td><td class="n">$14,121</td></tr>
+</table>
+Sonnet's cost per passage is what it actually cost on 11 Oct. Only flagged passages are sent, so we pay roughly in proportion to the share. Fixed shares are scored on all 232 passages, which flatters them a little: with the share picked on one half and scored on the other, the honest number is 72.0% at $2.43. At 30% we match Sonnet for less than a third of its cost.
+</div>
 
 <h2><span class="n">1</span>Linking comments to the right section</h2>
 <div class="card">
@@ -58,9 +166,9 @@ We tie Haiku and are about 6 points behind Sonnet.</div>
 
 <h2><span class="n">4</span>Rules the model has never seen</h2>
 <div class="card">
-<div class="want"><span class="lab">We wanted</span>The model to work on a new rule out of the box, since every campaign is about a different rule.</div>
-<div class="tried"><span class="lab">We tried</span>Holding out one rule (ED) entirely, then adding the agency's preamble text to training so the model learns how agencies describe their own sections.</div>
-<div class="got"><span class="lab">Result</span>On the unseen rule: 50% before, 67% with the preamble. Plain search gets 57% there.</div>
+<div class="want"><span class="lab">We wanted</span><b>ED</b> = the Department of Education's 2022 Title IX proposed rule (sex discrimination in schools, docket ED-2021-OCR-0166, 19 sections). We wanted the model to work on a brand-new rule like this, since every campaign is about a different rule and nobody will have labelled letters for it.</div>
+<div class="tried"><span class="lab">We tried</span>Training a copy with every ED letter removed, then testing on ED's 100 test passages. Then the same, but adding ED's preamble (the agency's own explanation of each section, which every proposed rule ships with) to training.</div>
+<div class="got"><span class="lab">Result</span>No ED letters: 50% top-1. With ED's preamble: <b>67%</b> top-1, 87% top-3. With ED letters too: 73%. Plain search: 57%. So most of the gap closes with no labels at all.</div>
 </div>
 
 <h2><span class="n">5</span>Putting it in production</h2>
@@ -77,6 +185,18 @@ We tie Haiku and are about 6 points behind Sonnet.</div>
 <div class="got bad"><span class="lab">Result</span>Google blocked it because the project is on a free-trial billing account. It needs the billing owner to upgrade to paid. So far we've trained on CPU, which has been fine.</div>
 </div>
 
+<h2><span class="n">★</span>Ideas to float: beating Sonnet on the first pick</h2>
+<table class="ideas">
+<tr><th style="width:22%">Idea</th><th>Why it could work</th><th style="width:27%">How we'd test it</th></tr>
+<tr><td><b>1. The agency already labelled the comments.</b> Train on the final rule's response to comments.</td><td>When a rule is finalized, the agency summarizes what commenters argued, section by section, and answers it. Those summaries are paraphrases of exactly our passages, labelled by the people who read every letter. Free, expert, and in commenter language, not legal language.</td><td>Parse the final rule's comment summaries for ED (finalized 2024), add as training pairs, compare top-1 against <code>in-pre</code> on the same frozen test.</td></tr>
+<tr><td><b>2. Campaigns label themselves.</b> Spread labels across copies of a form letter.</td><td>Thousands of letters are copies or light edits of one template, and they all argue about the same section. If one copy cites § 106.44, every copy does too. That's our core campaign-detection work turned into labels. Rank passages as a graph (near-duplicates linked), not one at a time.</td><td>Label propagation over the near-duplicate graph we already build. Measure top-1 on test passages whose campaign has a citing copy.</td></tr>
+<tr><td><b>3. The cascade trains its replacement.</b></td><td>Every unsure passage we send to Sonnet comes back with an answer. Those are exactly the hard cases the model gets wrong. Feed them back as training data, and each retrain needs Sonnet less. This is also the automated retraining MS5 asks for.</td><td>Simulate: Sonnet answers for flagged train passages → retrain → re-run the cascade. Track the share sent and cost per 1,000 per round.</td></tr>
+<tr><td><b>4. Write the comments a new rule will get.</b></td><td>On a brand-new rule we have no letters. Have an LLM write, once per rule, dozens of comments per section in different voices (a school district, an advocacy group, a parent). Paid once per rule, not per passage. Builds on the preamble result (50% → 67%).</td><td>Held-out ED: preamble only vs preamble + synthetic comments. Same for the 5 rules Livia is running.</td></tr>
+<tr><td><b>5. Link the ask, not the paragraph.</b></td><td>A passage often mentions several sections, but its request ("we urge the Department to withdraw…") points at one. Find the request sentence first, then link that.</td><td>Score top-1 linking only the request sentence vs the whole passage.</td></tr>
+<tr><td><b>6. Answer with a set, not a guess.</b></td><td>Two of us agree only 70% of the time, so sometimes there isn't one right section. Conformal prediction returns the smallest set of sections guaranteed to contain the answer, e.g. 90% of the time. Often 1 section, 2 or 3 when it's genuinely ambiguous. An analyst can trust that.</td><td>Calibrate on validation, report coverage and average set size on test. Our top-5 already covers 93%.</td></tr>
+</table>
+<div class="small" style="margin-top:3px">Simpler ones we'd try first: a reranker that reads passage and section together for the top 3; Sonnet choosing from our top 5 instead of all 11 to 39 sections (shorter prompt, easier choice).</div>
+
 <h2><span class="n">7</span>Where it's still weak</h2>
 <div class="box">
 <ul>
@@ -90,7 +210,7 @@ We tie Haiku and are about 6 points behind Sonnet.</div>
 <h2><span class="n">8</span>Questions for Alyssa</h2>
 <div class="box ask">
 <ul>
-<li>Is CPU training on Vertex OK, or does the course have a billing account we should use for GPUs?</li>
+<li>Staff on Ed said GPUs need the billing account upgraded to paid. Is CPU training on Vertex enough for MS3, or should we upgrade?</li>
 <li>The Cloud Run service is private. Does it need to be public for grading, or is staff access enough?</li>
 <li>Is it fine to lead with the cascade as our main result, or should we lead with the plain model vs. Sonnet?</li>
 <li>Do you want unseen-rule tests on the other five rules too, or is one enough?</li>

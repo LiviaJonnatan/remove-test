@@ -229,6 +229,86 @@ range as `citation_raw`.
 
 `docket_id`, `letters_read`, `letters_skipped_as_copies` (members with no sentence of their own), `letters_read_for_own_sentences` (members read only for what they added), `passages`, `passages_with_citation`, `links`, `links_resolved`, `links_unresolved`, `sections_cited`, `rule_sections_known`, `rule_documents`, `passage_words`, `letters_file`, `letters_sha256`, `built_at`.
 
+## 3c. Graph layer: `data/derived/graph/<docket>/` (argument-graph)
+
+One row per claim a cited passage makes, the claims of a section grouped into issues, and a review
+queue. Two model steps (extract, judge); counts and flags are script.
+
+### `claims.parquet`: one row per claim
+
+| column | type | notes |
+|---|---|---|
+| `claim_id` | string | `C000001`, in (section, passage, claim index) order |
+| `docket_id` | string | |
+| `letter_id` | string | |
+| `passage_id` | string | passage-stage's id |
+| `campaign_id` | string or null | from `assignments.parquet` |
+| `section_ref` | string | the cited section, e.g. `PART 141/§ 141.84`; the model's choice among the passage's cited sections |
+| `section_source` | string | `citation`, `linker` (uncited passage placed by the linker, off by default), `extractor` |
+| `quote` | string | a contiguous span of the passage, as the model returned it, never shortened by script |
+| `quote_verified` | bool | string match after normalising quotes, dashes, spaces and ligatures |
+| `quote_source` | string | `passage`, `letter` (found in the whole letter, not the passage), `none` |
+| `stance` | string | `support`, `oppose`, `modify`, `clarify`, `other` |
+| `ask` | string or null | one sentence, what the commenter wants the agency to do; null when the passage argues without asking |
+| `evidence_type` | list of string | any of `data`, `legal`, `alternative`, `cost`, `feasibility`, `experience` |
+| `needs_review` | bool | a fragment quote (under 8 words, a heading, a citation list) |
+| `linker_rank` | int or null | rank of the cited section in the frozen linker's top 5; null when absent or not checked |
+| `prompt_sha1` | string | sha1 of the system and extract prompts that produced the row |
+| `claim_index`, `model_section_ref` | int, string | the claim's position in the model's answer and the section it named |
+
+### `pairs.parquet`: one row per judged pair
+
+| column | type | notes |
+|---|---|---|
+| `pair_id` | string | `P000001` |
+| `claim_a`, `claim_b` | string | sorted |
+| `section_ref` | string | pairs never cross sections |
+| `cosine` | float | bge-small over `ask` (or `quote`) |
+| `verdict` | string or null | `same_ask`, `same_issue_opposite_side`, `different`, `unsure`; null when the call failed |
+| `tag` | string | the judge call, `judge_<section>_<chunk>` |
+
+### `issues.parquet`: one row per issue
+
+| column | type | notes |
+|---|---|---|
+| `issue_id` | string | `I00001` |
+| `docket_id`, `section_ref` | string | issues are per section |
+| `label` | string | the `ask` (or `quote`) of the member nearest the embedding centroid; a model label only with `GRAPH_LABEL_ISSUES=1` |
+| `label_claim_id` | string | that member |
+| `n_claims` | int | |
+| `n_letters` | int | distinct letters among members |
+| `n_campaigns` | int | distinct non-null campaigns |
+| `n_letters_incl_copies` | int | `n_letters` plus each campaign's other members |
+| `stances` | json string | count per stance |
+| `significant` | bool | any member carries `data`, `legal` or `alternative` |
+| `significance_from` | list of string | the claims the flag rests on |
+| `contested_merge` | bool | the component also holds a pair judged `different` |
+| `giant_issue` | bool | over 40% of a section's claims (sections with 5 or more) |
+
+### `claim_issues.parquet`: one row per claim
+
+`claim_id`, `issue_id`, `how` (`same_ask`, `same_issue_opposite_side`, `singleton`).
+
+### `review.parquet`: the uncertainty queue
+
+`claim_id` (nullable), `issue_id` (nullable), `reason`, `detail` (json). Reasons: `quote_failed`,
+`quote_fragment`, `section_disagrees`, `no_section`, `linker_disagrees`, `missing_from_output`,
+`llm_failed`, `contested_merge`, `giant_issue`, `judge_unsure`.
+
+### `graph.json`, `summary.json`, `ledger.jsonl`
+
+`graph.json`: nodes `section`, `letter` (with `org_id`, null for now), `campaign`, `claim`, `issue`;
+edges `letter_section`, `letter_claim`, `claim_issue`, `letter_campaign`. `response` nodes and
+`issue_response` edges exist only in `eval/out/<name>/graph_eval.json`, written from the final rule.
+`summary.json`: `passages_in`, `passages_extracted`, `claims`, `quotes_verified_first_pass`,
+`quotes_verified_final`, `claims_dropped`, `issues`, `issues_multi_claim`, `flagged`,
+`review_rows_by_reason`, `pairs_proposed`, `pairs_judged`, `forced_fallbacks`, `model`, `model_id`,
+`backend`, `effort`, `prompt_sha1s`, `calls_by_step`, `usd_by_step`, `usd_total`,
+`cache_read_tokens`, `cache_write_tokens`, `wall_clock_s`, `rule_context`, `letters_sha256`,
+`passages_sha256`, `built_at`. `ledger.jsonl`: one row per model call (tag, step, model, backend,
+effort, attempt, secs, tokens, usd, price_source, ok, stop_reason, cached). `prompts/<tag>.txt` and
+`raw/<tag>.json` hold each call's prompt and answer; a rerun reuses `raw/`.
+
 ## 4. Labels: `data/derived/labels/` (hand-labeled)
 
 | file | one row per | columns |

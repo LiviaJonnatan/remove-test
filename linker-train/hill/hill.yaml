@@ -1,0 +1,25 @@
+spec_version: 2
+name: undersigned-linker
+version: 0.1.0
+
+# Reports lead with these, in ranking order.
+metrics:
+  - {name: acc@1, direction: max}
+  - {name: acc@5, direction: max}
+  - {name: mrr, direction: max}
+
+# Last resort only. The training budget is time_limit_s, enforced inside eval.py; scoring the held-out
+# passages after it takes a few minutes more.
+watchdog_timeout_s: 5400
+
+params:
+  time_limit_s:
+    type: int
+    default: 1800
+    min: 60
+    max: 3600
+    help: "wall-clock seconds the submitted train.py gets before it is killed"
+
+blobs:
+  threshold: 1MB
+  track: ["data/**"]

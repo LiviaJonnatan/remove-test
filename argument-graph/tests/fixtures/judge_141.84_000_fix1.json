@@ -1,0 +1,10 @@
+{
+ "result": "{\"pairs\": [{\"pair_id\": \"P000001\", \"verdict\": \"same_issue_opposite_side\"}]}",
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 900,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 40
+ },
+ "usd": 0.0133
+}

@@ -1,0 +1,10 @@
+{
+ "result": "{\"passages\": [{\"passage_id\": \"L3:p000\", \"claims\": [{\"quote\": \"\\u00a7 141.85(a) notices should be mailed in Spanish as well as English.\", \"stance\": \"modify\", \"ask\": \"Mail \\u00a7 141.85(a) notices in Spanish as well as English.\", \"evidence_type\": [], \"section_ref\": \"PART 141/\\u00a7 141.85\"}]}]}",
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2600,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 420
+ },
+ "usd": 0.0412
+}

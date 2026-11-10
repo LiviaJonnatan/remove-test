@@ -1,0 +1,42 @@
+[project]
+name = "argument-graph"
+version = "0.1.0"
+description = "Claims, issues and a review queue from cited comment passages, for the response to comments."
+requires-python = ">=3.12"
+dependencies = [
+    "python-dotenv>=1.0",
+    "pandas>=2.2",
+    "pyarrow>=16",
+    "numpy",
+    "jsonschema>=4",
+    # The SDK backend. The CLI backend shells out to `claude -p` and needs nothing here.
+    "anthropic>=1",
+    # Candidate pairs for the judge are nearest neighbours under bge-small, the encoder the rest of
+    # the project serves, through the same ONNX runtime. No PyTorch.
+    "fastembed>=0.7",
+    # Rule context for the prompts comes from the rule_passages collection (same lower bounds as
+    # api-service). rule_passages.collect imports requests; the stage reads rule text already on disk.
+    "chromadb>=1.0",
+    "requests>=2.31",
+]
+
+[project.optional-dependencies]
+track = ["wandb"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "ruff>=0.6",
+]
+
+[tool.pytest.ini_options]
+# Rule chunking and the Chroma store live in rule-passages; tests import them from there, one copy.
+pythonpath = ["src", "../rule-passages/src", "eval"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests", "eval"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]

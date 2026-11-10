@@ -131,6 +131,107 @@ gcloud compute ssh undersigned-ms2 --zone us-central1-a -- -L 3000:localhost:300
 
 On the VM, install Docker and uv, clone as above, then `uv run dvc pull` for the full data path. The `-L` flags make `localhost:3000` and `localhost:8000` on your laptop show the VM's stack without opening any firewall port. Stop the VM when done.
 
+## 2b. The linker (Milestone 3)
+
+The trained model behind `POST /link`. Four things you might want to do, each independent: run the training locally, run it on Vertex AI, run the pipeline that gates and promotes a model, and deploy or call the API on Cloud Run. The demo in section 1 does not need any of this: it serves `/retrieve` and the rule page, and `/link` answers 503 there until a model is mounted (see "Serving `/link` locally" below).
+
+### What you need
+
+| | |
+| --- | --- |
+| Everything in section 2 | `uv`, the service-account key, access to the GCP project |
+| The frozen linking set | `uv run dvc pull data/linking.dvc data/linking-extra.dvc` (small; `train.json`, `test.json`, `uncited.json`, the rules, and the preamble windows) |
+| A Weights & Biases account on the team's host | the project is at https://forge.coreweave.com/wandb/aidaneichman-harvard-university/undersigned-linker; ask Aidan to add you |
+| `gcloud` logged in as yourself | `gcloud auth login` and `gcloud config set project ac215-undersigned`, for Vertex, Cloud Build and Cloud Run. The service-account key is for DVC only |
+| Disk and time, local training | about 45 minutes on an M2 Pro per 4-epoch run; the base model (130 MB) downloads once |
+
+### Train locally
+
+```bash
+uv run dvc pull data/linking.dvc data/linking-extra.dvc
+cd linker-train
+uv sync
+uv run wandb login --host https://api.forge.coreweave.com        # once; paste your key from the team host
+uv run python src/main.py baseline                               # untuned encoder: 44.7% top-1 on the test set, no training
+uv run python src/main.py train --mode in --out out/in           # the served configuration
+uv run python src/main.py report --runs out/in --out out/report  # the tables in the README
+```
+
+`--mode in` trains on every docket's citing passages; `--mode lodo` trains one model per held-out docket (`--holdout ED-2021-OCR-0166` for just one). Settings are in `configs/bge-small.yaml`; override any with `--set key=value` (`--set epochs=1` for a smoke run). Data is found at `../data/linking` by default, or wherever `DATA_ROOT` or `--data` points, including a `gs://` path.
+
+To add the preamble and letter-citation scores to a trained run (the `in-pre` + scores row in the README): `uv run python src/main.py combine --run out/in --extras ../data/linking-extra`.
+
+A run writes `config.json`, `history.json`, `metrics.json` and `predictions.jsonl` into its `--out` folder, and the same into W&B (project `undersigned-linker`, run name from `--name`, default the folder name). `out/` and `wandb/` are git-ignored; the evidence copies in `docs/evidence/linker-train/` were copied in by hand.
+
+### Train on Vertex AI
+
+```bash
+cd linker-train
+GPU=none vertex/submit.sh in                  # CPU machine, no GPU quota needed
+vertex/submit.sh in                           # one T4; needs the project's T4 quota
+vertex/submit.sh lodo --holdout ED-2021-OCR-0166 --set preamble_queries=true --combine
+DRY_RUN=1 vertex/submit.sh in                 # print the job spec instead of starting it
+```
+
+`submit.sh` builds the image for the current commit in Cloud Build (`vertex/build.sh`, tagged with the short commit hash, skipped if it already exists), then starts one custom job that reads `gs://ac215-undersigned-data/linking` and writes `gs://ac215-undersigned-data/linker-runs/<run>/`. The frozen set must already be in the bucket: `dvc push` puts it there. The W&B key is taken from `WANDB_API_KEY` in your shell or from `../.env`. Jobs time out after 10 hours (`TIMEOUT_HOURS`). A CPU run on `e2-standard-16` takes about an hour an epoch; follow it at https://console.cloud.google.com/vertex-ai/training/custom-jobs?project=ac215-undersigned and in W&B.
+
+### Run the pipeline (train, evaluate, gate, promote)
+
+```bash
+cd linker-train
+vertex/run_pipeline.sh                        # 4 epochs on CPU
+vertex/run_pipeline.sh --epochs 1             # smoke run
+vertex/run_pipeline.sh --gpu                  # once there is T4 quota
+```
+
+Three steps, all on the same image: **train** (as above), **evaluate** (the report against every saved method) and **gate and promote**, which copies the ONNX export to `gs://ac215-undersigned-data/serving/linker/` only if the run beats hybrid search (lower end of the paired difference above zero) and is no worse than the model now served, compared at three decimals. Either way the step writes `promotion.json` in the run folder saying what it decided and why. Runs are at https://console.cloud.google.com/vertex-ai/pipelines/runs?project=ac215-undersigned; the compiled spec lands in vertex/pipeline.json and should not be committed.
+
+Promote a local run by hand with the same gate: `promote --run out/in --serve <serving folder>`; the pipeline passes `/gcs/ac215-undersigned-data/serving/linker`.
+
+### Deploy to Cloud Run
+
+```bash
+api-service/cloudrun/deploy.sh                                              # what the bucket holds
+MODEL=linker-train/out/in/onnx INDEX=data/derived/chroma-lcr \
+  PASSAGES=data/derived/passages api-service/cloudrun/deploy.sh              # push local copies first
+```
+
+`deploy.sh` builds the API image in Cloud Build with the rule index, the promoted linker, and passage-stage's parquet copied in from `gs://ac215-undersigned-data/serving/`, so the service needs no ChromaDB server, then deploys it as `undersigned-api` in `us-central1` (2 CPU, 4 GiB, scales to zero, at most 2 instances, 60 s timeout). The image is tagged with the commit hash and `GIT_COMMIT` is set in the service so `/health` and `/link` report it. The service is **private**: `PUBLIC=1` would open it to anyone and is a team decision. The first deploy after adding passages, or after `passage-stage` rewrites the files, needs `PASSAGES=data/derived/passages` so `serving/passages/` is in the bucket; Cloud Build fails if that folder is missing.
+
+### Call the deployed API
+
+A caller needs the `run.invoker` role on the service (ask Aidan or whoever owns the project to grant it to your Google account) and sends an identity token:
+
+```bash
+URL=$(gcloud run services describe undersigned-api --region us-central1 --format 'value(status.url)')
+TOKEN=$(gcloud auth print-identity-token)
+curl -s -H "Authorization: Bearer $TOKEN" "$URL/health"            # "linker": {run, commit, test_acc@1, ...}
+curl -s -X POST "$URL/link" -H "Authorization: Bearer $TOKEN" -H 'Content-Type: application/json' -d '{
+  "text": "Requiring systems to replace every lead service line within ten years is not feasible for small utilities with limited staff.",
+  "docket_id": "EPA-HQ-OW-2022-0801", "k": 3}'
+curl -s -H "Authorization: Bearer $TOKEN" "$URL/stats"             # per-route counts, errors, p50/p90/p99 since the instance started
+curl -s -H "Authorization: Bearer $TOKEN" "$URL/rules/EPA-HQ-OW-2022-0801/sections"  # citing_passages should be numbers, not null
+```
+
+`403` with no body means no token or no `run.invoker`; `503` from `/link` means the image was built without a model in `serving/linker/`. To score the served model on the frozen lead-and-copper test passages, the check the README's evidence comes from:
+
+```bash
+ID_TOKEN="$TOKEN" uv run python scripts/link_check.py --api "$URL" --out docs/evidence/cloud-run/link-check.json
+```
+
+Request logs: `gcloud logging read 'resource.type="cloud_run_revision" AND resource.labels.service_name="undersigned-api" AND jsonPayload.route="/link"' --limit 20`. One JSON line per request (`route`, `status`, `latency_ms`, `severity`), never the body.
+
+### Serving `/link` locally
+
+`docker-compose.yml` does not mount a model, so the compose stack's `/link` answers 503 and `/health` reports `"linker": null`. To serve one locally, export a run and point the API at it:
+
+```bash
+cd linker-train && uv run python src/main.py export --run out/in --out out/in/onnx && cd ..
+# or fetch the promoted model:  gcloud storage cp -r gs://ac215-undersigned-data/serving/linker data/models/linker
+LINKER_MODEL_DIR=/app/linker docker compose run --rm --service-ports \
+  -v "$PWD/linker-train/out/in/onnx:/app/linker:ro" api-service
+```
+
 ## 3. Every `.env` setting
 
 | variable | demo needs it? | used by | meaning |
@@ -142,9 +243,9 @@ On the VM, install Docker and uv, clone as above, then `uv run dvc pull` for the
 | `SKIP_ATTACHMENTS` | default `0` | data-collector | `1` skips attachment downloads |
 | `SHARD` | empty | data-collector | `k/n` to split a pull across containers |
 | `SIGNER_HASH_KEY` | not yet | data-processor | secret for hashing signer names |
-| `GCP_PROJECT`, `GCS_BUCKET` | no | nothing yet | reserved for cloud jobs |
-| `GOOGLE_APPLICATION_CREDENTIALS` | no | nothing yet | path inside containers; `dvc pull` on a laptop needs the variable exported in your shell instead, and on a GCP VM with the service account attached needs nothing |
-| `WANDB_API_KEY` | no | none yet | for experiment tracking |
+| `GCP_PROJECT`, `GCS_BUCKET` | no | `vertex/submit.sh`, `vertex/pipeline.py`, `cloudrun/deploy.sh` | which project and bucket the cloud jobs use; the scripts default to `ac215-undersigned` and `ac215-undersigned-data` |
+| `GOOGLE_APPLICATION_CREDENTIALS` | no | `dvc pull` / `dvc push` | path to the service-account key, exported in your shell on a laptop; a GCP VM with the service account attached needs nothing. Vertex and Cloud Run use their own identities, not this file |
+| `WANDB_API_KEY` | no | linker-train, read by `submit.sh` and `run_pipeline.sh` from `../.env` when not in the shell | experiment tracking in the `undersigned-linker` project |
 
 ### What needs credentials, and when
 
@@ -153,6 +254,9 @@ On the VM, install Docker and uv, clone as above, then `uv run dvc pull` for the
 | data.gov key | data-collector | every run that fetches records |
 | service-account key | `dvc pull` / `dvc push` on a laptop | only when moving data to or from the bucket. A GCP VM with the service account attached needs no key file |
 | none | huggingface.co, federalregister.gov | image build (processor, api-service) and rule-passages' fetch; public, no key |
+| Google account (`gcloud auth login`) | Vertex jobs, the pipeline, Cloud Build, `deploy.sh`, calling the private API | anything in section 2b except local training |
+| W&B key | linker-train | every training run; passed to Vertex jobs as an environment variable in the job spec |
+| `run.invoker` on `undersigned-api` | calling the deployed API | granted per Google account by a project owner |
 
 ## 4. Troubleshooting
 
@@ -170,7 +274,17 @@ On the VM, install Docker and uv, clone as above, then `uv run dvc pull` for the
 | api-service exits with "collection is empty" | rule-passages hasn't run | `docker compose run --rm rule-passages` |
 | processor image build fails reaching huggingface.co | network block or HF outage | retry; nothing in our code |
 | `/retrieve` returns `{"hits": []}` | `docket_id` set to a docket the index doesn't hold (the Swagger example value `"string"`) | leave `docket_id` out or set it to the docket you ran |
-
+| `FileNotFoundError: .../data/linking/train.json` | the frozen set is not pulled | `uv run dvc pull data/linking.dvc data/linking-extra.dvc` from the repo root |
+| Vertex job fails at start reading `gs://.../linking` | the set is in DVC but not pushed to the bucket path the job reads | `uv run dvc push`, or `gsutil -m cp -r data/linking gs://ac215-undersigned-data/linking` |
+| `submit.sh` fails with a quota error on `NVIDIA_TESLA_T4` | the project's T4 quota is 0 | `GPU=none vertex/submit.sh in`, or wait for the quota request |
+| `n1-highcpu-16` has no capacity | regional stock-out | `MACHINE=e2-standard-16` (the default) |
+| the pipeline's promote step writes `promote: false` | the run did not beat hybrid search, or scored below the served model at three decimals | read `promotion.json` in the run folder; the served score is in `serving/linker/linker.json` |
+| Cloud Run returns `403` with an empty body | no token, or your account lacks `run.invoker` | `-H "Authorization: Bearer $(gcloud auth print-identity-token)"`; ask for the role |
+| Cloud Run `/link` returns `503 No linker model` | the image was built with nothing in `serving/linker/` | promote a run, then `deploy.sh` again |
+| Cloud Build fails copying `serving/passages` | that folder is not in the bucket yet | `PASSAGES=data/derived/passages api-service/cloudrun/deploy.sh` after `passage-stage` has written the files |
+| Cloud Run `/rules/.../sections` has `citing_passages: null` | image built without parquet in `/app/data/derived/passages` | same as above; compose is unaffected (it mounts the folder) |
+| Cloud Run revision fails to start, memory | the image loads two models; 2 GiB was not enough | `deploy.sh` sets 4 GiB; do not lower it |
+| compose `/link` returns 503 | no model mounted in the compose stack | see "Serving `/link` locally" |
 
 ## 5. Tests and lint
 
@@ -180,7 +294,7 @@ Each container has its own tests, offline:
 cd data-collector && uv sync && uv run pytest && uv run ruff check . && cd ..
 ```
 
-Same for `data-processor`, `campaign-builder`, `passage-stage`, `rule-passages`, `api-service`. The frontend:
+Same for `data-processor`, `campaign-builder`, `passage-stage`, `rule-passages`, `api-service` and `linker-train` (the last pulls the CUDA build of torch on Linux, so its first `uv sync` is a few GB). The frontend:
 
 ```bash
 cd frontend && npm ci && npm test

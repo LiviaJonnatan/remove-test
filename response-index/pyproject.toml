@@ -1,0 +1,30 @@
+[project]
+name = "response-index"
+version = "0.1.0"
+description = "Read an agency's response-to-comments document into codes and commenter entries."
+requires-python = ">=3.12"
+dependencies = [
+    "pandas>=2.2",
+    "pyarrow>=16",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "ruff>=0.6",
+]
+# eval/match.py also needs rule-passages/src on PYTHONPATH for its tokenizer.
+eval = [
+    "fastembed>=0.7",
+    "numpy",
+    "scikit-learn>=1.5",
+    "scipy",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]

@@ -29,6 +29,18 @@ services:
       data-collector:
         condition: service_completed_successfully
 
+  response-index:
+    image: response-index
+    build: ./response-index
+    container_name: response-index
+    env_file: .env
+    volumes:
+      - ./response-index/src:/app/src
+      - ./data:/app/data
+    depends_on:
+      data-processor:
+        condition: service_completed_successfully
+
   campaign-builder:
     image: campaign-builder
     build: ./campaign-builder
@@ -58,6 +70,25 @@ services:
       campaign-builder:
         condition: service_completed_successfully
       rule-passages:
+        condition: service_completed_successfully
+
+  argument-graph:
+    image: argument-graph
+    build:
+      context: ./argument-graph
+      # Reads the rule's section headings and text with rule-passages' own chunking, one copy of that code.
+      additional_contexts:
+        rule_passages: ./rule-passages/src/rule_passages
+    container_name: argument-graph
+    env_file: .env
+    volumes:
+      - ./argument-graph/src:/app/src
+      - ./data:/app/data
+    environment:
+      CHROMA_HOST: chromadb
+      CHROMA_PORT: 8000
+    depends_on:
+      passage-stage:
         condition: service_completed_successfully
 
   rule-passages:

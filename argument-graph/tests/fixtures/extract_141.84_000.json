@@ -1,0 +1,10 @@
+{
+ "result": "{\"passages\": [{\"passage_id\": \"L1:p000\", \"claims\": [{\"quote\": \"We oppose the ten-year replacement deadline in \\u00a7 141.84(b) as proposed.\", \"stance\": \"oppose\", \"ask\": \"Allow a deferred deadline based on the number of lines a system owns.\", \"evidence_type\": [\"data\", \"alternative\"], \"section_ref\": \"PART 141/\\u00a7 141.84\"}, {\"quote\": \"Replacing every lead line in ten years is impossible for large systems.\", \"stance\": \"oppose\", \"ask\": null, \"evidence_type\": [\"feasibility\"], \"section_ref\": \"PART 141/\\u00a7 141.84\"}, {\"quote\": \"Our utility replaced only 1,900 lines last year.\", \"stance\": \"oppose\", \"ask\": null, \"evidence_type\": [\"data\"], \"section_ref\": \"PART 141/\\u00a7 141.84\"}]}, {\"passage_id\": \"L2:p000\", \"claims\": [{\"quote\": \"Please require full replacement of all lead pipes within ten years as proposed in \\u00a7 141.84(b).\", \"stance\": \"support\", \"ask\": \"Require full replacement of all lead pipes within ten years.\", \"evidence_type\": [], \"section_ref\": \"PART 141/\\u00a7 141.85\"}]}]}",
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2600,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 420
+ },
+ "usd": 0.0581
+}

@@ -84,3 +84,34 @@ The processor's run on 50 development-docket records, with what it does and does
 The stage's run on the lead and copper sample, its counts and links per section are in
 [`passage-stage/`](passage-stage/README.md). The hand check of the model-made labels is in
 [`../hand-check/`](../hand-check/README.md).
+
+## argument-graph
+
+The first run of the claims-and-issues stage (MS3), three cited passages from three LCRI organisation letters through `claude -p --model fable`.
+
+| File | What it shows |
+| --- | --- |
+| `argument-graph/README.md` | Date, commit, counts and the measured cost of the run, with a reproduce block |
+| `argument-graph/run.log` | The stage's log: 3 passages, 8 claims, 8/8 quotes verified first pass, 7 issues, 3 flagged |
+| `argument-graph/summary.json` | Counts, cost by step, token totals, prompt hash, input checksums |
+| `argument-graph/ledger-excerpt.jsonl` | The two model calls with tokens, seconds and USD as the CLI reported them |
+| `argument-graph/one-claim-end-to-end.md` | One passage through its claims, the pairs the judge saw and the issue it landed in |
+
+## linker-train (Milestone 3)
+
+Runs the README's "Milestone 3: the linker" section cites. Each folder holds the run's `config.json`, `history.json` (per-epoch loss and validation accuracy), `metrics.json` (test accuracy with intervals, by docket) and `predictions.jsonl` (top-10 sections, rank of the true one, and margin for every test, validation and uncited passage). `out/` and W&B hold the full runs; these are copies.
+
+| Folder | What it shows |
+| --- | --- |
+| `in/`, `in-v1/`, `in-pre/` | Models trained on all six dockets' citing passages; `in-pre` is the one served. `in-pre/ctx/` adds the preamble and letter-citation scores; `in-pre/promotion.json` is the gate's decision |
+| `vertex/` | The pipeline's own run (train → evaluate → promote) on 28 Oct. Its `promotion.json` is the gate rejecting the run: beats hybrid search by 12.2 points, but scored 64.9% against 64.9% served and the `not_worse_than_served` check came back false, the comparison bug the gate caught on its first run |
+| `report.md`, `report.json`, `report-pre/` | The comparison tables in the README, every method on the same 490 and 232 test passages |
+| `lodo-pre-ED/` | Held out: Title IX (ED-2021-OCR-0166), trained with its preamble pairs and none of its letters. `ED-2021-OCR-0166+ctx/` adds the preamble and letter scores |
+| `lodo-pre-HHS-OS-2022-0012/`, `lodo-pre-PHMSA-2021-0039/`, `lodo-pre-MSHA-2023-0001/`, `lodo-pre-EPA-HQ-OW-2022-0801/`, `lodo-pre-EPA-HQ-OAR-2017-0355/` | The same held-out run for the other five dockets, submitted 30 Oct on commit `2235fdc` (CPU, Vertex). Same layout as `lodo-pre-ED/`. HHS and PHMSA also have `misses.md`: where the true section ranked, which sections absorb wrong picks, the confusion pairs, 15 example misses, and a reading |
+| `link-check-local.json` | `scripts/link_check.py` against a local API serving the promoted model |
+
+`scripts/miss_analysis.py` writes a `misses.md` for any held-out run from its `predictions.jsonl` and `data/linking/`.
+
+## cloud-run
+
+`cloud-run/link-curl.txt`: `/health`, `/link` and `/stats` against the deployed `undersigned-api` with an identity token; `cloud-run/link-check-in-pre.json`: `link_check.py` against the deployed service. `cloud-run/sections-counts.png`: `GET /rules/EPA-HQ-OW-2022-0801/sections` on revision `undersigned-api-00004-lm7` after #91 (proxy to `/docs`). `PART 141` has `citing_passages` 156 and `citing_letters` 5, not null.
