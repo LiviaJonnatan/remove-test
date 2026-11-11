@@ -1,5 +1,6 @@
 """Checks on the hill itself, run by `hills check`. Each runs the real evaluator on a real subprocess."""
 
+import json
 import textwrap
 from pathlib import Path
 

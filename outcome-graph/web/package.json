@@ -1,0 +1,21 @@
+{
+  "name": "outcome-graph-web",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@sigma/node-border": "3.0.0",
+    "firebase": "13.1.0",
+    "graphology": "0.26.0",
+    "graphology-layout-forceatlas2": "0.10.1",
+    "sigma": "3.0.3",
+    "three": "0.170.0"
+  },
+  "devDependencies": {
+    "vite": "8.3.4"
+  }
+}

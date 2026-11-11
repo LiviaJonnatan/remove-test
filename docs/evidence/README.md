@@ -114,4 +114,4 @@ Runs the README's "Milestone 3: the linker" section cites. Each folder holds the
 
 ## cloud-run
 
-`cloud-run/link-curl.txt`: `/health`, `/link` and `/stats` against the deployed `undersigned-api` with an identity token; `cloud-run/link-check-in-pre.json`: `link_check.py` against the deployed service. `cloud-run/sections-counts.png`: `GET /rules/EPA-HQ-OW-2022-0801/sections` on revision `undersigned-api-00004-lm7` after #91 (proxy to `/docs`). `PART 141` has `citing_passages` 156 and `citing_letters` 5, not null.
+`cloud-run/link-curl.txt`: `/health`, `/link` and `/stats` against the deployed `undersigned-api` with an identity token; `cloud-run/link-check-in-pre.json`: `link_check.py` against the deployed service.

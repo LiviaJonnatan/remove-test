@@ -192,11 +192,10 @@ Promote a local run by hand with the same gate: `promote --run out/in --serve <s
 
 ```bash
 api-service/cloudrun/deploy.sh                                              # what the bucket holds
-MODEL=linker-train/out/in/onnx INDEX=data/derived/chroma-lcr \
-  PASSAGES=data/derived/passages api-service/cloudrun/deploy.sh              # push local copies first
+MODEL=linker-train/out/in/onnx INDEX=data/derived/chroma-lcr api-service/cloudrun/deploy.sh   # push local copies first
 ```
 
-`deploy.sh` builds the API image in Cloud Build with the rule index, the promoted linker, and passage-stage's parquet copied in from `gs://ac215-undersigned-data/serving/`, so the service needs no ChromaDB server, then deploys it as `undersigned-api` in `us-central1` (2 CPU, 4 GiB, scales to zero, at most 2 instances, 60 s timeout). The image is tagged with the commit hash and `GIT_COMMIT` is set in the service so `/health` and `/link` report it. The service is **private**: `PUBLIC=1` would open it to anyone and is a team decision. The first deploy after adding passages, or after `passage-stage` rewrites the files, needs `PASSAGES=data/derived/passages` so `serving/passages/` is in the bucket; Cloud Build fails if that folder is missing.
+`deploy.sh` builds the API image in Cloud Build with the rule index and the promoted linker copied in from `gs://ac215-undersigned-data/serving/`, so the service needs no ChromaDB server, then deploys it as `undersigned-api` in `us-central1` (2 CPU, 4 GiB, scales to zero, at most 2 instances, 60 s timeout). The image is tagged with the commit hash and `GIT_COMMIT` is set in the service so `/health` and `/link` report it. The service is **private**: `PUBLIC=1` would open it to anyone and is a team decision.
 
 ### Call the deployed API
 
@@ -210,7 +209,6 @@ curl -s -X POST "$URL/link" -H "Authorization: Bearer $TOKEN" -H 'Content-Type: 
   "text": "Requiring systems to replace every lead service line within ten years is not feasible for small utilities with limited staff.",
   "docket_id": "EPA-HQ-OW-2022-0801", "k": 3}'
 curl -s -H "Authorization: Bearer $TOKEN" "$URL/stats"             # per-route counts, errors, p50/p90/p99 since the instance started
-curl -s -H "Authorization: Bearer $TOKEN" "$URL/rules/EPA-HQ-OW-2022-0801/sections"  # citing_passages should be numbers, not null
 ```
 
 `403` with no body means no token or no `run.invoker`; `503` from `/link` means the image was built without a model in `serving/linker/`. To score the served model on the frozen lead-and-copper test passages, the check the README's evidence comes from:
@@ -281,8 +279,6 @@ LINKER_MODEL_DIR=/app/linker docker compose run --rm --service-ports \
 | the pipeline's promote step writes `promote: false` | the run did not beat hybrid search, or scored below the served model at three decimals | read `promotion.json` in the run folder; the served score is in `serving/linker/linker.json` |
 | Cloud Run returns `403` with an empty body | no token, or your account lacks `run.invoker` | `-H "Authorization: Bearer $(gcloud auth print-identity-token)"`; ask for the role |
 | Cloud Run `/link` returns `503 No linker model` | the image was built with nothing in `serving/linker/` | promote a run, then `deploy.sh` again |
-| Cloud Build fails copying `serving/passages` | that folder is not in the bucket yet | `PASSAGES=data/derived/passages api-service/cloudrun/deploy.sh` after `passage-stage` has written the files |
-| Cloud Run `/rules/.../sections` has `citing_passages: null` | image built without parquet in `/app/data/derived/passages` | same as above; compose is unaffected (it mounts the folder) |
 | Cloud Run revision fails to start, memory | the image loads two models; 2 GiB was not enough | `deploy.sh` sets 4 GiB; do not lower it |
 | compose `/link` returns 503 | no model mounted in the compose stack | see "Serving `/link` locally" |
 

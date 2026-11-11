@@ -1,0 +1,118 @@
+{
+  "docket": "EPA-HQ-OW-2022-0114",
+  "record": "EPA-HQ-OW-2017-0300,EPA-HQ-OW-2022-0801",
+  "model": "sonnet",
+  "labels": {
+    "moved": 141,
+    "declined": 256,
+    "no_change": 129
+  },
+  "methods": {
+    "majority": {
+      "n": 526,
+      "accuracy": 0.487,
+      "macro_f1": 0.218,
+      "moved_auc": 0.5,
+      "per_class": {
+        "moved": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "declined": {
+          "precision": 0.487,
+          "recall": 1.0,
+          "f1": 0.655
+        },
+        "no_change": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        }
+      }
+    },
+    "knn": {
+      "n": 526,
+      "accuracy": 0.544,
+      "macro_f1": 0.494,
+      "moved_auc": 0.651,
+      "per_class": {
+        "moved": {
+          "precision": 0.457,
+          "recall": 0.262,
+          "f1": 0.333
+        },
+        "declined": {
+          "precision": 0.595,
+          "recall": 0.711,
+          "f1": 0.648
+        },
+        "no_change": {
+          "precision": 0.482,
+          "recall": 0.519,
+          "f1": 0.5
+        }
+      }
+    },
+    "llm_blind": {
+      "n": 526,
+      "accuracy": 0.656,
+      "macro_f1": 0.596,
+      "moved_auc": 0.854,
+      "per_class": {
+        "moved": {
+          "precision": 0.9,
+          "recall": 0.255,
+          "f1": 0.398
+        },
+        "declined": {
+          "precision": 0.778,
+          "recall": 0.781,
+          "f1": 0.78
+        },
+        "no_change": {
+          "precision": 0.476,
+          "recall": 0.845,
+          "f1": 0.609
+        }
+      }
+    },
+    "llm_record": {
+      "n": 525,
+      "accuracy": 0.653,
+      "macro_f1": 0.575,
+      "moved_auc": 0.838,
+      "per_class": {
+        "moved": {
+          "precision": 0.906,
+          "recall": 0.206,
+          "f1": 0.335
+        },
+        "declined": {
+          "precision": 0.757,
+          "recall": 0.831,
+          "f1": 0.793
+        },
+        "no_change": {
+          "precision": 0.479,
+          "recall": 0.791,
+          "f1": 0.596
+        }
+      }
+    }
+  },
+  "record_minus_blind_accuracy": [
+    -0.002,
+    -0.04,
+    0.041
+  ],
+  "record_minus_knn_accuracy": [
+    0.109,
+    0.063,
+    0.156
+  ],
+  "usd": {
+    "llm_blind": 0.5,
+    "llm_record": 3.22
+  }
+}

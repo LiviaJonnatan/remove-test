@@ -129,7 +129,7 @@ Checked end to end: the 80 lead and copper test passages sent to the running API
 
 ### Deployment and monitoring
 
-`api-service/cloudrun/deploy.sh` builds the API image in Cloud Build with the rule index, the promoted linker, and passage-stage's parquet inside it (from `gs://ac215-undersigned-data/serving/`), so Cloud Run needs no ChromaDB server, and deploys it as `undersigned-api` (2 CPU, 4 GiB, scales to zero, at most 2 instances). The service is private: callers need an identity token from an account with the `run.invoker` role.
+`api-service/cloudrun/deploy.sh` builds the API image in Cloud Build with the rule index and the promoted linker inside it (from `gs://ac215-undersigned-data/serving/`), so Cloud Run needs no ChromaDB server, and deploys it as `undersigned-api` (2 CPU, 4 GiB, scales to zero, at most 2 instances). The service is private: callers need an identity token from an account with the `run.invoker` role.
 
 ```bash
 URL=$(gcloud run services describe undersigned-api --region us-central1 --format 'value(status.url)')
@@ -149,7 +149,6 @@ gcloud logging read 'resource.type="cloud_run_revision" AND resource.labels.serv
 - [`link-curl.txt`](docs/evidence/cloud-run/link-curl.txt): the example above against Cloud Run. It ranks § 141.84 (service line inventory and replacement) first and § 141.81 (treatment steps by system size) a hair behind, 0.5264 against 0.5263, and sets `needs_reader`: the passage argues about both.
 - [`link-check.json`](docs/evidence/cloud-run/link-check.json): the 80 lead and copper test passages against Cloud Run, 57.5% top-1 and 87.5% top-5, the same as the local run, 166 ms median and 294 ms at the 90th percentile from a laptop on home wifi.
 - [`link-check-in-pre.json`](docs/evidence/cloud-run/link-check-in-pre.json): the same 80 passages after `in-pre` was promoted and redeployed on 29 Oct (revision `undersigned-api-00003-jc5`): 57.5% top-1, 88.8% top-5, 26% flagged for the reader, 172 ms median.
-- [`sections-counts.png`](docs/evidence/cloud-run/sections-counts.png): `GET /rules/EPA-HQ-OW-2022-0801/sections` after #91 (revision `undersigned-api-00004-lm7`). `PART 141` has 156 citing passages from 5 letters, not null.
 
 ## Architecture
 

@@ -16,6 +16,7 @@ from pathlib import Path
 
 import numpy as np
 import torch
+
 from scoring import MAX_SEQ_LENGTH, ranks
 
 HILL = Path(__file__).resolve().parent
@@ -85,10 +86,7 @@ def check_shape(model_dir: Path) -> str | None:
         cfg = json.loads((model_dir / "config.json").read_text())
         mods_raw = json.loads((model_dir / "modules.json").read_text())
         mods = [m["type"].rsplit(".", 1)[-1] for m in mods_raw]
-        pool = (
-            json.loads((model_dir / mods_raw[1]["path"] / "config.json").read_text())
-            if len(mods) > 1 else {}
-        )
+        pool = json.loads((model_dir / mods_raw[1]["path"] / "config.json").read_text()) if len(mods) > 1 else {}
     except (OSError, ValueError, KeyError) as e:
         return f"model/ is not a saved SentenceTransformer folder ({e})"
     if (cfg.get("hidden_size"), cfg.get("num_hidden_layers")) != (HIDDEN, LAYERS):

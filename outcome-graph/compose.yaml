@@ -1,0 +1,65 @@
+# Oversight, the whole application on a laptop. Each service stands in for its production piece:
+#
+#   db        Postgres 16            -> Cloud SQL for PostgreSQL
+#   auth      Firebase Auth emulator -> Firebase Auth / Identity Platform (Google sign-in)
+#   api       FastAPI + the page     -> Cloud Run service
+#   watcher   rule watcher, daily    -> Cloud Run Job triggered by Cloud Scheduler
+#   (model)   Claude on Vertex AI, reached with your gcloud login (ADC); no API key
+#
+#   docker compose up -d db auth            # then run the API on the host (see README), or
+#   docker compose --profile app up -d      # everything in containers
+name: oversight
+
+services:
+  db:
+    image: postgres:16.4
+    environment:
+      POSTGRES_USER: oversight
+      POSTGRES_PASSWORD: oversight-local
+      POSTGRES_DB: oversight
+    ports: ["5433:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U oversight"]
+      interval: 2s
+      retries: 20
+
+  auth:
+    image: node:22.11.0-slim
+    working_dir: /fb
+    volumes: [./infra/firebase:/fb]
+    command: ["npx", "-y", "firebase-tools@15.34.1", "emulators:start", "--only", "auth", "--project", "demo-oversight"]
+    ports: ["9099:9099", "4000:4000"]
+
+  api:
+    profiles: [app]
+    build: { context: ., dockerfile: Dockerfile.local }
+    environment:
+      DATABASE_URL: postgresql://oversight:oversight-local@db:5432/oversight
+      FIREBASE_PROJECT: demo-oversight
+      FIREBASE_AUTH_EMULATOR_HOST: auth:9099
+      LLM_BACKEND: vertex
+      GOOGLE_CLOUD_PROJECT: ac215-undersigned
+      VERTEX_REGION: global
+      GOOGLE_APPLICATION_CREDENTIALS: /gcloud/application_default_credentials.json
+      AUTH_EMULATOR_PUBLIC: http://127.0.0.1:9099
+    volumes:
+      - ~/.config/gcloud:/gcloud:ro
+      - ../data/derived:/data:ro
+    ports: ["8080:8080"]
+    depends_on:
+      db: { condition: service_healthy }
+
+  watcher:
+    profiles: [app]
+    build: { context: ., dockerfile: Dockerfile.local }
+    command: ["python", "src/jobs/watch_rules.py", "--loop", "86400"]
+    environment:
+      DATABASE_URL: postgresql://oversight:oversight-local@db:5432/oversight
+    volumes:
+      - ../data/derived:/data:ro
+    depends_on:
+      db: { condition: service_healthy }
+
+volumes:
+  pgdata:

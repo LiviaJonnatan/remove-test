@@ -1,0 +1,25 @@
+/* account button and menu, both pages */
+.acct { position: relative; font: 500 12.5px Inter, system-ui, sans-serif; }
+.acct-in { display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 12px; border-radius: 9px; cursor: pointer;
+  color: #e7ebf3; background: rgba(143,182,255,0.1); border: 1px solid rgba(143,182,255,0.28); font: inherit; }
+.acct-in:hover { background: rgba(143,182,255,0.18); }
+.acct-me { width: 30px; height: 30px; border-radius: 50%; cursor: pointer; border: 1px solid rgba(255,255,255,0.18);
+  background: linear-gradient(135deg, #3d7bff, #2fd4e6); color: #fff; font: 650 13px Inter, system-ui, sans-serif; }
+.acct-menu { display: none; position: absolute; right: 0; top: 38px; width: 250px; z-index: 50; padding: 8px;
+  background: rgba(13,17,27,0.98); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+.acct.open .acct-menu { display: block; }
+.acct-who { padding: 6px 8px 10px; border-bottom: 1px solid rgba(255,255,255,0.07); margin-bottom: 6px; }
+.acct-who b { display: block; color: #e7ebf3; font-weight: 600; }
+.acct-who span { color: #8a96ad; font-size: 11.5px; }
+.acct-menu a, .acct-out { display: block; width: 100%; text-align: left; padding: 7px 8px; border-radius: 7px; color: #c9d1e0;
+  text-decoration: none; background: none; border: 0; font: inherit; cursor: pointer; }
+.acct-menu a:hover, .acct-out:hover { background: rgba(255,255,255,0.05); color: #fff; }
+.acct-left { padding: 6px 8px; color: #6f7a90; font-size: 11px; }
+#acct-toast { position: fixed; left: 50%; bottom: 28px; transform: translate(-50%, 20px); opacity: 0; transition: .25s; z-index: 200;
+  padding: 10px 16px; border-radius: 10px; background: rgba(40,16,20,0.96); border: 1px solid rgba(255,107,107,0.4); color: #ffd6d6;
+  font: 500 13px Inter, system-ui, sans-serif; pointer-events: none; }
+#acct-toast.on { opacity: 1; transform: translate(-50%, 0); }
+#acct-toast.ok { background: rgba(14,32,24,0.96); border-color: rgba(61,220,151,0.4); color: #c9f5df; }
+.acct-who span { display: block; }
+.acct-who a.acct-edit { display: inline; padding: 0; color: #8fb6ff; }
+.acct-in:disabled, .pitch-in:disabled { opacity: .7; cursor: progress; }

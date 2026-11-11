@@ -1,5 +1,4 @@
-"""B3, the prompt baseline: what one well-written prompt per section produces
-from the same passages.
+"""B3, the prompt baseline: what one well-written prompt per section produces from the same passages.
 
 The question it answers: does the harness (claim extraction, quote check, pair judging, union-find)
 beat simply handing the model every cited passage of a section and asking for the brief? Same input
@@ -11,8 +10,7 @@ treat it like B0 to B2, plus quotes.parquet and checks.json: how many of its quo
 the passage it names, and whether the passage belongs to the letter it names. Nothing in the prompt
 or the scoring sees the final rule.
 
-Usage: GRAPH_MAX_USD=8 python eval/prompt_baseline.py [--data-dir ../data]
-       [--docket EPA-HQ-OW-2022-0801]
+Usage: GRAPH_MAX_USD=8 python eval/prompt_baseline.py [--data-dir ../data] [--docket EPA-HQ-OW-2022-0801]
 """
 
 from __future__ import annotations
@@ -65,8 +63,7 @@ SCHEMA = {
         }
     },
 }
-PROMPT = """You are briefing the EPA staff who must write the response to comments \
-for {section} ({heading}).
+PROMPT = """You are briefing the EPA staff who must write the response to comments for {section} ({heading}).
 
 Rule text, opening of the section:
 {context}
@@ -138,9 +135,7 @@ def main() -> int:
                 pid = s.get("passage_id", "")
                 in_sel = pid in text_of
                 ok = in_sel and verified(s.get("quote"), text_of[pid])
-                right_letter = in_sel and (
-                    not s.get("letter_id") or s["letter_id"] == letter_of[pid]
-                )
+                right_letter = in_sel and (not s.get("letter_id") or s["letter_id"] == letter_of[pid])
                 quotes.append({"issue_id": iid, "section_ref": ref, "passage_id": pid,
                                "letter_id": letter_of.get(pid, s.get("letter_id")),
                                "quote": s.get("quote"), "passage_known": in_sel,
@@ -166,9 +161,7 @@ def main() -> int:
         "quotes": len(q),
         "quotes_verified": int(q["quote_verified"].sum()) if len(q) else 0,
         "quotes_unknown_passage": int((~q["passage_known"]).sum()) if len(q) else 0,
-        "quotes_wrong_letter": (
-            int((q["passage_known"] & ~q["letter_matches"]).sum()) if len(q) else 0
-        ),
+        "quotes_wrong_letter": int((q["passage_known"] & ~q["letter_matches"]).sum()) if len(q) else 0,
         "passages_in": len(sel), "passages_cited_by_brief": len(covered),
         "issues_multi_letter": int((issues["n_letters"] >= 2).sum()),
         "usd": round(sum(r.get("usd") or 0 for r in llm.rows()), 4),
