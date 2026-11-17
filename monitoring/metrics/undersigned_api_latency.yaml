@@ -1,0 +1,25 @@
+# The latency_ms each answered request logs, kept as a distribution so charts and alerts can take
+# percentiles. 4xx rejections are left out: they return in a few ms and would pull the percentiles
+# down. It is timed inside the app, so a cold start (up to about 100 s loading the models) is not in it.
+description: Server-side latency of undersigned-api requests in milliseconds, by route, without 4xx rejections
+filter: >-
+  resource.type="cloud_run_revision"
+  AND resource.labels.service_name="undersigned-api"
+  AND jsonPayload.route:*
+  AND jsonPayload.latency_ms:*
+  AND (jsonPayload.status<400 OR jsonPayload.status>=500)
+metricDescriptor:
+  metricKind: DELTA
+  valueType: DISTRIBUTION
+  unit: ms
+  labels:
+  - key: route
+    valueType: STRING
+    description: the endpoint's path, e.g. /link
+valueExtractor: EXTRACT(jsonPayload.latency_ms)
+labelExtractors:
+  route: EXTRACT(jsonPayload.route)
+# Fine below 300 ms, where answers fall, so the p95 is not stretched across a wide bucket.
+bucketOptions:
+  explicitBuckets:
+    bounds: [5, 10, 15, 20, 25, 30, 40, 50, 60, 75, 100, 125, 150, 200, 250, 300, 400, 500, 750, 1000, 1500, 2000, 3000, 5000, 10000, 30000, 60000]

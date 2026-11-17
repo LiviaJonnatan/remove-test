@@ -153,13 +153,15 @@ cd linker-train
 uv sync
 uv run wandb login --host https://api.forge.coreweave.com        # once; paste your key from the team host
 uv run python src/main.py baseline                               # untuned encoder: 44.7% top-1 on the test set, no training
-uv run python src/main.py train --mode in --out out/in           # the served configuration
-uv run python src/main.py report --runs out/in --out out/report  # the tables in the README
+uv run python src/main.py train --mode in --out out/in           # `in`, the plain recipe
+uv run python src/main.py train --mode in --set preamble_queries=true --combine --out out/in-pre
+                                                                 # `in-pre`, the served recipe, plus out/in-pre+ctx
+uv run python src/main.py report --runs out/in out/in-pre out/in-pre+ctx --out out/report   # the tables in the README
 ```
 
 `--mode in` trains on every docket's citing passages; `--mode lodo` trains one model per held-out docket (`--holdout ED-2021-OCR-0166` for just one). Settings are in `configs/bge-small.yaml`; override any with `--set key=value` (`--set epochs=1` for a smoke run). Data is found at `../data/linking` by default, or wherever `DATA_ROOT` or `--data` points, including a `gs://` path.
 
-To add the preamble and letter-citation scores to a trained run (the `in-pre` + scores row in the README): `uv run python src/main.py combine --run out/in --extras ../data/linking-extra`.
+`--combine` adds the preamble and letter-citation scores (the `in-pre` + scores row in the README) and writes them next to the run as `out/in-pre+ctx`. To add them to a run already trained: `uv run python src/main.py combine --run out/in-pre --extras ../data/linking-extra`.
 
 A run writes `config.json`, `history.json`, `metrics.json` and `predictions.jsonl` into its `--out` folder, and the same into W&B (project `undersigned-linker`, run name from `--name`, default the folder name). `out/` and `wandb/` are git-ignored; the evidence copies in `docs/evidence/linker-train/` were copied in by hand.
 
@@ -173,7 +175,7 @@ vertex/submit.sh lodo --holdout ED-2021-OCR-0166 --set preamble_queries=true --c
 DRY_RUN=1 vertex/submit.sh in                 # print the job spec instead of starting it
 ```
 
-`submit.sh` builds the image for the current commit in Cloud Build (`vertex/build.sh`, tagged with the short commit hash, skipped if it already exists), then starts one custom job that reads `gs://ac215-undersigned-data/linking` and writes `gs://ac215-undersigned-data/linker-runs/<run>/`. The frozen set must already be in the bucket: `dvc push` puts it there. The W&B key is taken from `WANDB_API_KEY` in your shell or from `../.env`. Jobs time out after 10 hours (`TIMEOUT_HOURS`). A CPU run on `e2-standard-16` takes about an hour an epoch; follow it at https://console.cloud.google.com/vertex-ai/training/custom-jobs?project=ac215-undersigned and in W&B.
+`submit.sh` builds the image for the current commit in Cloud Build (`vertex/build.sh`, tagged with the short commit hash, skipped if it already exists), then starts one custom job that reads `gs://ac215-undersigned-data/linking` and writes `gs://ac215-undersigned-data/linker-runs/<run>/`. The frozen set must already be at those bucket paths. `dvc push` does not put it there (DVC stores files by hash under `dvc/`); copy it once from the repo root with `gcloud storage cp -r data/linking data/linking-extra gs://ac215-undersigned-data/`. The W&B key is taken from `WANDB_API_KEY` in your shell or from `../.env`. Jobs time out after 10 hours (`TIMEOUT_HOURS`). A CPU run on `e2-standard-16` takes about an hour an epoch; follow it at https://console.cloud.google.com/vertex-ai/training/custom-jobs?project=ac215-undersigned and in W&B.
 
 ### Run the pipeline (train, evaluate, gate, promote)
 
@@ -186,16 +188,17 @@ vertex/run_pipeline.sh --gpu                  # once there is T4 quota
 
 Three steps, all on the same image: **train** (as above), **evaluate** (the report against every saved method) and **gate and promote**, which copies the ONNX export to `gs://ac215-undersigned-data/serving/linker/` only if the run beats hybrid search (lower end of the paired difference above zero) and is no worse than the model now served, compared at three decimals. Either way the step writes `promotion.json` in the run folder saying what it decided and why. Runs are at https://console.cloud.google.com/vertex-ai/pipelines/runs?project=ac215-undersigned; the compiled spec lands in vertex/pipeline.json and should not be committed.
 
-Promote a local run by hand with the same gate: `promote --run out/in --serve <serving folder>`; the pipeline passes `/gcs/ac215-undersigned-data/serving/linker`.
+Promote a local run by hand with the same gate: `uv run python src/main.py promote --run out/in-pre --serve ../data/models/linker`. That writes `promotion.json` in the run and, if it passes, the ONNX export to `../data/models/linker`. The pipeline passes `--serve /gcs/ac215-undersigned-data/serving/linker`.
 
 ### Deploy to Cloud Run
 
 ```bash
 api-service/cloudrun/deploy.sh                                              # what the bucket holds
-MODEL=linker-train/out/in/onnx INDEX=data/derived/chroma-lcr api-service/cloudrun/deploy.sh   # push local copies first
+MODEL=linker-train/out/in/onnx INDEX=data/derived/chroma-lcr \
+  PASSAGES=data/derived/passages api-service/cloudrun/deploy.sh              # push local copies first
 ```
 
-`deploy.sh` builds the API image in Cloud Build with the rule index and the promoted linker copied in from `gs://ac215-undersigned-data/serving/`, so the service needs no ChromaDB server, then deploys it as `undersigned-api` in `us-central1` (2 CPU, 4 GiB, scales to zero, at most 2 instances, 60 s timeout). The image is tagged with the commit hash and `GIT_COMMIT` is set in the service so `/health` and `/link` report it. The service is **private**: `PUBLIC=1` would open it to anyone and is a team decision.
+`deploy.sh` builds the API image in Cloud Build with the rule index, the promoted linker, and passage-stage's parquet copied in from `gs://ac215-undersigned-data/serving/`, so the service needs no ChromaDB server, then deploys it as `undersigned-api` in `us-central1` (2 CPU, 4 GiB, scales to zero, at most 2 instances, 60 s timeout). The image is tagged with the commit hash and `GIT_COMMIT` is set in the service so `/health` and `/link` report it. The service is **private**: `PUBLIC=1` would open it to anyone and is a team decision. The first deploy after adding passages, or after `passage-stage` rewrites the files, needs `PASSAGES=data/derived/passages` so `serving/passages/` is in the bucket; Cloud Build fails if that folder is missing.
 
 ### Call the deployed API
 
@@ -209,6 +212,7 @@ curl -s -X POST "$URL/link" -H "Authorization: Bearer $TOKEN" -H 'Content-Type: 
   "text": "Requiring systems to replace every lead service line within ten years is not feasible for small utilities with limited staff.",
   "docket_id": "EPA-HQ-OW-2022-0801", "k": 3}'
 curl -s -H "Authorization: Bearer $TOKEN" "$URL/stats"             # per-route counts, errors, p50/p90/p99 since the instance started
+curl -s -H "Authorization: Bearer $TOKEN" "$URL/rules/EPA-HQ-OW-2022-0801/sections"  # citing_passages should be numbers, not null
 ```
 
 `403` with no body means no token or no `run.invoker`; `503` from `/link` means the image was built without a model in `serving/linker/`. To score the served model on the frozen lead-and-copper test passages, the check the README's evidence comes from:
@@ -226,9 +230,11 @@ Request logs: `gcloud logging read 'resource.type="cloud_run_revision" AND resou
 ```bash
 cd linker-train && uv run python src/main.py export --run out/in --out out/in/onnx && cd ..
 # or fetch the promoted model:  gcloud storage cp -r gs://ac215-undersigned-data/serving/linker data/models/linker
-LINKER_MODEL_DIR=/app/linker docker compose run --rm --service-ports \
+docker compose run --rm --no-deps --service-ports -e LINKER_MODEL_DIR=/app/linker \
   -v "$PWD/linker-train/out/in/onnx:/app/linker:ro" api-service
 ```
+
+`--no-deps` keeps compose from running the batch chain first, so ChromaDB must already be up and filled (`docker compose up -d chromadb`). `-e` passes `LINKER_MODEL_DIR` into the container; compose does not forward it from your shell. To serve the promoted model instead, mount `$PWD/data/models/linker` in place of the run's `onnx/` folder.
 
 ## 3. Every `.env` setting
 
@@ -273,12 +279,14 @@ LINKER_MODEL_DIR=/app/linker docker compose run --rm --service-ports \
 | processor image build fails reaching huggingface.co | network block or HF outage | retry; nothing in our code |
 | `/retrieve` returns `{"hits": []}` | `docket_id` set to a docket the index doesn't hold (the Swagger example value `"string"`) | leave `docket_id` out or set it to the docket you ran |
 | `FileNotFoundError: .../data/linking/train.json` | the frozen set is not pulled | `uv run dvc pull data/linking.dvc data/linking-extra.dvc` from the repo root |
-| Vertex job fails at start reading `gs://.../linking` | the set is in DVC but not pushed to the bucket path the job reads | `uv run dvc push`, or `gsutil -m cp -r data/linking gs://ac215-undersigned-data/linking` |
+| Vertex job fails at start reading `gs://.../linking` | the set is in DVC but not copied to the bucket paths the job reads | from the repo root: `gcloud storage cp -r data/linking data/linking-extra gs://ac215-undersigned-data/` |
 | `submit.sh` fails with a quota error on `NVIDIA_TESLA_T4` | the project's T4 quota is 0 | `GPU=none vertex/submit.sh in`, or wait for the quota request |
 | `n1-highcpu-16` has no capacity | regional stock-out | `MACHINE=e2-standard-16` (the default) |
 | the pipeline's promote step writes `promote: false` | the run did not beat hybrid search, or scored below the served model at three decimals | read `promotion.json` in the run folder; the served score is in `serving/linker/linker.json` |
 | Cloud Run returns `403` with an empty body | no token, or your account lacks `run.invoker` | `-H "Authorization: Bearer $(gcloud auth print-identity-token)"`; ask for the role |
 | Cloud Run `/link` returns `503 No linker model` | the image was built with nothing in `serving/linker/` | promote a run, then `deploy.sh` again |
+| Cloud Build fails copying `serving/passages` | that folder is not in the bucket yet | `PASSAGES=data/derived/passages api-service/cloudrun/deploy.sh` after `passage-stage` has written the files |
+| Cloud Run `/rules/.../sections` has `citing_passages: null` | image built without parquet in `/app/data/derived/passages` | same as above; compose is unaffected (it mounts the folder) |
 | Cloud Run revision fails to start, memory | the image loads two models; 2 GiB was not enough | `deploy.sh` sets 4 GiB; do not lower it |
 | compose `/link` returns 503 | no model mounted in the compose stack | see "Serving `/link` locally" |
 

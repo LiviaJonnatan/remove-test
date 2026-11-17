@@ -1,0 +1,31 @@
+# Emails the team when /link gets slow. A typical /link answer takes under 0.2 s inside the app,
+# so a p95 over 1 s means something is wrong. Cold starts are not timed, so they do not trigger it.
+displayName: undersigned-api /link latency
+documentation:
+  mimeType: text/markdown
+  content: |-
+    The 95th percentile of /link latency was over 1 second across the last 10 minutes.
+    A typical answer takes under 0.2 seconds.
+
+    See the slow requests:
+
+        gcloud logging read --project ac215-undersigned 'resource.type="cloud_run_revision" AND resource.labels.service_name="undersigned-api" AND jsonPayload.route="/link" AND jsonPayload.latency_ms>1000' --limit 20
+combiner: OR
+conditions:
+- displayName: /link p95 over 1000 ms in 10 minutes
+  conditionThreshold:
+    filter: >-
+      metric.type="logging.googleapis.com/user/undersigned_api_latency"
+      AND resource.type="cloud_run_revision"
+      AND metric.labels.route="/link"
+    aggregations:
+    - alignmentPeriod: 600s
+      perSeriesAligner: ALIGN_DELTA
+      crossSeriesReducer: REDUCE_PERCENTILE_95
+    comparison: COMPARISON_GT
+    thresholdValue: 1000
+    duration: 0s
+    trigger:
+      count: 1
+alertStrategy:
+  autoClose: 1800s

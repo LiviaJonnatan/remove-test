@@ -104,6 +104,7 @@ Runs the README's "Milestone 3: the linker" section cites. Each folder holds the
 | Folder | What it shows |
 | --- | --- |
 | `in/`, `in-v1/`, `in-pre/` | Models trained on all six dockets' citing passages; `in-pre` is the one served. `in-pre/ctx/` adds the preamble and letter-citation scores; `in-pre/promotion.json` is the gate's decision |
+| `vertex/pipeline-graph.png` | The same run in the Vertex AI console: train, evaluate, and gate and promote, 3 of 3 succeeded |
 | `vertex/` | The pipeline's own run (train → evaluate → promote) on 28 Oct. Its `promotion.json` is the gate rejecting the run: beats hybrid search by 12.2 points, but scored 64.9% against 64.9% served and the `not_worse_than_served` check came back false, the comparison bug the gate caught on its first run |
 | `report.md`, `report.json`, `report-pre/` | The comparison tables in the README, every method on the same 490 and 232 test passages |
 | `lodo-pre-ED/` | Held out: Title IX (ED-2021-OCR-0166), trained with its preamble pairs and none of its letters. `ED-2021-OCR-0166+ctx/` adds the preamble and letter scores |
@@ -114,4 +115,12 @@ Runs the README's "Milestone 3: the linker" section cites. Each folder holds the
 
 ## cloud-run
 
-`cloud-run/link-curl.txt`: `/health`, `/link` and `/stats` against the deployed `undersigned-api` with an identity token; `cloud-run/link-check-in-pre.json`: `link_check.py` against the deployed service.
+| File | What it shows |
+| --- | --- |
+| `cloud-run/link-curl.png` | Terminal, 11 Nov: `/health` without a token (403), then `/health` and `/link` with one, against the deployed `undersigned-api` serving `in-pre` (commit `ec9e6dc`). § 141.84 first at 0.567, § 141.81 at 0.5449, margin 0.0221 under the cutoff 0.0265, `needs_reader` true |
+| `cloud-run/cloud-logging.png` | Logs Explorer, 11 Nov: the service's requests filtered on `jsonPayload.route`, one `/link` entry opened to show `route`, `status`, `method` and `latency_ms` |
+| `cloud-run/link-curl.txt` | `/link` only, 28 Oct, against the previous model `in` (commit `ffa2ae3`): § 141.84 at 0.5264 against § 141.81 at 0.5263 |
+| `cloud-run/link-check.json` | `scripts/link_check.py` against the deployed service on `in`: 80 lead and copper test passages |
+| `cloud-run/link-check-in-pre.json` | The same check after `in-pre` was deployed on 29 Oct |
+| `cloud-run/sections-counts.png` | `GET /rules/EPA-HQ-OW-2022-0801/sections` on revision `undersigned-api-00004-lm7` after #91 (proxy to `/docs`). `PART 141` has `citing_passages` 156 and `citing_letters` 5, not null |
+| `linker-train/wandb-run.png` | The W&B run `in-pre-us-east1-1029-1444` on the team's CoreWeave Forge host: the Vertex AI job that trained the served model, with loss, learning rate, validation accuracy and the test predictions table |

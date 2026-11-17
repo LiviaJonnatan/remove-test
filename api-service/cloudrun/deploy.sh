@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
-# Build the API image in Cloud Build and deploy it to Cloud Run, with the rule index and the
-# promoted linker inside the image.
+# Build the API image in Cloud Build and deploy it to Cloud Run, with the rule index, the
+# promoted linker, and passage-stage's parquet inside the image.
 #
-#   api-service/cloudrun/deploy.sh                          # model and index from the bucket
-#   MODEL=linker-train/out/in/onnx INDEX=data/derived/chroma-lcr api-service/cloudrun/deploy.sh
+#   api-service/cloudrun/deploy.sh                          # what the bucket holds
+#   MODEL=linker-train/out/in/onnx INDEX=data/derived/chroma-lcr \
+#     PASSAGES=data/derived/passages api-service/cloudrun/deploy.sh
 #                                                           # publish local copies first, then deploy
 #
 # The service is private: a caller needs an identity token from an account with run.invoker, e.g.
@@ -11,7 +12,9 @@
 # PUBLIC=1 opens it to anyone, a decision for the team (anyone could then run up the bill).
 #
 # The bucket holds what is served: gs://BUCKET/serving/linker/ (the model, with linker.json naming
-# its run, commit and test accuracy) and gs://BUCKET/serving/index/ (the ChromaDB folder).
+# its run, commit and test accuracy), gs://BUCKET/serving/index/ (the ChromaDB folder), and
+# gs://BUCKET/serving/passages/ (links.parquet and passages.parquet per docket, for section
+# citation counts).
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 cd "$ROOT"
@@ -28,6 +31,9 @@ if [ -n "${MODEL:-}" ]; then
 fi
 if [ -n "${INDEX:-}" ]; then
   gcloud storage rsync --recursive --delete-unmatched-destination-objects "$INDEX" "gs://${BUCKET}/serving/index"
+fi
+if [ -n "${PASSAGES:-}" ]; then
+  gcloud storage rsync --recursive --delete-unmatched-destination-objects "$PASSAGES" "gs://${BUCKET}/serving/passages"
 fi
 
 BUILD="$(mktemp -d)"

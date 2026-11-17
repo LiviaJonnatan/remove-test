@@ -197,7 +197,10 @@ def process_record(record, files, raw, docket, count_tokens, key, plan, events):
         body = extract_body(attrs.get("comment"))
         aid = config.get("attachment_id")
         source, path = "body", None
-        if aid or not body:
+        # A body next to an attachment is usually a cover note ("Please see the attached comments
+        # filed on behalf of ..."), so the attachment is read too. On LCRI, keeping only such bodies
+        # dropped 134 letters that EPA answered 2,633 times in its response to comments.
+        if aid or not body or documents:
             candidates = (
                 [d for d in documents if d["id"] == aid]
                 if aid
@@ -224,11 +227,31 @@ def process_record(record, files, raw, docket, count_tokens, key, plan, events):
                                 }
                             )
                     candidates = primary
-            if len(candidates) != 1:
+            attached = None
+            if len(candidates) == 1:
+                try:
+                    attached = read_attachment(candidates[0], raw, events, rid)
+                except ValueError:
+                    if not body:
+                        raise
+            elif not body:
                 raise ValueError("attachment_selection_requires_review")
-            document = candidates[0]
-            units, source, path = read_attachment(document, raw, events, rid)
-            body, aid = clean_text(" ".join(units)), document["id"]
+            if attached is None:
+                events.append(
+                    {
+                        "record_id": rid,
+                        "status": "attachment_not_used",
+                        "reason": "selection_requires_review"
+                        if len(candidates) > 1
+                        else "no_usable_attachment",
+                    }
+                )
+            else:
+                units, source, path = attached
+                text = clean_text(" ".join(units))
+                if body and body.casefold() not in text.casefold():
+                    text = f"{body}\n\n{text}"
+                body, aid = text, candidates[0]["id"]
         row_kind = "campaign_sample" if campaign else "individual"
         row = make_letter(rid, docket, attrs, body, source, aid, count_tokens, key, row_kind)
         letter_rows.append(row)

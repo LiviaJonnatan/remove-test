@@ -386,7 +386,8 @@ def create_app(
         """The rule's sections ranked for one comment passage, each with the rule text that matched.
 
         `needs_reader` is true when the first two sections are too close to call (margin below the
-        cutoff stored with the model); a batch job sends those passages to the reader model.
+        cutoff stored with the model). Flagging is built; sending flagged passages to a reader model
+        is planned, not built.
         """
         linker: SectionLinker | None = request.app.state.linker
         if linker is None:

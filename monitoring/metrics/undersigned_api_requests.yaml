@@ -1,0 +1,17 @@
+# Counts every request undersigned-api served, from the JSON line it logs per request, by route.
+description: Requests served by undersigned-api, by route
+filter: >-
+  resource.type="cloud_run_revision"
+  AND resource.labels.service_name="undersigned-api"
+  AND jsonPayload.route:*
+  AND jsonPayload.status:*
+metricDescriptor:
+  metricKind: DELTA
+  valueType: INT64
+  unit: "1"
+  labels:
+  - key: route
+    valueType: STRING
+    description: the endpoint's path, e.g. /link
+labelExtractors:
+  route: EXTRACT(jsonPayload.route)

@@ -1,6 +1,7 @@
-# The API as Cloud Run serves it: the rule index and the tuned linker are inside the image, so the
-# service needs no ChromaDB server and starts from nothing but this image. deploy.sh assembles the
-# build folder (this file, the API, rule_passages, the index folder and the model folder).
+# The API as Cloud Run serves it: the rule index, the tuned linker, and passage-stage's parquet are
+# inside the image, so the service needs no ChromaDB server and starts from nothing but this image.
+# deploy.sh assembles the build folder (this file, the API, rule_passages, the index, the model,
+# and the passages folder).
 FROM python:3.12-slim-bookworm
 
 ENV UV_PROJECT_ENVIRONMENT=/opt/venv \
@@ -20,6 +21,7 @@ RUN python -c "from fastembed import TextEmbedding; TextEmbedding('BAAI/bge-smal
 COPY lib/ ./lib/
 COPY index/ ./index/
 COPY linker/ ./linker/
+COPY passages/ ./data/derived/passages/
 COPY src/ ./src/
 # Cloud Run sets PORT.
 CMD ["sh", "-c", "uvicorn main:app --app-dir src --host 0.0.0.0 --port ${PORT:-8080}"]

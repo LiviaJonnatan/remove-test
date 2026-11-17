@@ -1,6 +1,0 @@
-web/node_modules/
-web/dist/
-.venv/
-.firebase-web-key
-.cloudsql-url
-.env.local

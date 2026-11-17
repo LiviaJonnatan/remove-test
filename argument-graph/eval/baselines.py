@@ -12,7 +12,7 @@ match.py and score.py treat them alike.
 
 Usage: python eval/baselines.py --graph-dir ../data/derived/graph/EPA-HQ-OW-2022-0801
        --passages ../data/derived/passages/EPA-HQ-OW-2022-0801
-       [--reading /Users/aidane/Harvard/ac215/undersigned2/reading/reading.json]
+       [--reading <path to the 12 Oct pilot's reading.json>]
        [--out eval/out/baselines]
 """
 

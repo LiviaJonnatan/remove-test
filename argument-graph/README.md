@@ -16,7 +16,7 @@ issue, so the flag is a column, not a significance signal.
 - **Output:** `data/derived/graph/<docket>/`: `claims.parquet`, `pairs.parquet`, `issues.parquet`,
   `claim_issues.parquet`, `review.parquet`, `graph.json`, `summary.json`, plus `ledger.jsonl`,
   `prompts/<tag>.txt` and `raw/<tag>.json` per model call. Columns in
-  [schema.md §3c](../schema.md#3c-graph-layer-datagraphdocket-argument-graph).
+  [schema.md §3c](../schema.md#3c-graph-layer-dataderivedgraphdocket-argument-graph).
 - **Run alone:** `docker compose run --rm argument-graph` (after passage-stage). On a laptop with
   Claude Code: `GRAPH_BACKEND=cli DATA_DIR=../data PYTHONPATH=../rule-passages/src uv run python
   src/main.py all`. With no key and no `claude` on PATH it prints a skip message and exits 0.

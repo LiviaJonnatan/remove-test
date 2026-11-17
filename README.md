@@ -12,7 +12,7 @@ Milestone 1 proposal: `main.tex` / `milestone1.tex`. MS1 application mock: `docs
 
 ## Milestone 3: the linker
 
-New since MS2, all on the `milestone3` branch: a trained model that links a comment passage to the section of the rule it argues about, its training on Vertex AI tracked in W&B, a Vertex AI pipeline that only promotes a model that beats what is served, the model behind a new `POST /link` endpoint, and the API on Cloud Run with request logging. The MS2 submission (`milestone2` branch) is unchanged. Also new: `argument-graph/`, the stage that
+New since MS2, all on the `milestone3` branch: a trained model that links a comment passage to the section of the rule it argues about, its training on Vertex AI tracked in W&B, a Vertex AI pipeline that only promotes a model that beats hybrid search and is no worse than the one served, the model behind a new `POST /link` endpoint, and the API on Cloud Run with request logging. The MS2 submission (`milestone2` branch) is unchanged. Also new: `argument-graph/`, the stage that
 turns cited passages into claims, issues and a review queue for the response-to-comments writer,
 with the final rule's preamble as its eval label (see [argument-graph](#argument-graph)).
 
@@ -28,7 +28,7 @@ The model is a contrastive fine-tune of `BAAI/bge-small-en-v1.5`, the encoder ru
 | Hard negatives from the current model, mined again each epoch | The wrong sections the model ranks highest are the ones worth learning from |
 | Same-section passages masked out of the loss | Two passages citing one section are not negatives of each other. Leaving them out of batches instead broke the learning-rate schedule (below) |
 | Cached gradients | A batch of 32 passages with 3 negatives each is 128 texts; caching gradients keeps memory at one chunk, so the same batch trains on a 16 GB laptop and on Vertex |
-| Served through ONNX | The API image has no PyTorch. The exported model matches the trained one to a cosine gap of 1.2e-7 on 64 texts |
+| Served through ONNX | The API image has no PyTorch. The exported model matches the trained one to a cosine gap of 6e-8 on 64 texts (`in-pre/linker.json`) |
 
 ### Results on the frozen test set
 
@@ -47,11 +47,12 @@ All numbers from `python src/main.py report` in `linker-train/`, on passages no 
 
 | Paired difference in top-1, same passages | Points (95% interval) |
 |---|---|
-| Tuned minus untuned | +21.4 (+16.3 to +26.5) |
-| Tuned minus hybrid search | +12.2 (+7.1 to +17.1) |
-| Tuned minus feature reranker C | −1.0 (−5.3 to +3.2) |
-| Tuned minus Haiku | −1.7 (−9.1 to +5.6) |
-| Tuned minus Sonnet | −8.2 (−15.6 to −0.9) |
+| `in` minus untuned | +21.4 (+16.3 to +26.5) |
+| `in` minus hybrid search | +12.2 (+7.1 to +17.1) |
+| `in` minus feature reranker C | −1.0 (−5.3 to +3.2) |
+| `in` minus Haiku | −1.7 (−9.1 to +5.6) |
+| `in` minus Sonnet | −8.2 (−15.6 to −0.9) |
+| `in-pre` minus Sonnet | −6.9 (−13.5 to −0.4) |
 | `in-pre` + scores minus Haiku | +0.9 (−5.9 to +7.6) |
 | `in-pre` + scores minus Sonnet | −5.6 (−11.9 to +0.5) |
 
@@ -66,26 +67,39 @@ On the 40 uncited passages one of us labelled by hand on 11 Oct, the tuned model
 | Case | Result |
 |---|---|
 | Small dockets | `in-pre` top-1 by docket: PHMSA 76%, ED 73%, HHS 72%, MSHA 60%, lead and copper 52.5%, Clean Power Plan 47%. The last three have the fewest training passages and the shortest preambles |
-| A rule it has never seen | Trained without any ED passages, `in` got 50.0% (39.6 to 59.4) on ED, below hybrid search (57%). Trained the same way but with ED's preamble pairs, and still no ED letters, it gets **67.0% (55.2 to 77.5)**: +17 points (+6.9 to +26.4) and above hybrid search by 10 (0 to +20). Evidence in `docs/evidence/linker-train/lodo-pre-ED/`. A new rule's preamble ships with the rule, so this needs no labels at all. The other five held-out dockets are still to run |
-| Label noise | About 17% of citation labels cannot be recovered from the passage (11 Oct failure reading), so about 83% is the ceiling for any method scored this way |
+| A rule it has never seen | Trained without any ED passages, `in` got 50.0% (39.6 to 59.4) on ED, below hybrid search (57%). Trained the same way but with ED's preamble pairs, and still no ED letters, it gets **67.0% (55.2 to 77.5)**: +17 points (+6.9 to +26.4) and above hybrid search by 10 (0 to +20). Evidence in `docs/evidence/linker-train/lodo-pre-ED/`. A new rule's preamble ships with the rule, so this needs no labels at all. All six held-out dockets have now run (`docs/evidence/linker-train/lodo-pre-*/`): each scored by a model that saw none of its letters, 283 of the 490 test passages are right (57.8%), against 52.6% for hybrid search and 65.5% for `in-pre`. The weakest is the Clean Power Plan, 20 of 60 (33%) |
+| Label noise | Some citation labels cannot be recovered from the passage alone. Reading the misses in October, our judgment (not a measurement) is that this puts the ceiling for any method scored this way in the low 80s. Picking the better of `in` and Sonnet on each of the 232 passages would score 84.5%, so the guess is rough |
 
 **A bug the training curves caught.** The first run kept two passages citing the same section out of one batch. ED has 387 training passages on § 106.44, so an epoch became 387 mostly tiny batches instead of 131. The learning-rate schedule assumed 131, reached zero halfway through epoch 2, and epochs 3 and 4 changed nothing: validation read 73.9% three times. The fix masks same-section passages in the loss and keeps full batches. The buggy run is kept as `in-v1` (64.3%) for comparison.
 
 ### Reproduce training
 
+The frozen linking set is in DVC. Pulling it needs access to the bucket ([setup, section 2](docs/setup.md#2-the-full-data-team-members)). From the repo root:
+
 ```bash
+uv run dvc pull data/linking.dvc data/linking-extra.dvc
 cd linker-train
 uv sync
-uv run wandb login                                                # once
-uv run python src/main.py baseline                                # untuned encoder, 44.7% top-1
-uv run python src/main.py train --mode in --out out/in            # about 45 min on an M2 Pro
-uv run python src/main.py train --mode lodo --out out/lodo        # one model per held-out docket
-uv run python src/main.py report --runs out/in --out out/report   # every table above
+uv run wandb login --host https://api.forge.coreweave.com           # once
+uv run python src/main.py baseline                                  # untuned encoder, 44.7% top-1
+uv run python src/main.py train --mode in --out out/in              # `in`, about 45 min on an M2 Pro
+uv run python src/main.py train --mode in --set preamble_queries=true --combine --out out/in-pre
+                                                                    # `in-pre`, the served recipe, plus out/in-pre+ctx
+uv run python src/main.py train --mode lodo --out out/lodo          # one model per held-out docket
+uv run python src/main.py report --runs out/in out/in-pre out/in-pre+ctx --out out/report   # the tables above
 ```
 
-Settings are in `configs/bge-small.yaml`; any can be overridden with `--set key=value`. Runs are tracked in the W&B project `undersigned-linker` (loss, learning rate, validation accuracy per epoch, and a table of test predictions), and each run folder has its config, history, metrics and every prediction.
+The baseline's 44.7% is a fresh run with this repo's scorer. The table's 43.5% is the untuned model's saved 11 Oct answers, scored with the other saved methods.
 
-**On Vertex AI:** `vertex/submit.sh in` builds the image in Cloud Build (`vertex/build.sh`, tagged with the commit) and starts a custom job that reads `gs://ac215-undersigned-data/linking` and writes `gs://ac215-undersigned-data/linker-runs/<run>/`. The project's T4 quota is 0 until Google grants the request, so `GPU=none vertex/submit.sh in` runs on a CPU machine (`MACHINE`, default e2-standard-16; n1-highcpu-16 had no capacity in us-central1 on 28 Oct).
+Settings are in `configs/bge-small.yaml`; any can be overridden with `--set key=value`. Runs are tracked in the W&B project `undersigned-linker` (loss, learning rate, validation accuracy per epoch, and a table of test predictions), and each run folder has its config, history, metrics and every prediction. The W&B project lives on the team's CoreWeave Forge host, so seeing it needs an invite; the screenshot below is the evidence.
+
+**On Vertex AI:** `vertex/submit.sh in` builds the image in Cloud Build (`vertex/build.sh`, tagged with the commit) and starts a custom job from `vertex/job.yaml` (one n1-standard-8 with one T4, stopped after 10 hours by default, `TIMEOUT_HOURS`). The job reads `gs://ac215-undersigned-data/linking` and writes `gs://ac215-undersigned-data/linker-runs/<run>/`. The project's T4 quota is 0 until Google grants the request, so `GPU=none vertex/submit.sh in` runs on a CPU machine (`MACHINE`, default e2-standard-16; n1-highcpu-16 had no capacity in us-central1 on 28 Oct). `vertex/submit.sh in --set preamble_queries=true --combine` trains `in-pre`. Multi-GPU training is not used: the model is small and the GPU quota is 0.
+
+![W&B run in-pre-us-east1-1029-1444: step, epoch, learning rate, loss, validation accuracy and the test predictions table](docs/evidence/linker-train/wandb-run.png)
+
+*The W&B run `in-pre-us-east1-1029-1444`: the Vertex AI training job (us-east1, n2-standard-16, job `6979369066280517632`) that produced `in-pre`, the model now served. Learning rate and loss per step, validation top-1, top-5 and MRR per epoch, and the table of all 490 test predictions.*
+
+`linker-train/hill/` sets the trainer up as an Autolab task: an agent tunes the training code against the same scoring the API serves, and its workspace never holds the held-out letters (`hill/build.py`). Its run records live in the Autolab project, not in this repo.
 
 ### The pipeline
 
@@ -95,7 +109,11 @@ Settings are in `configs/bge-small.yaml`; any can be overridden with `--set key=
 2. **evaluate**: the report above, against every saved method.
 3. **gate and promote**: export to `gs://ac215-undersigned-data/serving/linker/` only if the run beats hybrid search (lower end of the paired difference above zero) and is no worse than the served model. A rejected run writes `promotion.json` saying why. Checked on `in-v1`: it beats hybrid search by 11.6 (6.8 to 16.2) but scores 64.3% against 64.9% served, so it is not promoted.
 
-**First run, 28 to 29 Oct** (`undersigned-linker-20261028234305`, W&B run `zyqws7hu`, [evidence](docs/evidence/linker-train/vertex/)). All three steps succeeded in 5 hours on an e2-standard-16 with no GPU, 57 to 71 minutes an epoch against about 10 on the M2 Pro.
+**First run, 28 to 29 Oct** (`undersigned-linker-20261028234305`, W&B run `zyqws7hu`, named `linker-1028-2343`, [evidence](docs/evidence/linker-train/vertex/)). All three steps succeeded in 4 hours 36 minutes (train 4 h 27 min, evaluate 4 min, gate 5 min) on 16 CPUs and 60 GB with no GPU, the limits in `vertex/pipeline.py`, 52 to 71 minutes an epoch against about 10 on the M2 Pro. The served model, `in-pre`, was not trained by the pipeline: it was its own Vertex AI custom job in us-east1, and it is the run in the screenshot above.
+
+![Vertex AI Pipelines: run undersigned-linker-20261028234305, train, evaluate, and gate and promote all succeeded](docs/evidence/linker-train/vertex/pipeline-graph.png)
+
+*The run in the Vertex AI console: 3 of 3 steps completed, with the gate step selected.*
 
 | | Laptop (MPS) | Vertex AI (CPU) |
 |---|---|---|
@@ -105,7 +123,9 @@ Settings are in `configs/bge-small.yaml`; any can be overridden with `--set key=
 
 The two runs agree on every test passage, so the seed and the data version reproduce the model on different hardware.
 
-The gate rejected it, wrongly. The run gets 318 of 490 right, 0.64898, and the served model's `linker.json` stores the same score rounded to 0.649, so "at least as good" failed on rounding. The check now compares at the stored precision (`no_worse` in `src/linker/promote.py`, with tests), and the same decision rerun on this run promotes it. The model it would have promoted is the one already served, so the API did not change.
+The gate rejected it, wrongly. The run gets 318 of 490 right, 0.64898, and the served model's `linker.json` stores the same score rounded to 0.649, so "at least as good" failed on rounding. The check now compares at the stored precision (`no_worse` in `src/linker/promote.py`, with tests), and the same decision rerun on this run promotes it. The run ranks every test passage the same as `in`, which was then served, so the API did not change. `in-pre` (65.5%, stored as 0.6551) replaced `in` on 29 Oct after passing the same gate (`docs/evidence/linker-train/in-pre/promotion.json`).
+
+One gap: the pipeline's train step (`vertex/pipeline.py`) still trains the plain `in` recipe, without `preamble_queries`, so a run today reproduces `in` (64.9% on both runs above) and the gate would refuse it against `in-pre` (65.5%). Updating the step is planned for MS4.
 
 The same gate is the retraining trigger MS5 needs: a new docket's citing letters come in, the pipeline trains, and the API only changes if the new model wins.
 
@@ -123,38 +143,143 @@ curl -s -X POST localhost:8000/link -H 'Content-Type: application/json' -d '{
 | `docket_id` (required) | The rule to link against. A docket with no regulatory sections indexed is a 404 naming the ones that have them |
 | `k` | Sections to return, default 5 |
 
-The response ranks the rule's regulatory sections (`section_ref` such as `PART 141/§ 141.84`, with `heading`, `citation`, `page`, `score`) and gives each one's best-matching rule text as `evidence`, so a reader can check the link. `margin` is the gap between the first two scores; `needs_reader` is true when it is under the cutoff stored with the model, the least sure 20% of the test set, and a batch job sends those passages to the reader model. `model` names the run, commit and test accuracy being served. Without a model (`LINKER_MODEL_DIR` unset) `/link` answers 503, and `/health` reports `"linker": null`.
+The response ranks the rule's regulatory sections (`section_ref` such as `PART 141/§ 141.84`, with `heading`, `citation`, `page`, `score`) and gives each one's best-matching rule text as `evidence`, so a reader can check the link. `margin` is the gap between the first two scores; `needs_reader` is true when it is under the cutoff stored with the model, the least sure 20% of the test set, Flagging is built; sending the flagged passages to a reader model is planned for a later milestone, not built. `model` names the run, commit and test accuracy being served. Without a model (`LINKER_MODEL_DIR` unset) `/link` answers 503, and `/health` reports `"linker": null`.
 
-Checked end to end: the 80 lead and copper test passages sent to the running API score 57.5% top-1 and 87.5% top-5 (55.0% and 88.8% in evaluation, which used slightly different rule windows), flag 21% for the reader, at 20 ms median and 35 ms at the 90th percentile on a laptop (`scripts/link_check.py`, [evidence](docs/evidence/linker-train/link-check-local.json)). Tests: `api-service/tests/test_link.py` (7 tests, fake embedder, offline).
+The example above against Cloud Run on `in-pre`, trimmed: evidence text is cut short and the third section left out ([screenshot](docs/evidence/cloud-run/link-curl.png)).
+
+```json
+{
+  "docket_id": "EPA-HQ-OW-2022-0801",
+  "margin": 0.0221,
+  "needs_reader": true,
+  "sections": [
+    {
+      "rank": 1,
+      "section_ref": "PART 141/§ 141.84",
+      "heading": "PART 141--NATIONAL PRIMARY DRINKING WATER REGULATIONS > Sec. 141.84 Service line inventory and replacement requirements.",
+      "citation": "88 FR 84878",
+      "page": 85065,
+      "score": 0.567,
+      "evidence": {"id": "2023-26148:0921", "text": "Subject to the State determination in paragraph (d)(5)(iv) of this section, a water system may defer service line replacement ..."}
+    },
+    {
+      "rank": 2,
+      "section_ref": "PART 141/§ 141.81",
+      "heading": "PART 141--NATIONAL PRIMARY DRINKING WATER REGULATIONS > Sec. 141.81 Applicability of corrosion control treatment steps to small, medium, and large water systems.",
+      "citation": "88 FR 84878",
+      "page": 85058,
+      "score": 0.5449,
+      "evidence": {"id": "2023-26148:0865", "text": "(B) A large water system without corrosion control treatment completes the service line replacement requirements ..."}
+    }
+  ],
+  "model": {"run": "in-pre", "commit": "ec9e6dc", "base_model": "BAAI/bge-small-en-v1.5",
+            "test_acc@1": [0.6551, 0.6075, 0.7022], "reader_share": 0.2, "margin_cutoff": 0.0265}
+}
+```
+
+Checked end to end: the 80 lead and copper test passages sent to the running API score 57.5% top-1 and 87.5% top-5 (55.0% and 88.8% in evaluation, which used slightly different rule windows), flag 21% for the reader, at 20 ms median and 35 ms at the 90th percentile on a laptop (`scripts/link_check.py`, [evidence](docs/evidence/linker-train/link-check-local.json)). Tests: `api-service/tests/test_link.py` (8 tests, fake embedder, offline).
 
 ### Deployment and monitoring
 
-`api-service/cloudrun/deploy.sh` builds the API image in Cloud Build with the rule index and the promoted linker inside it (from `gs://ac215-undersigned-data/serving/`), so Cloud Run needs no ChromaDB server, and deploys it as `undersigned-api` (2 CPU, 4 GiB, scales to zero, at most 2 instances). The service is private: callers need an identity token from an account with the `run.invoker` role.
+`api-service/cloudrun/deploy.sh` builds the API image in Cloud Build with the rule index, the promoted linker, and passage-stage's parquet inside it (from `gs://ac215-undersigned-data/serving/`), so Cloud Run needs no ChromaDB server, and deploys it as `undersigned-api` (2 CPU, 4 GiB, scales to zero, at most 2 instances). The service is private: callers need an identity token from an account with the `run.invoker` role.
+
+Deploy, or redeploy after a new model is promoted (from the repo root, `gcloud` logged in):
 
 ```bash
-URL=$(gcloud run services describe undersigned-api --region us-central1 --format 'value(status.url)')
-curl -s -H "Authorization: Bearer $(gcloud auth print-identity-token)" "$URL/health"
+api-service/cloudrun/deploy.sh                                              # what the bucket holds
+(cd linker-train && uv run python src/main.py export --run out/in-pre --out out/in-pre/onnx)
+MODEL=linker-train/out/in-pre/onnx INDEX=data/derived/chroma-lcr \
+  PASSAGES=data/derived/passages api-service/cloudrun/deploy.sh              # push local copies first
 ```
+
+Call it:
+
+```bash
+URL=$(gcloud run services describe undersigned-api --project ac215-undersigned --region us-central1 --format 'value(status.url)')
+TOKEN=$(gcloud auth print-identity-token)
+curl -s -H "Authorization: Bearer $TOKEN" "$URL/health"
+curl -s -X POST "$URL/link" -H "Authorization: Bearer $TOKEN" -H 'Content-Type: application/json' -d '{
+  "text": "Requiring systems to replace every lead service line within ten years is not feasible for small utilities with limited staff.",
+  "docket_id": "EPA-HQ-OW-2022-0801", "k": 3}'
+```
+
+#### Staff access
+
+The teaching staff account `ac215harvard@gmail.com` has `roles/run.invoker` on `undersigned-api`. Log in with that account and the call above works as written:
+
+```bash
+gcloud auth login ac215harvard@gmail.com
+curl -s -H "Authorization: Bearer $(gcloud auth print-identity-token)" https://undersigned-api-658318685216.us-central1.run.app/health
+```
+
+The service scales to zero, so the first call after a quiet spell can take up to 90 seconds while it loads the models. Later calls answer in under 100 ms.
 
 Every request is logged as one JSON line (`route`, `status`, `latency_ms`, `severity`), never its body, so Cloud Logging can filter and chart by field:
 
 ```bash
-gcloud logging read 'resource.type="cloud_run_revision" AND resource.labels.service_name="undersigned-api" AND jsonPayload.route="/link"' --limit 20
+gcloud logging read --project ac215-undersigned 'resource.type="cloud_run_revision" AND resource.labels.service_name="undersigned-api" AND jsonPayload.route="/link"' --limit 20
+# errors only
+gcloud logging read --project ac215-undersigned 'resource.type="cloud_run_revision" AND resource.labels.service_name="undersigned-api" AND severity>=ERROR' --limit 20
 ```
 
-`GET /stats` gives each route's request count, server errors and p50, p90 and p99 latency for the instance.
+`GET /stats` gives each route's request count, server errors and p50, p90 and p99 latency for the instance. It is per instance and resets when the service scales to zero, so Cloud Logging is the durable record.
+
+Cloud Logging for the service, filtered on `jsonPayload.route`, with one `/link` request opened to show the fields:
+
+![Cloud Logging: undersigned-api requests as JSON lines with route, status, method and latency_ms](docs/evidence/cloud-run/cloud-logging.png)
 
 **Deployed** at `https://undersigned-api-658318685216.us-central1.run.app` (private; 403 without a token). The first deploy ran out of memory at 2 GiB while loading the second model (2,323 MiB used), so it has 4 GiB. Evidence in [`docs/evidence/cloud-run/`](docs/evidence/cloud-run/):
 
-- [`link-curl.txt`](docs/evidence/cloud-run/link-curl.txt): the example above against Cloud Run. It ranks § 141.84 (service line inventory and replacement) first and § 141.81 (treatment steps by system size) a hair behind, 0.5264 against 0.5263, and sets `needs_reader`: the passage argues about both.
+![Terminal: GET /health without and with a token, then POST /link against the Cloud Run service](docs/evidence/cloud-run/link-curl.png)
+
+*11 Nov, against Cloud Run serving `in-pre` (commit `ec9e6dc`), evidence text cut to 60 characters. Without a token the service answers 403. § 141.84 comes first at 0.567 and § 141.81 second at 0.5449. The margin, 0.0221, is under the stored cutoff of 0.0265, so `needs_reader` is true.*
+
+- [`link-curl.txt`](docs/evidence/cloud-run/link-curl.txt): the same call on 28 Oct, against the previous model `in` (commit `ffa2ae3`). It ranks § 141.84 (service line inventory and replacement) first and § 141.81 (treatment steps by system size) a hair behind, 0.5264 against 0.5263, and sets `needs_reader`: the passage argues about both. The screenshot above is the current model.
 - [`link-check.json`](docs/evidence/cloud-run/link-check.json): the 80 lead and copper test passages against Cloud Run, 57.5% top-1 and 87.5% top-5, the same as the local run, 166 ms median and 294 ms at the 90th percentile from a laptop on home wifi.
 - [`link-check-in-pre.json`](docs/evidence/cloud-run/link-check-in-pre.json): the same 80 passages after `in-pre` was promoted and redeployed on 29 Oct (revision `undersigned-api-00003-jc5`): 57.5% top-1, 88.8% top-5, 26% flagged for the reader, 172 ms median.
+- [`sections-counts.png`](docs/evidence/cloud-run/sections-counts.png): `GET /rules/EPA-HQ-OW-2022-0801/sections` after #91 (revision `undersigned-api-00004-lm7`). `PART 141` has 156 citing passages from 5 letters, not null.
+
+#### Alerts and dashboard
+
+[`monitoring/`](monitoring/) builds alerts and a dashboard as code, from the same JSON log lines and from Cloud Run's own request count:
+
+| What | File | Rule |
+|---|---|---|
+| Log-based metrics | `monitoring/metrics/` | Requests the app served, counted per route; `latency_ms` of answered requests (4xx rejections left out) as a distribution per route |
+| Alert: server errors | `monitoring/alerts/server-errors.yaml` | Any 5xx in 5 minutes. It reads Cloud Run's request count, not the app's log, so it also catches crashes, timeouts and 503s that never reach the app. At our traffic one error is already a large share, so it counts errors instead of taking a rate |
+| Alert: `/link` latency | `monitoring/alerts/link-latency.yaml` | p95 over 1 s across 10 minutes. A typical answer takes under 0.2 s. At our traffic the p95 of 10 minutes is close to the slowest request, so in practice one answer over 1 s fires it |
+| Dashboard `undersigned-api` | `monitoring/dashboard.json` | Requests per minute by route; 5xx as a share of all responses, from Cloud Run; p95 latency by route; average instances. Rates and averages are taken over each point, so the charts stay true when zoomed out |
+
+Latency is timed inside the app, so a cold start is not in the latency chart and does not trigger the alert. [`scripts/latency_check.sh`](scripts/latency_check.sh) measures what a caller waits instead. From a laptop on 12 Nov, network included ([output](docs/evidence/cloud-run/latency-check.txt)):
+
+| Warm | p50 | p95 | Requests |
+|---|---|---|---|
+| `GET /health` | 120 ms | 147 ms | 50, all 200 |
+| `POST /link` | 156 ms | 205 ms | 50, all 200 |
+
+Cold: the first request after the service had scaled to zero took 112 s. Cloud Run's request log has 5 cold starts in the last 30 days, 90 to 112 s each, mostly spent loading the models. Requests after that are warm.
+
+Alerts email the team. Set it all up, or apply an edited file, with gcloud logged in and its alpha and beta components installed:
+
+```bash
+ALERT_EMAILS="you@example.com,teammate@example.com" monitoring/setup.sh
+```
+
+The addresses stay out of the repo. `setup.sh` prints the links to the dashboard and the alert policies in the Cloud Console. What this does not catch is a wrong answer: a wrong section comes back as a 200 like a right one, and the only signal for those is the model's own `needs_reader` flag.
+
+![Cloud Monitoring: the undersigned-api dashboard with requests, error rate, p95 latency and instances](docs/evidence/cloud-run/monitoring-dashboard.png)
+
+The dashboard during a 21-minute load test from a laptop on 12 Nov: about 2,800 requests, 1 to 8 at a time, all returning 200.
+
+To check that the emails arrive, a one-off test alert was fired on purpose the same day, by a request to `/health?alert_test=1`, and then deleted. The email the team received:
+
+![Google Cloud alert email for the test alert on undersigned-api](docs/evidence/cloud-run/monitoring-alert-email.png)
 
 ## Architecture
 
 ![The design, and where each part stands](docs/architecture/design-and-status.png)
 
-Green runs in main from one command; amber is partly there; faded is not started. The second page, the
+As of 11 Nov. Green is built and runs; amber is partly there, and the box says what exists; faded is not started. The second page, the
 technical architecture ([`solution.png`](docs/architecture/solution.png)), shows who uses the system, where each container runs,
 its ports and mounts, and what persists, with a table of what each container is given at build and at
 start. Both pages: [PDF](docs/architecture/undersigned-architecture.pdf) and
@@ -168,9 +293,14 @@ data-processor/    One canonical record per letter; PDF text, OCR, signer hashin
 campaign-builder/  Group copies of the same form letter; B-cubed scorer
 passage-stage/     Cut letters into passages and link the rule sections they cite
 rule-passages/     Chunk Federal Register rule text into ChromaDB
-api-service/       FastAPI service the frontend calls
+api-service/       FastAPI service the frontend calls; cloudrun/ deploys it to Cloud Run
+linker-train/      Train, evaluate, gate and export the section linker; vertex/ runs it on Vertex AI
+response-index/    Turn the agency's response-to-comments document into data
+argument-graph/    Claims, issues and a review queue from cited passages
 frontend/          React rule page served by nginx; calls the API through /api
 docs/              Setup, data and evidence; architecture diagrams; MS1 mock-up, MS2 wireframe and figures
+scripts/           Checks and evidence: link_check.py, retrieve_latency.py, miss_analysis.py, attachment audits
+status/            The team's live status page, built from this repository
 docker-compose.yml One service per container plus ChromaDB
 .dvc/              DVC config; remote is the GCS bucket
 schema.md          Every file and field the pipeline reads and writes, raw through labels, and why
@@ -178,7 +308,16 @@ docs/setup.md      Running it from a fresh clone: the demo, the full data, every
 docs/decisions.md  Why each part is built the way it is, and what it was picked over
 ```
 
-Each Python container (data-collector, data-processor, campaign-builder, passage-stage, rule-passages, api-service) has its own `Dockerfile`, `pyproject.toml` and `uv.lock` (managed with `uv`), and `src/main.py`. The frontend is a Node build pinned by `package-lock.json`: its `Dockerfile` runs `npm ci` and `npm run build`, and nginx serves the result. The root `pyproject.toml` is the template new containers copy from.
+Each Python container (data-collector, data-processor, campaign-builder, passage-stage, rule-passages, response-index, api-service, argument-graph, linker-train) has its own `Dockerfile`, `pyproject.toml` and `uv.lock` (managed with `uv`), and `src/main.py`. The frontend is a Node build pinned by `package-lock.json`: its `Dockerfile` runs `npm ci` and `npm run build`, and nginx serves the result. The root `pyproject.toml` is the template new containers copy from.
+
+### Where the template's folders are
+
+| Course template | Here |
+|---|---|
+| `ml-workflow` | `linker-train/vertex/` (`pipeline.py`, `run_pipeline.sh`) |
+| `model-training` | `linker-train/src/`, with `vertex/job.yaml` and `vertex/submit.sh` for Vertex AI |
+| `model-deploy` | `api-service/cloudrun/`: the model is served inside the API on Cloud Run instead of a Vertex endpoint |
+| `deployment` | Not yet (MS5) |
 
 ## Prerequisites
 
@@ -377,7 +516,7 @@ read). It exits non-zero if the processor wrote no letters.
 
 ```bash
 cd campaign-builder && uv run pytest && uv run ruff check .        # 56 tests, offline
-uv run python src/exact_match.py --letters <letters.parquet> --out assignments.parquet --score
+uv run python src/exact_match.py --letters ../data/derived/letters/EPA-HQ-OW-2022-0801/letters.parquet --out assignments.parquet --score
 ```
 
 `--score` prints B-cubed against `epa_campaign_id`. First run on the inline comment bodies of the
@@ -417,7 +556,7 @@ read). It exits non-zero if the letters, the groups or the rule text are missing
 numbered sections, such as the Clean Power Plan repeal, still gets passages, with every link
 unresolved, so the API still starts.
 
-Only cited passages get links for now. Most passages cite nothing; linking those is the reader's job (MS3).
+Only cited passages get links here. Most passages cite nothing; ranking sections for those is the job of the trained linker behind `POST /link` (MS3).
 
 ```bash
 cd passage-stage && uv run pytest && uv run ruff check .        # 53 tests, offline
@@ -476,7 +615,7 @@ docker compose run --rm rule-passages python src/main.py baseline               
 - Both retrievers take an optional `docket_id`, so a request can be "this letter, from this docket". All configured dockets share the collection, and indexing one never deletes another's chunks. A docket that yields no chunks stops the stage with an error instead of emptying the index.
 - `section_ref` is a path such as `III/D/1` (Roman numeral, letter, number) or `PART 328/§ 328.3`.
 
-**Tests:** `cd rule-passages && uv run pytest` (96 tests, offline, no model download). `uv run ruff check .` is clean. Example run and logs: [`docs/evidence/rule-passages/`](docs/evidence/rule-passages/README.md).
+**Tests:** `cd rule-passages && uv run pytest` (97 tests, offline, no model download). `uv run ruff check .` is clean. Example run and logs: [`docs/evidence/rule-passages/`](docs/evidence/rule-passages/README.md).
 
 ### api-service
 
@@ -485,6 +624,8 @@ The HTTP service the frontend calls. It reads the ChromaDB collection `rule_pass
 **Endpoints** (also browsable at http://localhost:8000/docs):
 
 - `GET /health`: `{"status": "ok", "passages": 1108, "dockets": ["EPA-HQ-OW-2022-0801"]}` on the demo.
+- `POST /link`: one comment passage in, the rule's regulatory sections ranked, each with the rule text that matched, plus `margin`, `needs_reader` and the model served. Fields and an example response: [The API: `POST /link`](#the-api-post-link). 503 when no model is loaded.
+- `GET /stats`: each route's request count, server errors and p50, p90 and p99 latency, for this instance since it started.
 - `POST /retrieve`: a letter in, the rule passages it argues about out.
 
   | Field | Default | Meaning |
@@ -541,7 +682,7 @@ PYTHONPATH=../rule-passages/src CHROMA_HOST=localhost CHROMA_PORT=9000 \
   uv run uvicorn main:app --app-dir src --reload --port 8000
 ```
 
-**Tests:** `cd api-service && uv run pytest && uv run ruff check .` (47 tests, offline: an in-memory ChromaDB and a fake embedder). Example run and logs: [`docs/evidence/api-service/`](docs/evidence/api-service/README.md).
+**Tests:** `cd api-service && uv run pytest && uv run ruff check .` (55 tests, offline: an in-memory ChromaDB and a fake embedder). Example run and logs: [`docs/evidence/api-service/`](docs/evidence/api-service/README.md).
 
 ### frontend
 
@@ -614,10 +755,24 @@ only; the significance flag rests on an extractor field (in the first run one cl
 65.5% top-1 is turned on; no organisation field exists in the EPA dockets.
 
 ```bash
-cd argument-graph && uv run pytest && uv run ruff check .      # 36 tests, offline
+cd argument-graph && uv run pytest && uv run ruff check .      # 46 tests, offline
 GRAPH_BACKEND=cli DATA_DIR=../data PYTHONPATH=../rule-passages/src uv run python src/main.py all
 docker compose run --rm argument-graph                          # after passage-stage; needs ANTHROPIC_API_KEY
 ```
+
+## Evidence (MS3)
+
+| MS3 item | Where |
+|---|---|
+| Training tracked in W&B | [`wandb-run.png`](docs/evidence/linker-train/wandb-run.png), the run for the served model `in-pre` |
+| Training on Vertex AI | [`docs/evidence/linker-train/in-pre/`](docs/evidence/linker-train/in-pre/) (Vertex job id in `config.json`), [`vertex/`](docs/evidence/linker-train/vertex/), [`lodo-pre-*`](docs/evidence/README.md#linker-train-milestone-3) |
+| Pipeline run and the promotion gate | [`pipeline-graph.png`](docs/evidence/linker-train/vertex/pipeline-graph.png), [`vertex/promotion.json`](docs/evidence/linker-train/vertex/promotion.json) (pipeline run, refused), [`in-pre/promotion.json`](docs/evidence/linker-train/in-pre/promotion.json) (promoted), [The pipeline](#the-pipeline) |
+| Model results | [`report-pre/report.md`](docs/evidence/linker-train/report-pre/report.md), [`docs/linker-results.md`](docs/linker-results.md) |
+| API on Cloud Run | [`link-curl.png`](docs/evidence/cloud-run/link-curl.png), [`link-check-in-pre.json`](docs/evidence/cloud-run/link-check-in-pre.json), [Staff access](#staff-access) |
+| Request logging | [`cloud-logging.png`](docs/evidence/cloud-run/cloud-logging.png), the `gcloud logging read` commands in [Deployment and monitoring](#deployment-and-monitoring) |
+| Alerts and dashboard | [`monitoring-dashboard.png`](docs/evidence/cloud-run/monitoring-dashboard.png), [`monitoring-alert-email.png`](docs/evidence/cloud-run/monitoring-alert-email.png), [`monitoring/`](monitoring/), [Alerts and dashboard](#alerts-and-dashboard) |
+| API docs | [The API: `POST /link`](#the-api-post-link), [api-service endpoints](#api-service) |
+| Tests | `api-service/tests/test_link.py` (8), `linker-train/tests/` (5); counts per container in each section above |
 
 ## Evidence (MS2)
 
@@ -727,6 +882,6 @@ which two readers agree.
 | Milestone | Due    | Scope                                                                 |
 | --------- | ------ | --------------------------------------------------------------------- |
 | MS2       | 20 Oct | Containers, one command, DVC, rule passages in ChromaDB, passage stage, baselines, hand check, API and rule page |
-| MS3       | 12 Nov | The reader (small model, then large when unsure, with the quote check), a training run on Vertex AI tracked in W&B, the API on Cloud Run |
-| MS4       | 1 Dec  | Full rule page, CI and tests, reworded-letter stress test, transfer docket |
+| MS3       | 12 Nov | Shipped: the trained linker, trained on Vertex AI and tracked in W&B; a Vertex AI pipeline with a promotion gate; the API with `POST /link` on Cloud Run; request logging |
+| MS4       | 1 Dec  | Full rule page, CI and tests, reworded-letter stress test, transfer docket, the pipeline's train step on the `in-pre` recipe, the reader (small model, then large when unsure, with the quote check) |
 | MS5       | 15 Dec | GKE, CI/CD, gated retraining, video, blog |

@@ -9,8 +9,9 @@
 #   TIMEOUT_HOURS=10 stops a job that runs longer (default 10)
 #   DRY_RUN=1 prints the job spec instead of starting it
 #
-# Needs: gcloud logged in (gcloud auth login) on the ac215-undersigned project, and the frozen set in the bucket
-# (dvc push, or gsutil -m cp -r data/linking gs://ac215-undersigned-data/linking).
+# Needs: gcloud logged in (gcloud auth login) on the ac215-undersigned project, and the frozen set at
+# gs://ac215-undersigned-data/linking and /linking-extra. dvc push does not put it there; from the repo root:
+#   gcloud storage cp -r data/linking data/linking-extra gs://ac215-undersigned-data/
 # The W&B key is read from your environment or ../.env and passed to the job as an env var.
 set -euo pipefail
 cd "$(dirname "$0")/.."

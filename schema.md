@@ -35,7 +35,7 @@ All IDs are Regulations.gov document IDs (e.g. `EPA-HQ-OW-2018-0149-0077`) or EC
 
 Exactly what the API returned, plus small index files. Nothing is parsed or cleaned here.
 
-### `comments_index.jsonl` — one line per record, from the list endpoint
+### `comments_index.jsonl`: one line per record, from the list endpoint
 
 | field | type | source | notes |
 | --- | --- | --- | --- |
@@ -47,7 +47,7 @@ Exactly what the API returned, plus small index files. Nothing is parsed or clea
 | `document_type` | string | `attributes.documentType` | `Public Submission` for comments |
 | `agency_id` | string | `attributes.agencyId` | `EPA` |
 
-### `details/<id>.json` — one file per record, full detail response
+### `details/<id>.json`: one file per record, full detail response
 
 Stored verbatim: `{"data": {...}, "included": [...], "links": {...}}`. Attribute names below are as the API returns them (checked against real records, 9 Oct). Fields the pipeline relies on:
 
@@ -83,7 +83,7 @@ Stored verbatim: `{"data": {...}, "included": [...], "links": {...}}`. Attribute
 
 One real record, names redacted: `docs/evidence/data-collector/sample/EPA-HQ-OW-2018-0149-0084.json`.
 
-### `details_index.jsonl` — one line per record, summary of the detail call
+### `details_index.jsonl`: one line per record, summary of the detail call
 
 | field | type | notes |
 | --- | --- | --- |
@@ -111,13 +111,13 @@ Files are saved with their original names under the comment's ID (`attachment_1.
 
 `{"complete": true, "total_reported": 11444}` when the index holds every comment the API reports. A `truncated: true` checkpoint comes from a `MAX_RECORDS` smoke run and is rebuilt by the next uncapped run.
 
-### `manifest.json` — one per docket per run
+### `manifest.json`: one per docket per run
 
 Counts (`comments_indexed`, `details_on_disk`, `attachment_files`, `attachments_downloaded_this_run`, `attachments_failed`, `api_calls_this_run`) and `collected_at`. A sharded run writes `manifest_shard_k_of_n.json` instead. The raw layer's data version is the md5 in `data/raw/<docket>.dvc`, not this file.
 
 ---
 
-## 2. Letters layer: `data/derived/letters/<docket>/` (data-processor) — proposed
+## 2. Letters layer: `data/derived/letters/<docket>/` (data-processor)
 
 One row per **letter**. The processor expands campaign records into their individual letters where the attachment holds every letter, extracts text from attachments (PDF text, OCR for the four scanned PDFs), and hashes names.
 
@@ -139,7 +139,7 @@ One row per **letter**. The processor expands campaign records into their indivi
 | `city`, `state`, `zip` | string or null | ZIP is 5 digits; no street addresses anywhere |
 | `epa_campaign_id` | string or null | the record id of the full-letter campaign attachment this letter was extracted from. Null for `individual` and `campaign_sample` rows, so every `campaign_letter` row has a label and nothing else does. This is the column B-cubed F1 scores against |
 
-### `records.parquet` — one row per campaign record
+### `records.parquet`: one row per campaign record
 
 | column | type | notes |
 | --- | --- | --- |
@@ -153,7 +153,7 @@ One row per **letter**. The processor expands campaign records into their indivi
 | `n_signers` | int | signers actually listed |
 | `receive_date` | datetime | the record's date |
 
-### `signers.parquet` — one row per signer in a signer list
+### `signers.parquet`: one row per signer in a signer list
 
 | column | type | notes |
 | --- | --- | --- |
@@ -163,23 +163,23 @@ One row per **letter**. The processor expands campaign records into their indivi
 
 ---
 
-## 3. Campaigns layer: `data/derived/campaigns/<docket>/` (campaign-builder) — proposed
+## 3. Campaigns layer: `data/derived/campaigns/<docket>/` (campaign-builder)
 
-### `assignments.parquet` — one row per letter
+### `assignments.parquet`: one row per letter
 
 | column | type | notes |
 | --- | --- | --- |
 | `letter_id` | string | |
 | `campaign_id` | string or null | our cluster ID; null when below threshold (never a sentinel string, so a scorer grouping by `campaign_id` doesn't treat the ungrouped letters as one cluster) |
-| `method` | enum | `exact`, `minhash`, `embed` — which stage grouped it |
+| `method` | enum | `exact`, `minhash`, `embed`: which stage grouped it |
 | `similarity` | float | exact: 1.0. minhash: Jaccard with the campaign representative. containment: containment of the letter with the template the other members share |
 | `personalized` | bool | differs from template by > 10% in length |
 
-### `summary.json` — one per docket per run
+### `summary.json`: one per docket per run
 
 `docket_id`, the grouper (`method`, `min_words`), counts (`letters`, `letters_grouped`, `groups`, `individual`), `bcubed` (`n_scored`, `precision`, `recall`, `f1`, or null when EPA grouped none of the letters), the letters file read (`letters_file`, relative to `data/`, and its `letters_sha256`) and `built_at`.
 
-### `campaigns.parquet` — one row per campaign
+### `campaigns.parquet`: one row per campaign
 
 | column | type | notes |
 | --- | --- | --- |
@@ -197,7 +197,7 @@ One row per **letter**. The processor expands campaign records into their indivi
 
 ## 3b. Passages layer: `data/derived/passages/<docket>/` (passage-stage)
 
-### `passages.parquet` — one row per passage of a distinct letter
+### `passages.parquet`: one row per passage of a distinct letter
 
 | column | type | notes |
 |---|---|---|
@@ -210,7 +210,7 @@ One row per **letter**. The processor expands campaign records into their indivi
 | `n_words` | int | |
 | `n_citations` | int | section citations found, before resolving. A letter's own "section 2.4" is not counted |
 
-### `links.parquet` — one row per (passage, cited section)
+### `links.parquet`: one row per (passage, cited section)
 
 | column | type | notes |
 |---|---|---|
@@ -225,7 +225,7 @@ A passage citing two sections has two rows. The same section cited twice in one 
 range such as `§ 141.80–141.93` gives a row for every section of the rule between its ends, with the whole
 range as `citation_raw`.
 
-### `summary.json` — one per docket per run
+### `summary.json`: one per docket per run
 
 `docket_id`, `letters_read`, `letters_skipped_as_copies` (members with no sentence of their own), `letters_read_for_own_sentences` (members read only for what they added), `passages`, `passages_with_citation`, `links`, `links_resolved`, `links_unresolved`, `sections_cited`, `rule_sections_known`, `rule_documents`, `passage_words`, `letters_file`, `letters_sha256`, `built_at`.
 
@@ -325,4 +325,4 @@ Every file gets a second-labeler pass on a shared subset so agreement can be rep
 
 - Timestamps in UTC ISO 8601. Regulations.gov returns Eastern time; the processor converts.
 - Names never appear in any file past the raw layer. Signer hashes use HMAC-SHA256 with `SIGNER_HASH_KEY` from `.env`; the raw layer is the only place clear names exist, and it stays in the private bucket.
-- Sections 2 and 3 are proposed and will be revised by their container owners; section 1 is what the collector writes today.
+- Each section describes what its container writes today; the container's owner updates it when a file changes.

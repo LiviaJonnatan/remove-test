@@ -1,0 +1,32 @@
+# Emails the team when undersigned-api returns any server error. It reads Cloud Run's own request
+# count, not the app's log line, so it also catches crashes, timeouts and 503s that never reach the
+# app. At our traffic one error is already a large share of requests, so it fires on a count, not a rate.
+displayName: undersigned-api server errors
+documentation:
+  mimeType: text/markdown
+  content: |-
+    undersigned-api returned at least one 5xx (server error) in the last 5 minutes.
+
+    See which requests failed, including ones that never reached the app:
+
+        gcloud logging read --project ac215-undersigned 'resource.type="cloud_run_revision" AND resource.labels.service_name="undersigned-api" AND httpRequest.status>=500' --limit 20
+combiner: OR
+conditions:
+- displayName: Any 5xx in 5 minutes
+  conditionThreshold:
+    filter: >-
+      metric.type="run.googleapis.com/request_count"
+      AND resource.type="cloud_run_revision"
+      AND resource.labels.service_name="undersigned-api"
+      AND metric.labels.response_code_class="5xx"
+    aggregations:
+    - alignmentPeriod: 300s
+      perSeriesAligner: ALIGN_SUM
+      crossSeriesReducer: REDUCE_SUM
+    comparison: COMPARISON_GT
+    thresholdValue: 0
+    duration: 0s
+    trigger:
+      count: 1
+alertStrategy:
+  autoClose: 1800s

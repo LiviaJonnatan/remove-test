@@ -1,0 +1,17 @@
+$ scripts/latency_check.sh 50      # from a laptop, 12 Nov 2026, after 27 minutes with no requests
+First request, 12 Nov 21:40 UTC:
+  GET /health 200 in 112.059205 s (cold start)
+
+Warm, 50 requests each, from this machine:
+
+| Route | p50 | p95 | Requests | Not 200 |
+|---|---|---|---|---|
+| `GET /health` | 120 ms | 147 ms | 50 | 0 |
+| `POST /link` | 156 ms | 205 ms | 50 | 0 |
+
+Cold starts in Cloud Run's request log, last 30 days (requests that took 30 s or more):
+  2026-11-12 21:40 UTC	GET	/health	200	111.742052778s
+  2026-11-12 21:10 UTC	GET	/health	200	105.441878001s
+  2026-11-12 03:28 UTC	GET	/health	200	89.649539015s
+  2026-11-10 05:21 UTC	GET	/health	200	96.449743654s
+  2026-11-09 14:36 UTC	POST	/link	200	92.060292143s

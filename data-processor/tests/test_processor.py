@@ -373,3 +373,31 @@ def test_record_id_filename_must_match(raw, tmp_path):
     report, rows = process(raw, tmp_path)
     assert report["records_failed"] >= 1
     assert not any(r["record_id"].endswith("0001") for r in rows)
+
+
+def test_cover_note_body_reads_the_attachment_too(raw, tmp_path):
+    note = "Please see the attached comments filed on behalf of the Example Coalition."
+    record = put_record(raw, body=note)
+    put_attachment(raw, record, texts=["The rule should require filters at every exceedance."])
+    report, rows = process(raw, tmp_path)
+    assert report["records_failed"] == 0
+    assert rows[0]["attachment_id"] == "attachment-A"
+    assert rows[0]["text"].startswith(note)
+    assert rows[0]["text"].endswith("The rule should require filters at every exceedance.")
+
+
+def test_body_already_in_attachment_is_not_repeated(raw, tmp_path):
+    record = put_record(raw, body="Protect clean water.")
+    put_attachment(raw, record, texts=["Dear EPA, protect clean water. Thank you."])
+    _, rows = process(raw, tmp_path)
+    assert rows[0]["text"] == "Dear EPA, protect clean water. Thank you."
+
+
+def test_body_kept_when_attachment_choice_is_ambiguous(raw, tmp_path):
+    record = put_record(raw, body="I oppose the proposed deadline.")
+    put_attachment(raw, record, aid="first", title="Attachment 1")
+    put_attachment(raw, record, aid="second", title="Attachment 2", order=2)
+    report, rows = process(raw, tmp_path)
+    assert report["records_failed"] == 0
+    assert rows[0]["text"] == "I oppose the proposed deadline." and rows[0]["attachment_id"] is None
+    assert any(e["status"] == "attachment_not_used" for e in report["events"])
